@@ -1,0 +1,44 @@
+// Colors
+$new_login_background_color: #f8fafd !default;
+$new_login_card_color: #ffffff !default;
+$new_white: #ffffff;
+
+$new_heading_color: #5576ad !default;
+$new_login_button_backgroud: #e97e3b !default;
+$new_o-navbar-entry-color: #355c9d;
+
+// Colors
+$mk_color_brand: #023384;
+$mk_color_primary: #023384;
+$custom_o_navbar_background: #ffffff !default;
+$o-navbar-entry-color: black !default;
+$custom_o_navbar_entry_color: #5576ad !default;
+$o-navbar-entry-color-hover: $o-white !default;
+$custom_side_bar_width: 210px;
+$custom_button_label_color: white !default;
+$main_backgroud_color: #e6ebf3 !default;
+$navbar_icons_color: #e6ebf3 !default;
+
+$sidbar_menu_default_color: #023384 !default;
+
+$sidbar_menu_active_color: #023384 !default;
+$sidbar_menu_active__bg_color: #fdf2eb !default;
+
+$sidbar_menu_hover_color: #023384 !default;
+$sidbar_menu_hover__bg_color: #fdf2eb !default;
+
+$sidbar_sub_menu_default_color: #023384 !default;
+
+$sidbar_sub_menu_active_color: #023384 !default;
+$sidbar_sub_menu_active__bg_color: #e6ebf3 !default;
+
+$sidbar_sub_menu_hover_color: #023384 !default;
+$sidbar_sub_menu_hover__bg_color: #e6ebf3 !default;
+
+$sidbar_last_menu_color: #023384 !default;
+
+$kanban__bg_color: #f4f4f4 !default;
+// Navbar Styling
+.o-navbar {
+    border-bottom: 2px solid #007bff;
+}

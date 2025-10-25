@@ -1,0 +1,86 @@
+<odoo>
+    <record id="view_supplies_rfp_form_inherited" model="ir.ui.view">
+        <field name="name">supplies.rfp.form.inherited</field>
+        <field name="model">supplies.rfp</field>
+        <field name="inherit_id" ref="VendorBid.view_supplies_rfp_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_create_purchase_order"
+                    string="Create Purchase Order"
+                    type="object"
+                    class="btn-primary"
+                    invisible="state != 'approved' or (purchase_type != 'direct' and purchase_origin == 'local')"
+                />
+                <button name="%(action_send_email)d"
+                    string="Send Email"
+                    type="action"
+                    class="btn-primary"
+                    invisible="purchase_origin == 'foreign' or purchase_type == 'direct' or (purchase_type == 'bid' and bid_type == 'open') or state != 'approved'"
+                />
+                <button
+                    name="action_close"
+                    string="Close This RFP"
+                    type="object"
+                    class="btn-primary"
+                    invisible="state != 'approved' or purchase_type == 'direct' or purchase_origin == 'foreign'"
+                />
+            </xpath>
+
+
+            <xpath expr="//field[@name='product_category_id']" position="after">
+                <field name='purchase_origin' widget="radio" readonly="state not in ['draft', 'submitted']" invisible="state == 'draft'"/>
+                <field name='purchase_type' invisible="(purchase_origin == 'foreign') or (state == 'draft')" readonly="state not in ['draft', 'submitted']"/>
+                <field name='bid_type'
+                    invisible="(purchase_type != 'bid') or (purchase_origin == 'foreign') or (state == 'draft')"
+                    widget="radio" readonly="state not in ['draft', 'submitted']" />
+            </xpath>
+
+            <xpath expr="//field[@name='required_date']" position="after">
+                <field name='start_date' invisible="(purchase_type not in ('bid', 'proforma')) or (state == 'draft')" readonly="state not in ['draft', 'submitted']"/>
+                <field name='end_date' invisible="(purchase_type not in ('bid', 'proforma')) or (state == 'draft')" />
+            </xpath>
+
+            <xpath expr="//field[@name='required_date']" position="after">
+                <field name='project_id' />
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string='Suppliers' invisible="state == 'draft' or (bid_type == 'open' and purchase_type in ['bid', 'direct'])" name="suppliers_page">
+                    <field name='selected_suppliers'
+                        context="{'default_purchase_type': purchase_type}">
+                        <list>
+                            <field name="display_name" string="Supplier Name" />
+                            <field name="email" />
+                            <field name="phone" />
+                            <field name="vat" string="TIN" />
+                        </list>
+                    </field>
+                </page>
+                <page string="Approval Details" name="approval_details">
+                    <group>
+                        <group name="approval_details_left">
+                        </group>
+                        <group name="approval_details_right">
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//group[@name='approval_details_left']" position="inside">
+                <field name="create_uid" position="move" />
+            </xpath>
+
+            <xpath expr="//group[@name='approval_details_left']" position="inside">
+                <field name="review_by" position="move" />
+                <field name="review_by" position="move" />
+            </xpath>
+
+            <xpath expr="//group[@name='approval_details_right']" position="inside">
+                <field name="date_approve" position="move" />
+                <field name="date_approve" position="move" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

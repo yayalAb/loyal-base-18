@@ -1,0 +1,99 @@
+<odoo>
+    <data>
+        <record id="inherit_pos_config_view_form" model="ir.ui.view">
+            <field name="name">pos.config.kanban.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='restaurant_on_create']" position="before">
+                    <field name="pos_conf_imag" widget="image"></field>
+                </xpath>
+                </field>
+                </record>
+        <!-- Inherit POS Config Kanban view -->
+        <record id="inherit_pos_config_kanban" model="ir.ui.view">
+            <field name="name">pos.config.kanban.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//div[@name='card_title']" position="before">
+                   <div class="pos-image-container">
+                            <field name="pos_conf_imag"
+                                widget="image"
+                                class="pos_imag"
+                                invisible="not pos_conf_imag"/>
+                                
+                            <img class="pos_imag"
+                                src="/pos_theme_sapphire/static/description/Overlay.png"
+                                alt="logo"
+                                invisible="pos_conf_imag"/>
+                        </div>
+                    
+                </xpath>
+                <xpath expr="//div[@name='card_title']" position="replace">
+                   <div class="row d-flex justify-content-between align-items-center my-1 ms-2">
+                            <div class="col-auto">
+                                <field name="name" class="fw-bold fs-4 d-block"/>
+                            </div>
+                            <div class="col-auto">
+                                <div t-if="!record.current_session_id.raw_value &amp;&amp; record.pos_session_username.value" class="badge text-bg-info d-inline-block">Opened by <field name="pos_session_username"/></div>
+                            <div t-if="record.pos_session_state.raw_value == 'opening_control'" class="badge text-bg-info d-inline-block">Opening Control</div>
+                            <div t-if="record.pos_session_state.raw_value == 'closing_control'" class="badge text-bg-info d-inline-block">Closing Control</div>
+                            <div t-if="record.pos_session_state.raw_value == 'opened' and record.pos_session_duration.raw_value &gt; 1" t-attf-class="badge bg-#{record.pos_session_duration.raw_value &gt; 3 and 'danger' or 'warning'} d-inline-block" title="The session has been opened for an unusually long period. Please consider closing.">
+                                    To Close
+                            </div>
+                        </div>
+                    </div>
+                     
+                </xpath>
+                
+              
+           <xpath expr="//field[@name='current_user_id']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <xpath expr="//div[@class='row g-0 pb-4 ms-2 mt-auto']" position="replace">
+                        <div t-if="record.last_session_closing_date.value" class="row d-flex justify-content-between align-items-center my-1 ms-2 balance_backgroud_color" invisible="not cash_control">
+                         <div class="col-auto">
+                            <span>Balance</span>
+                           </div>
+                           <div class="col-auto">
+                              <field name="last_session_closing_cash" widget="monetary"/>
+                            </div>
+                        </div>      
+                        <div t-if="record.last_session_closing_date.value" class="row d-flex justify-content-between align-items-center my-1 ms-2">
+                        
+                            <div class="col-auto">
+                                <span>Closing</span>
+
+                            </div>
+                            <div class="col-auto">
+                                <field name="last_session_closing_date"/>
+
+                            </div>
+                            </div>
+
+                             <div class="row d-flex justify-content-bstart align-items-center my-1 ms-2">
+                                <div class="col-auto w-100 d-flex mt-3 justify-content-between">
+                                    <button t-if="record.current_session_state.raw_value != 'closing_control'" class="btn custom_btn_primary" name="open_ui" type="object">
+                                        <t t-if="record.current_session_state.raw_value === 'opened'">Continue Selling <i class="fa fa-arrow-right ms-3"></i></t>
+                                        <t t-else="">Open Register <i class="fa fa-arrow-right ms-3"></i></t>
+                                    </button>
+                                    <button t-else="" class="btn btn-secondary" name="open_existing_session_cb" type="object">Close</button>
+                                    <field name="current_user_id"  widget="many2one_avatar_user"/>
+                                </div>
+                        <div class="col-auto">
+                                                        
+                        </div>
+                        
+                    </div>
+                    <a t-if="record.number_of_rescue_session.value &gt; 0" class="col-12" name="open_opened_rescue_session_form" type="object">
+                          <field name="number_of_rescue_session"/> outstanding rescue session
+                        </a>
+                    </xpath>
+                     
+
+                    
+            </field>
+        </record>
+    </data>
+</odoo>

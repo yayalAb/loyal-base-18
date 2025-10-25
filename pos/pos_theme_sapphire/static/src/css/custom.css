@@ -1,0 +1,1266 @@
+:root {
+    --main-backgroud-color: #f8fafd;
+    --white: #ffffff;
+    --blue-50: #e6ebf3;
+    --blue-100: #b1c0d9;
+    --blue-200: #8ba1c6;
+    --blue-300: #5576ad;
+    --blue-400: #355c9d;
+    --blue-500: #083071;
+    --blue-600: #122b54;
+    --blue-700: #0b2144;
+    --blue-800: #0b2144;
+    /* orange colors */
+    --orange-50: #fdf2eb;
+    --orange-100: #f8d7c2;
+    --orange-200: #f5c4a5;
+    --orange-300: #f0a97c;
+    --orange-400: #ed9862;
+    --orange-500: #e97e3b;
+
+    --balck: #686868;
+
+    --red-50: #fcebec;
+    --red-200: #e25765;
+
+    --grey-500: #1e1e1e;
+}
+
+.pos-modal-dialog .modal-body .btn-secondary {
+    font-family: sora;
+    font-weight: 300;
+    height: 100px !important;
+    width: 183px !important;
+    color: var(--blue-400) !important;
+    border: 0.3px solid var(--blue-50) !important;
+}
+
+.pos-modal-dialog .buttonClass {
+    height: 100px !important;
+    width: 183px !important;
+    color: var(--blue-400) !important;
+}
+
+.pos-modal-dialog {
+    position: fixed !important;
+    top: 60px !important;
+    right: 10px !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    max-width: 614px;
+    width: auto;
+    background-color: var(--white);
+    padding: 2px !important;
+}
+
+.pos-modal-dialog .modal-body {
+    padding: 3px !important;
+}
+.customer-list-custom-dialog .modal-footer {
+    padding: 3px !important;
+}
+
+.customer-list-custom-dialog {
+    position: fixed !important;
+    bottom: 50px !important;
+    right: 10px !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    min-width: 405px !important;
+    max-width: 405px !important;
+    max-height: 550px !important;
+    width: auto;
+    background-color: var(--white);
+    padding: 2px !important;
+    background-color: var(--main-backgroud-color) !important;
+}
+
+.customer-list-custom-dialog .modal-header {
+    padding: 0px !important;
+}
+.custom-primary-btn {
+    background-color: var(--white) !important;
+    color: var(--blue-400) !important;
+    border-color: var(--blue-100) !important;
+    border-width: 0.3px !important ;
+    border-radius: 5px !important;
+}
+
+.partner-line {
+    color: var(--grey-500) !important;
+}
+
+/*
+.pos-modal-dialog.modal-dialog {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    justify-content: flex-end !important;
+} */
+
+.pos .button.validation {
+    background: var(--main-backgroud-color) !important;
+    border-color: var(--blue-400) !important;
+    color: var(--blue-400) !important;
+}
+.pos .button.validation:hover {
+    color: var(--white) !important;
+}
+
+.menu-item:hover .menu-txt-visible {
+    color: var(--orange-500);
+}
+
+.payment-status-container .highlight {
+    background-color: inherit !important;
+}
+.payment-screen {
+    overflow: hidden !important;
+}
+.btn-switchpane,
+.pay-order-button {
+    min-height: 45px !important;
+    max-height: 50px !important;
+}
+.menu-txt-visible {
+    align-items: center;
+    color: var(--blue-400);
+    font-size: 15px;
+    display: flex;
+    overflow: hidden;
+    /* font-weight: 600; */
+    position: relative;
+    top: 2px;
+    white-space: nowrap;
+    min-width: 180px;
+    padding: 0px 10px;
+}
+
+.menu-txt-visible:hover {
+    color: var(--orange-500);
+}
+
+.product-information-tag {
+    width: 24px; /* adjust as needed */
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 8px;
+    margin-right: 5px;
+    background-color: var(--main-backgroud-color);
+    border-radius: 50% !important;
+    border: 1px solid var(--main-backgroud-color) !important;
+    z-index: 999 !important;
+}
+
+.product-information-tag img {
+    width: 12px; /* optional: control image size */
+    height: 12px;
+}
+
+.main_color {
+    color: var(--blue-400) !important;
+}
+.background_custom_white {
+    background-color: var(--white) !important;
+    max-height: 50px !important;
+}
+
+.product-screen .input-group > .form-control,
+.product-screen .input-group > .form-select,
+.product-screen .input-group > .form-floating {
+    border-radius: 8px 0px 0px 8px !important;
+    border-color: var(--white);
+    max-height: 45px !important;
+}
+
+.ticket-screen .input-group > .form-control,
+.ticket-screen .input-group > .form-select,
+.ticket-screen .input-group > .form-floating {
+    margin-right: 15px !important;
+    border: 1px solid var(--grey-500) !important;
+    border-radius: 8px !important;
+    max-height: 40px;
+}
+.custom_font_waight {
+    font-weight: 400 !important;
+}
+
+.selected_row {
+    background-color: var(--blue-50) !important;
+    color: var(--blue-400) !important;
+    line-height: inherit !important;
+    font-size: inherit !important;
+}
+.input-group
+    > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(
+        .valid-feedback
+    ):not(.invalid-tooltip):not(.invalid-feedback) {
+    background-color: var(--white);
+    border-color: var(--white);
+}
+
+@media (min-width: 992px) {
+    .order-row:nth-child(even) {
+        background: var(--white);
+    }
+}
+@media (min-width: 992px) {
+    .order-row:nth-child(odd) {
+        background: var(--main-backgroud-color);
+    }
+}
+.order-row:hover {
+    background-color: var(--blue-50) !important;
+    color: var(--blue-400) !important;
+}
+
+.pos .orders .order-row:hover,
+.pos .orders .order-row.highlight {
+    background-color: var(--blue-100);
+    padding: 0px !important;
+}
+
+.arrow_image {
+    width: 20px !important;
+    height: 20px !important;
+}
+.arrow_image_delete {
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.button_order_back {
+    border-color: var(--grey-500);
+    border-radius: 8px !important;
+    color: var(--grey-500) !important;
+    align-items: center;
+}
+
+.button_order_back:hover {
+    border-color: var(--blue-400);
+    color: var(--blue-400);
+}
+
+.leftpane {
+    background-color: var(--white) !important;
+    padding: 3px !important;
+}
+.floor-screen {
+    background-color: var(--main-backgroud-color) !important;
+}
+
+.plan_button {
+    background-color: var(--blue-400) !important;
+    max-height: 50px !important;
+    color: var(--white);
+    border-color: var(--blue-400);
+}
+
+.table_button {
+    background-color: var(--main-backgroud-color) !important;
+    color: var(--blue-400);
+    border-color: var(--main-backgroud-color) !important;
+}
+
+.buttons_class {
+    background-color: var(--white) !important;
+    padding: 5px !important;
+    border-radius: 10px !important;
+}
+.get_qr_button {
+    border-color: var(--blue-100);
+    color: var(--blue-600);
+    max-height: 45px;
+    font-size: 16px;
+}
+
+.get_qr_button:hover {
+    background-color: var(--blue-100) !important;
+    border-color: var(--blue-100);
+}
+
+.order_empty_screen {
+    background-color: var(--white) !important;
+}
+/* .btn-outline-secondary {
+    background-color: var(--main-backgroud-color) !important;
+    color: var(--blue-400) !important;
+    border-color: var(--main-backgroud-color) !important;
+} */
+
+.btn-outline-secondary {
+    color: var(--blue-400) !important;
+    border-color: var(--main-backgroud-color) !important;
+    background-color: var(--main-backgroud-color);
+}
+
+.btn-check:checked + .btn,
+:not(.btn-check) + .btn:active,
+.btn:first-child:active,
+.btn.active,
+.btn.show {
+    color: var(--white) !important;
+    background-color: var(--blue-400);
+    border-color: var(--blue-400);
+}
+
+/* .btn-outline-secondary:active {
+    background-color: var(--blue-400) !important;
+    border-color: var(--blue-400);
+    color: var(--white);
+} */
+
+[type="text"]::placeholder,
+[type="password"]::placeholder,
+[type="number"]::placeholder,
+[type="email"]::placeholder,
+[type="tel"]::placeholder,
+textarea::placeholder,
+select::placeholder {
+    color: var(--blue-100) !important;
+}
+.none_right_border {
+    border-right: none !important;
+}
+.modal-footer {
+    border-top: none !important;
+}
+.input_group {
+    background-color: var(--main-backgroud-color) !important;
+    border-radius: 15px !important;
+    margin-top: 8px !important;
+}
+
+.o_colorlist_item_color_transparent__bg_color {
+    background-color: var(--orange-50) !important;
+}
+
+.ticket-screen {
+    background-color: var(--white) !important;
+    color: var(--grey-500) !important;
+    overflow: hidden !important;
+    /* font-family: Sora; */
+}
+
+.ticket_main_header {
+    background-color: var(--main-backgroud-color) !important;
+    border-radius: 10px !important;
+}
+
+.order_summery_color {
+    padding: 6px;
+    color: var(--blue-500) !important;
+    background-color: var(--main-backgroud-color) !important;
+}
+.total_class {
+    border-top: 2px dashed var(--blue-200);
+}
+
+.input-amount {
+    color: var(--blue-400) !important;
+}
+
+.product-content {
+    color: var(--balck) !important;
+}
+.price_class {
+    color: var(--orange-500) !important;
+}
+.good_morning {
+    color: var(--blue-400) !important;
+}
+.good_morning h3 {
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--blue-400) !important;
+}
+.timer-hours {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--blue-400) !important;
+}
+.form-control {
+    min-height: 45px !important;
+    border-radius: 8px !important;
+    color: var(--blue-400);
+}
+
+.form-label {
+    font-size: 16px;
+    color: var(--blue-400);
+}
+
+.cash_cancel_button {
+    background-color: none !important;
+    color: var(--blue-400);
+    font-size: 16px;
+    border-color: var(--blue-400);
+    min-height: 59px !important;
+}
+
+.defualt_color {
+    color: var(--blue-400) !important;
+}
+.bg_none_color {
+    background-color: var(--main-backgroud-color) !important;
+}
+
+.back_btn_button {
+    color: var(--blue-400);
+    background-color: var(--main-backgroud-color);
+    font-size: 16px;
+    border-color: var(--blue-400) !important;
+    border-width: 1px;
+    /* box-shadow: var(--blue-400); */
+}
+.back_button {
+    background-color: var(--main-backgroud-color);
+}
+
+.back_btn_button:hover {
+    color: var(--white);
+    background-color: var(--blue-400);
+    font-size: 16px;
+    border: none !important;
+}
+
+.complt_btn_button {
+    color: var(--white);
+    font-size: 16px;
+    background-color: var(--orange-500);
+    border-color: var(--orange-500);
+    box-shadow: none !important;
+    border: none !important;
+    max-height: 50px !important;
+}
+.custom-payment-buttons {
+    width: 100%;
+}
+
+.custom-payment-buttons > *:first-child {
+    flex: 0 0 30%; /* Back button */
+}
+
+.custom-payment-buttons > *:last-child {
+    flex: 0 0 70%; /* Validate button */
+}
+.modal-content {
+    background-color: var(--white);
+    border-radius: 16px !important;
+}
+
+.modal-header {
+    font-weight: 400;
+    font-size: 18px;
+    /* padding-top: 2rem !important; */
+    background-color: var(--main-backgroud-color) !important;
+    color: var(--blue-800) !important;
+    margin: 8px;
+    border-radius: 8px;
+    max-height: 45px !important;
+}
+.pos .OpeningControlPopup .modal-content {
+    background-color: rgba(255, 255, 255, 0.2); /* your color */
+    border-radius: 2rem; /* rounded corners */
+    backdrop-filter: blur(30px); /* optional blur */
+}
+.button_cancel {
+    background-color: var(--main-backgroud-color) !important;
+    border-color: var(--main-backgroud-color) !important;
+    font-size: 14px;
+    /* font-weight: 500; */
+    color: var(--blue-400) !important;
+}
+
+.pos_login_heading {
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--blue-800) !important;
+    margin-bottom: 5px;
+}
+.pos_login_heading1 {
+    font-weight: 200;
+    font-size: 18px;
+    color: var(--blue-800) !important;
+    margin-bottom: 25px;
+}
+
+.button_go_to_backed {
+    background-color: var(--main-backgroud-color) !important;
+    border-color: var(--main-backgroud-color) !important;
+    font-size: 14px;
+    /* font-weight: 500; */
+    color: var(--blue-400) !important;
+}
+.reason {
+    color: var(--blue-400);
+}
+.button_print_rec {
+    background-color: var(--orange-500) !important;
+    border-color: var(--orange-500) !important;
+    color: var(--white) !important;
+}
+
+.button_print_rec:hover {
+    background-color: var(--orange-300) !important;
+    border-color: var(--orange-300) !important;
+    color: var(--white) !important;
+}
+
+.button_logout {
+    font-size: 14px;
+    /* font-weight: 500; */
+    background-color: var(--orange-100) !important;
+    border-color: var(--orange-100) !important;
+    color: var(--orange-500) !important;
+}
+
+.cash_open_button {
+    background-color: var(--blue-400);
+    color: var(--white) !important;
+}
+
+.cash_open_button:hover {
+    background-color: var(--blue-200);
+    color: var(--white) !important;
+}
+
+.btn-primary {
+    background-color: var(--orange-400) !important;
+    border-color: var(--orange-400) !important;
+}
+.button .btn .btn-secondary {
+    background-color: none !important;
+    border-bottom: var(--blue-400) !important;
+}
+
+.btn-secondary {
+    background-color: none !important;
+    border-bottom: var(--blue-400) !important;
+    /* color: var(--blue-400) !important; */
+}
+.cash_open_button:disabled {
+    background-color: var(--blue-100) !important;
+    color: var(--blue-300) !important;
+}
+
+.main-app {
+    background: linear-gradient(to right bottom, var(--white), var(--white));
+}
+
+.main-app .sidebar {
+    width: 102px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #fff;
+    background: linear-gradient(to right bottom, var(--white), var(--white));
+}
+
+@media (max-width: 768px) {
+    .main-app .sidebar {
+        width: 60px;
+    }
+}
+
+.main-app .main-menu {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin-top: 6rem !important; */
+}
+
+.main-app .menu-item {
+    list-style: none;
+    position: relative;
+    width: 85px;
+    height: 65px;
+    /* margin: 10px !important; */
+}
+.main-menu .main_logo {
+    margin-bottom: 6rem !important;
+}
+
+.main-app .menu-txt {
+    opacity: 0;
+    width: 0px;
+    min-width: 0px;
+    overflow: hidden;
+    transition: 300ms linear;
+    transition-delay: 250ms;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.main-app .menu-a {
+    /* padding: 35px 33.5px; */
+    /* display: flex; */
+    margin-left: 10px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.main-app .menu-icon {
+    display: block;
+    font-size: 1.5rem;
+    color: #fefefe;
+    position: relative;
+    z-index: 100;
+    transition: 400ms;
+}
+
+@media (min-width: 768px) {
+    .main-app .menu-item:hover .menu-txt {
+        opacity: 1;
+        width: 100%;
+        min-width: 180px;
+        padding: 0px 10px;
+        transition-delay: 0s;
+        color: var(--blue-400);
+        font-size: 15px;
+        font-weight: 600;
+        align-self: center;
+    }
+    .main-app .menu-item:hover .menu-icon {
+        color: var(--blue-400);
+    }
+}
+
+.main-app .menu-txt-hld {
+    position: absolute;
+    z-index: 99;
+    background: rgba(255, 255, 255, 0);
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    font-size: 0.94rem;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0);
+    padding: 9.5px 8px;
+    transition: 250ms linear;
+    display: flex;
+    align-items: center;
+    transition-delay: 300ms;
+    left: 22px;
+}
+
+@media (min-width: 768px) {
+    .main-app .menu-item:hover .menu-txt-hld {
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.07);
+        background: rgb(255, 255, 255);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition-delay: 0ms;
+        left: 5px;
+    }
+}
+
+.main-app .active .menu-icon {
+    color: var(--blue-400);
+}
+
+.custom-header .card {
+    margin-left: 20px;
+}
+.custom-header .top-container {
+    display: flex;
+    align-items: center;
+}
+.custom-header .profile-image {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.custom-header .name {
+    font-size: 15px;
+    font-weight: bold;
+    color: #251f1f;
+    position: relative;
+    top: 0px;
+}
+.logout-wrapper {
+    position: relative;
+    overflow: visible;
+    /* bottom: -20px !important; */
+}
+
+.logout_card {
+    position: absolute !important;
+    left: 100%;
+    top: 0;
+    z-index: 9999 !important; /* ensure it's always on top */
+    transform: translateY(-190px);
+    width: 224px !important;
+    height: auto;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    display: none; /* hidden by default */
+}
+
+.logout_card.show {
+    display: block;
+}
+
+.button_logout_out {
+    background-color: var(--red-50);
+    border-color: var(--red-200);
+    border: solid 0.3px !important;
+    color: var(--red-200);
+    font-size: 16px !important;
+    padding: 15px;
+}
+.button_logout_out:hover {
+    background-color: var(--white);
+    border-color: var(--red-200);
+    color: var(--red-200);
+}
+
+.button_close_register {
+    background-color: var(--main-backgroud-color);
+    border-color: var(--blue-100);
+    color: var(--blue-400);
+    font-size: 16px !important;
+    padding: 15px;
+}
+.button_close_register:hover {
+    background-color: var(--white);
+    border-color: var(--blue-100);
+    color: var(--blue-400);
+    font-size: 16px !important;
+}
+.button_install_app {
+    background-color: var(--blue-600);
+    border-color: var(--blue-600);
+    color: var(--white);
+    font-size: 16px !important;
+    padding: 15px;
+}
+.button_install_app:hover {
+    background-color: var(--blue-600);
+    border-color: var(--blue-600);
+    color: var(--blue-100);
+    font-size: 16px !important;
+}
+
+.custom-header .mail {
+    font-size: 14px !important;
+    color: #251f1f;
+    position: relative;
+    top: -15px;
+}
+.footer {
+    display: flex-end !important;
+}
+@media (min-width: 768px) {
+    .justify-content-md-start {
+        -webkit-box-pack: end !important;
+        justify-content: flex-end !important;
+    }
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
+    max-width: 185px;
+    border-radius: 10px;
+    overflow: hidden;
+    /* box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%); */
+    transition: all 0.3s ease;
+    margin: 2px;
+    background-color: var(--white);
+}
+
+.pos .product-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+}
+
+.pos .product-img {
+    width: 100%;
+}
+
+.pos .product-img img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-top: 1px;
+}
+
+.pos .products-widget .products-widget-control {
+    box-shadow: unset !important;
+    padding: 5px;
+}
+
+.pos .rightpane {
+    background: var(--main-backgroud-color) !important;
+}
+.bg-100,
+.text-bg-100 {
+    background-color: var(--white) !important;
+}
+
+.button .print {
+    background-color: var(--orange-400) !important;
+}
+
+.box {
+    position: relative;
+    margin-left: auto;
+    right: 10px;
+}
+@media (max-width: 768px) {
+    .box {
+        position: absolute;
+    }
+}
+
+[badge]:after {
+    background: #a8a8a8;
+    border-radius: 10rem;
+    color: #fff;
+    content: attr(badge);
+    font-size: small;
+    min-width: 18px;
+    padding: 2px;
+    position: absolute;
+    text-align: center;
+    left: 1.7em;
+    bottom: 1.7em;
+    z-index: 999;
+}
+
+@media (min-width: 768px) {
+    .pos .leftpane {
+        max-width: 428px;
+        height: calc(100% - 10px);
+        margin: 8px;
+        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
+        background-color: var(--white);
+        border: unset;
+    }
+}
+
+.pos .order-container {
+    border-radius: 10px 10px 0px 0px;
+    background-color: var(--white) !important;
+}
+
+.pos *::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+.pos .screen {
+    background: #ededed !important;
+}
+
+.pos .mode-button.selected-mode {
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    );
+}
+
+.pos .button.validation {
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    );
+}
+
+.pos .button.validation:hover {
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-300),
+        var(--blue-300)
+    ) !important;
+}
+
+.bg-200,
+.text-bg-200 {
+    background-color: var(--main-backgroud-color) !important;
+}
+.paymentmethods-container {
+    color: var(--blue-400) !important;
+}
+.btn-light {
+    --btn-hover-bg: --var(--blue-100);
+    --btn-hover-border-color: var(--main-backgroud-color);
+    color: var(--blue-400) !important;
+    background-color: var(--main-backgroud-color);
+}
+.select_payment_text {
+    color: var(--blue-400);
+    background-color: var(--white);
+    margin-top: 10px;
+    /* margin-bottom: 10px; */
+    padding: 20px;
+}
+@media (max-width: 1199.98px) {
+    .left-content {
+        width: 400px;
+        min-width: 400px;
+        background-color: var(--white);
+    }
+}
+
+.left-content {
+    width: 400px;
+    min-width: 400px;
+    background-color: var(--white);
+}
+
+.total {
+    color: var(--blue-500);
+    font-size: 45px !important;
+}
+.p .pos .button.pay-order-button {
+    background-color: var(--orange-500);
+}
+
+.pos .button.pay-order-button:hover {
+    background-color: var(--orange-300) !important;
+}
+
+.pos .order .orderline.selected {
+    background: var(--blue-200) !important;
+}
+
+.pos .oe_status {
+    cursor: default;
+}
+
+.paymentlines {
+    background-color: var(--white) !important;
+}
+
+.pos .oe_status .d-inline-block {
+    display: inline-block;
+}
+
+.pos .mode-button.selected-mode:hover {
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    ) !important;
+}
+
+.pos .category-button {
+    display: inline-flex;
+    margin: 5px !important;
+    width: 160px;
+    height: 60px;
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+}
+
+.pos .category-button .category-img {
+    position: relative;
+    width: 55px;
+    text-align: center;
+    cursor: pointer;
+    object-fit: contain;
+    padding: 5px;
+    height: calc(100% - 10px);
+}
+
+.pos .category-button .category-img img {
+    object-fit: cover;
+    width: 100%;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.pos .category-button .category-name {
+    display: inline-grid;
+    position: relative;
+    width: unset;
+    align-content: center;
+    padding-top: unset;
+    font-size: 14px;
+    color: #251f1f;
+}
+
+.pos .category-list {
+    background: none;
+    font-size: 16px;
+    padding: 5px;
+    line-height: 40px !important;
+}
+
+.pos .categories {
+    border-bottom: none;
+}
+
+.pos .category-list-scroller {
+    max-height: 85px;
+}
+
+.pos .breadcrumb-button {
+    color: #251f1f;
+}
+
+.pos .breadcrumb-arrow {
+    width: 10px;
+}
+
+.pos a.button {
+    color: #fff;
+}
+
+.dialog_main_page {
+    color: var(--blue-400) !important;
+}
+
+.ticket-screen .controls button.highlight {
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    );
+    border-color: var(--blue-400);
+}
+
+.pos .control-button.highlight,
+.pos .button.highlight {
+    color: var(--white) !important;
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    ) !important;
+    border-color: var(--blue-400) !important;
+}
+
+.pos .popup .button {
+    color: #111;
+    border: 1px solid var(--blue-400);
+}
+
+.screen .top-content .button {
+    border: 1px solid var(--blue-400);
+}
+
+.pos .partner-list tr.partner-line:hover {
+    color: var(--white);
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    ) !important;
+}
+#btn-create-cust {
+    color: var(--white);
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    ) !important;
+}
+#btn-confirm {
+    color: var(--white);
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    ) !important;
+}
+
+.pos textarea:focus {
+    box-shadow: 0px 0px 0px 3px var(--blue-400);
+}
+
+.pos .category-simple-button:active {
+    color: var(--blue-400);
+    line-height: 24px !important;
+}
+
+.pos .switchpane .btn-switchpane.secondary {
+    color: var(--white);
+}
+
+.payment-screen .paymentlines-empty .total {
+    color: var(--blue-400);
+}
+
+.pos .rightpane-header {
+    flex-direction: unset;
+    border-radius: 5px;
+}
+
+.pos .partner-list tr.partner-line.highlight {
+    color: var(--white);
+    background: linear-gradient(
+        to right bottom,
+        var(--blue-400),
+        var(--blue-400)
+    ) !important;
+}
+
+.menu-item .oe_status i {
+    font-size: 22px;
+}
+
+.category-simple-button {
+    /* font-weight: bold; */
+    margin-left: 10px;
+    padding: 10px;
+    /* transition: all 0.8s ease; */
+}
+.category-simple-button:hover {
+    background: var(--blue-400);
+    border-radius: 5px;
+    color: var(--white);
+}
+
+.btn.cashier-name {
+    background: none !important;
+}
+
+.search-products .h-100 {
+    height: 30px !important;
+}
+
+/* .products-widget-control-category {
+    border-radius: 7px;
+    margin-right: 7px;
+    margin-left: 9px;
+    margin-bottom: 5px;
+} */
+
+#search-products .input-container {
+    position: relative;
+}
+
+#search-products .input-container input {
+    opacity: 0; /* Hide input visually */
+    width: 0; /* Collapse input width */
+    min-width: 0 !important;
+    transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out; /* Add transition for smooth animation */
+}
+
+#search-products .input-container:hover input {
+    opacity: 1; /* Show input on hover */
+    width: 300px; /* Expand input width on hover */ /* Adjust width as needed */
+}
+
+/* Optional animation for icon */
+#search-products .input-container:hover i {
+    animation: search-icon-expand 0.8s ease-in-out;
+}
+
+@keyframes search-icon-expand {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.6);
+    } /* Adjust scale as desired */
+}
+#search-products .input-group {
+    width: 34px;
+    border-radius: 25px;
+    background: none !important;
+    transition: opacity 2s ease-in-out, width 0.5s ease-in-out;
+}
+#search-products .input-group:hover {
+    width: 300px;
+    border-radius: 20px;
+    background: var(--white) !important;
+}
+.home-category-button {
+    padding: 10px;
+    margin: 15px;
+}
+
+#search-products .input-group > .form-control {
+    border: solid 1px;
+    border-radius: 20px;
+}
+.menu-a.SyncNotification .btn-light {
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.menu-item .menu-txt-hld .px-4 {
+    padding-left: 5px !important;
+    color: var(--white);
+}
+.btn-light.active {
+    color: var(--white);
+    background-color: var(--blue-300);
+    border-color: var(--blue-300);
+}
+
+@media (max-width: 768px) {
+    .products-widget-control .search-products .lg-screen,
+    .products-widget-control .search-products .lg-screen-cat {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .products-widget-control .sm-screen,
+    .products-widget-control .sm-screen-cat {
+        display: none !important;
+    }
+}
+
+.products-widget-control .sm-screen .input-group.h-100 {
+    height: 65% !important;
+}
+.cashier-name {
+    max-width: 270px;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.highlight {
+    background-color: var(--blue-400);
+    color: var(--white);
+    border-radius: 5px;
+    line-height: 45px;
+    margin-top: 2px;
+    font-size: 16px;
+}
+
+.text-bg-view {
+    background-color: var(--orange-50) !important;
+    border-color: var(--orange-400) !important;
+    color: var(--orange-400) !important;
+}
+
+#clear_icon {
+    background-color: var(--orange-50) !important;
+    border-color: var(--orange-400) !important;
+    color: var(--orange-400) !important;
+}
+
+#clear_icon :hover {
+    background-color: var(--orange-200);
+    max-width: 30px !important;
+}

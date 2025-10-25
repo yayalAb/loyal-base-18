@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Create custom module category -->
+        <record id="module_category_agreement" model="ir.module.category">
+            <field name="name">Agreements</field>
+            <field name="description">Access rights related to agreement management</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Groups using custom category -->
+        <record id="group_agreement_creator" model="res.groups">
+            <field name="name">Agreement Creator</field>
+            <field name="category_id" ref="agreement.module_category_agreement"/>
+        </record>
+
+        <record id="group_agreement_confirmer" model="res.groups">
+            <field name="name">Agreement Confirmer</field>
+            <field name="category_id" ref="agreement.module_category_agreement"/>
+        </record>
+    </data>
+</odoo>

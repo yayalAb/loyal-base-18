@@ -1,0 +1,59 @@
+<odoo>
+    <record id="hr_payslip_bank_statement_button" model="ir.ui.view">
+        <field name="name">hr.payslip.bank.statement.button</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(hr_payroll_bank_statement.action_open_bank_statement_wizard)d"
+                    type="action" string="bank letter"
+                    class="btn-primary" />
+            </xpath>
+            <xpath expr="//field[@name='gross_wage']" position="before">
+                <field name="employee_bank_id" optional="hide" />
+                <field name="calculate_active_rate" invisible="1" optional="hide" />
+                <field name="hr_contract_start" optional="hide"/>
+                <field name="hr_contract_start" optional="hide"/>
+                <field name="reimbursement" optional="hide" />
+                <field name="attachment_salary" optional="hide" />
+                <field name="assignment_salary" optional="hide" />
+                <field name="child_support" optional="hide" />
+                <field name="deduction" optional="hide" />
+                <field name="house_rent_allowance" optional="hide" />
+                <field name="dearness_allowance" optional="hide" />
+                <field name="travel_allowance" optional="hide" />
+                <field name="meal_allowance" optional="hide" />
+                <field name="medical_allowance" optional="hide" />
+                <field name="position_allowance" optional="hide" />
+                <field name="transport_home_allowance" optional="hide" />
+                <field name="none_taxiable_transport_allowance" optional="hide" />
+                <field name="transport_work_allowance" optional="hide" />
+                <field name="fuel_allowance" optional="hide" />
+                <field name="cash_indemnity_allowance" optional="hide" />
+                <field name="professional_allowance" optional="hide" />
+                <field name="other_allowance" optional="hide" />
+                <field name="pension" optional="show" />
+                <field name="social_commite" optional="hide" />
+                <field name="agreed_deduction" optional="hide" />
+               
+            </xpath>
+            <xpath expr="//field[@name='gross_wage']" position="after">
+                 <field name="income_tax" optional="show" />            </xpath>
+        </field>
+    </record>
+
+
+    <record id="hr_payslip_search_view_add_bank_filter" model="ir.ui.view">
+        <field name="name">hr.payslip.search.filter.by.bank</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator />
+                <field name="employee_bank_id" />
+                <filter name="group_by_bank" string="Bank" domain="[]"
+                    context="{'group_by': 'employee_bank_id'}" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_promotion_list" model="ir.ui.view">
+            <field name="name">hr.promotion.list</field>
+            <field name="model">hr.promotion</field>
+            <field name="arch" type="xml">
+                <list string='Promotions'
+                    decoration-info="state == 'in_review'"
+                    decoration-success="state == 'approved'"
+                    decoration-danger="state == 'rejected'"
+                    decoration-muted="state == 'draft'">
+                    <field name='name' />
+                    <field name='employee_id' />
+                    <field name='promotion_type' />
+                    <field name='creator_id' />
+                    <field name='request_date' />
+                    <field name='state' widget="badge"
+                        decoration-success="state in ('approved', 'open')"
+                        decoration-info="state == 'in_review'"
+                        decoration-danger="state == 'rejected'" />
+                </list>
+            </field>
+        </record>
+
+        <record id="hr_promotion_form" model="ir.ui.view">
+            <field name="name">hr.promotion.form</field>
+            <field name="model">hr.promotion</field>
+            <field name="arch" type="xml">
+                <form string='promotion'>
+                    <header>
+                        <button name='action_submit' string='Submit' type='object'
+                            class='oe_highlight'
+                            invisible="state != 'draft'" />
+                        <button name='action_approve' string='Approve' type='object'
+                            class='oe_highlight' invisible="state != 'in_review'" />
+                        <button name="%(action_promotion_reject_wizard)d" string='Reject'
+                            type='action'
+                            class='btn-danger' invisible="state != 'in_review'" />
+                        <button name='action_draft' string='Set to Draft' type='object'
+                            invisible="state != 'in_review'" />
+                        <button name='action_done' string='Mark As Done' type='object'
+                            class='oe_highlight' invisible="state != 'approved'" />
+                        <field name='state' widget='statusbar'
+                            statusbar_visible='draft,in_review,approved,done' />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"
+                                    placeholder="name for the job requisition" />
+                            </h1>
+                        </div>
+
+                        <group string='Employee Details'>
+                            <field name='employee_id' />
+                            <field name='promotion_type' />
+                            <field name="appraisal_id"
+                            string="Select Appraisal"
+                            domain="[('employee_id', '=', employee_id), ('state', '=', 'done')]"
+                            context="{'default_employee_id': employee_id}" 
+                             options="{'no_create': True, 'no_quick_create': True}" />
+
+                            <field name="appraisal_final_rating"
+                                string="Appraisal Rating"
+                                invisible="not appraisal_id" />
+                        </group>
+
+                        <group string="New Position Details"
+                            invisible="promotion_type not in ('position_promotion', 'position_demotion')">
+                            <field name="new_department_id" required="promotion_type in ('position_promotion', 'position_demotion')" />
+                            <field name="new_job_id"
+                                required="promotion_type in ('position_promotion', 'position_demotion')"
+                                domain="[('department_id', '=', new_department_id)]" 
+                                readonly='not new_department_id'
+                                options="{'no_create': True, 'no_quick_create': True}"/>
+                        </group>
+
+                        <group string='Request Details'>
+                            <field name='creator_id' readonly='1' widget="many2one_avatar_user" />
+                            <field name='request_date' />
+                            <field name='approval_date' invisible="state != 'approved'" />
+                        </group>
+
+
+                        <group string="Reason for Promotion">
+                            <field name="reason" nolabel="True"
+                                placeholder="Specify the reason for this promotion..." required='1'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id='hr_promotion_action' model='ir.actions.act_window'>
+            <field name='name'>Promotion</field>
+            <field name='res_model'>hr.promotion</field>
+            <field name='view_mode'>list,form</field>
+        </record>
+
+        <menuitem
+            id='hr_promotion_menu'
+            name='Promotions'
+            parent="hr_appraisal.menu_hr_appraisal_root"
+            action='hr_promotion_action'
+            sequence='3' />
+    </data>
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- <menuitem
+            id="supplies_menu"
+            name="Procurement"
+            sequence="10"
+            parent="purchase.menu_purchase_root"/> -->
+    <!-- <menuitem
+      name="Dashboard"
+      id="menu_supplies_dashboard_root"
+      sequence="3"
+      parent="supplies_menu"
+      action="action_supplies_dashboard"
+    /> -->
+    <menuitem
+        id="supplies_rfp_menu"
+        name="Purchase Requests"
+        parent="purchase.menu_procurement_management"
+        action="supplies_rfp_action"
+    />
+
+    <!-- <menuitem
+        id="supplies_vendor_menu"
+        name="Vendor"
+        parent="supplies_menu"
+        sequence="10"
+        groups="VendorBid.group_supplies_reviewer"
+    >
+        <menuitem
+            id="supplies_registration_reviewer_menu"
+            name="Registration"
+            action="supplies_registration_reviewer_action"
+            sequence="10"
+        />
+
+    </menuitem> -->
+
+    <menuitem
+        id="supplies_registration_approver_menu"
+        name="Pending Vendors"
+        action="supplies_registration_approver_action"
+        groups="VendorBid.group_supplies_approver"
+        parent="purchase.menu_procurement_management"
+        sequence="20"
+    />
+
+    <menuitem
+        name="Vendors Report"
+        id="supplies_rfp_report_wizard_menu"
+        parent="purchase.purchase_report_main"
+        action="supplies_rfp_report_wizard_act_window"
+        sequence="15"
+    />
+
+    <!-- <menuitem
+            name="Requesters"
+            id="supplies_requester_menu"
+            parent="supplies_menu"
+            action="supplies_requester_action"
+            sequence="20"
+            groups="VendorBid.group_supplies_reviewer"
+    /> -->
+
+
+</odoo>

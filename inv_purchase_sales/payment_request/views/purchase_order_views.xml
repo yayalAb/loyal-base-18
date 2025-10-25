@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_purchase_order_form_inherit_payment_request" model="ir.ui.view">
+        <field name='name'>purchase.order.form.inherit.payment.request</field>
+        <field name='model'>purchase.order</field>
+        <field name='inherit_id' ref='purchase.purchase_order_form' />
+        <field name='arch' type='xml'>
+            <xpath expr="//sheet/div[@class='oe_button_box']" position="inside">
+                <button name="action_open_payment_request"
+                    string="Open Payment Request"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-id-card-o" 
+                    invisible="state != 'purchase'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

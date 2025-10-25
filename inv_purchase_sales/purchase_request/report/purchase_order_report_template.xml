@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="custom_purchase_order_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <!--
+                        STYLE CHANGES:
+                        1. Applied font-family, font-size, padding, and other page styles from Template 1.
+                        2. Added 'padding-bottom' to accommodate the absolute-positioned footer.
+                    -->
+                    <div class="page"
+                        style="font-family: 'Noto Sans Ethiopic', 'Times New Roman', serif; font-size: 12px; padding: 0 30px; position: relative; min-height: 1000px; padding-bottom: 220px;">
+
+                        <div class="oe_structure" />
+
+                        <!-- Header section remains the same -->
+                        <t t-set="doc_title" t-value="'PURCHASE ORDER'" />
+                        <t t-set="doc_number" t-value="o.display_name" />
+                        <t t-set="issue_number" t-value="'1'" />
+                        <!--
+                            STYLE CHANGES:
+                            1. Removed inline font-family and font-size, as they are now inherited from the parent 'page' div.
+                            2. Changed labels from <span> to <strong> to match the bold style of Template 1.
+                        -->
+                        <div style="margin: 20px;">
+                            <div style="text-align: right; margin-bottom: 20px;">
+                                <div style="margin-bottom: 10px;">
+                                    <strong>Date</strong>
+                                    <span
+                                        style="margin-left: 8px; border-bottom: 1px solid black; width: 150px; display: inline-block; margin-left: 10px;">
+                                        <span t-field="o.date_order"
+                                            t-options='{"format": "MM/dd/yyyy"}' />
+                                    </span>
+                                </div>
+                                <div>
+                                    <strong>To</strong>
+                                    <span
+                                        style=" margin-left: 8px;border-bottom: 1px solid black; width: 150px; display: inline-block; margin-left: 10px;">
+                                        <span t-field="o.name" />
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <strong>Proforma No</strong>
+                                    <span
+                                        style="margin-left: 8px; border-bottom: 1px solid black; width: 150px; display: inline-block; margin-left: 10px;">
+                                        <span t-field="o.proforma_number" />
+                                    </span>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <strong>Pr No</strong>
+                                    <span
+                                        style="margin-left: 8px; border-bottom: 1px solid black; width: 150px; display: inline-block; margin-left: 10px;">
+                                        <span t-field="o.name" />
+                                    </span>
+                            </div>
+                        </div>
+
+                        <!-- Table with corrected borders -->
+                        <!-- STYLE CHANGE: Font will be inherited from parent 'page' div. No other changes needed. -->
+                        <table class="table table-sm table-bordered mt-3"
+                            style="border: 1px solid black; border-collapse: collapse; width: 100%;">
+                            <thead style="background-color: #f2f2f2; display: table-header-group;">
+                                <tr style="font-weight: bold;">
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:center;">
+                                        S.No</td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:center;">
+                                        Qty.</td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:center;">
+                                        UOM</td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:center; width: 30%;">
+                                        Description</td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:center;">Unit
+                                        Price</td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:center;">Total
+                                        Price</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Product Lines Loop -->
+                                <t t-set="i" t-value="0" />
+                                <t t-foreach="o.order_line" t-as="order">
+                                    <t t-set="i" t-value="i + 1" />
+                                    <t t-set="price"
+                                        t-value="order.price_unit if order.price_unit else 0.0" />
+                                    <t t-set="total" t-value="order.product_qty * price" />
+                                    <tr>
+                                        <td
+                                            style="border: 1px solid black; padding: 2px; text-align:center;">
+                                            <span t-esc="i" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black; padding: 2px; text-align:right;">
+                                            <span t-esc="'{0:,.2f}'.format(order.product_qty)" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black; padding: 2px; text-align:center;">
+                                            <span t-field="order.product_uom.name" />
+                                        </td>
+                                        <td style="border: 1px solid black; padding: 2px;">
+                                            <span t-field="order.product_id.name" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black; padding: 2px; text-align:right;">
+                                            <span t-esc="'{0:,.2f}'.format(price)" />
+                                        </td>
+                                        <td
+                                            style="border: 1px solid black; padding: 2px; text-align:right;">
+                                            <span t-esc="'{0:,.2f}'.format(total)" />
+                                        </td>
+                                    </tr>
+                                </t>
+
+                                <!-- TOTALS SECTION -->
+                                <tr>
+                                    <!-- THIS IS THE FIX: This single cell now has NO borders at
+                                    all. -->
+                                    <td colspan="4" rowspan="5" style="border: none !important;">
+                                    </td>
+
+                                    <!-- The first totals row -->
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <span t-esc="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <strong>2% with holding</strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <span t-esc="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <strong>Sub Total</strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <span t-esc="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <strong>Tax</strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <span t-esc="o.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <strong>Net Payable</strong>
+                                    </td>
+                                    <td
+                                        style="border: 1px solid black; padding: 2px; text-align:right;">
+                                        <span t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!--
+                            STYLE CHANGES:
+                            1. Wrapped all labels ('Deliver To', 'By Date', signature titles, distribution titles)
+                               in <strong> tags to match the bold style of Template 1.
+                        -->
+                        <div class="footer-block"
+                            style="position: absolute; bottom: 30px; left: 60px; right: 60px; height: 200px; display: flex; flex-direction: column; justify-content: center;">
+                            <div style="margin-bottom: 20px;">
+                                <strong>Deliver To</strong>
+                                <span
+                                    style="margin-left: 8px; border-bottom: 1px solid black; width: 400px; display: inline-block;">
+                                    <span />
+                                </span>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <strong>By Date</strong>
+                                <span
+                                    style="margin-left: 8px; border-bottom: 1px solid black; width: 400px; display: inline-block;">
+                                    <span />
+                                </span>
+                            </div>
+
+                            <div>
+                                <div class="row mt-4 align-items-center">
+                                    <div class="col-4 text-center">___________________________</div>
+                                    <div class="col-4 text-center">___________________________</div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <strong>Procurement Manager</strong>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <strong>Logisitics Executive Manger</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="row mt-4 align-items-center">
+                                    <div class="col-2 text-center"><strong>ክፍፍል:-</strong></div>
+                                    <div class="col-2 text-center">ዋናው ፋይናንስ ክፍል</div>
+                                    <div class="col-2 text-center">1<sup>ኛ</sup> ኮፒ ለአቅራቢ</div>
+                                    <div class="col-2 text-center">2<sup>ኛ</sup> ኮፒ ለግምጃ ቤት</div>
+                                    <div class="col-2 text-center">3<sup>ኛ</sup> ኮፒ በጥራዝ ላይ ቀሪ</div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-2 text-center"><strong>Distribution:-</strong></div>
+                                    <div class="col-2 text-center">Original Finance Office</div>
+                                    <div class="col-2 text-center">1<sup>st</sup> copy Supplier</div>
+                                    <div class="col-2 text-center">2<sup>st</sup> copy Store Office</div>
+                                    <div class="col-2 text-center">3<sup>st</sup> copy Pad</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="purchase_order_report_inherit_and_replace"
+        inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <!-- This should point to the module name, e.g., your_module_name.custom_purchase_order_document -->
+            <!-- Assuming the module name is 'purchase_request' as per the original template -->
+            <t t-call="purchase_request.custom_purchase_order_document" />
+        </xpath>
+    </template>
+
+</odoo>

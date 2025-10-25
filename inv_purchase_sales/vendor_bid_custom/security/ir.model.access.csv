@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_supplies_wizard,access_supplies_wizard,model_supplies_wizard,base.group_user,1,1,1,1
+access_purchase_container,purchase container,model_purchase_container,base.group_user,1,1,1,1

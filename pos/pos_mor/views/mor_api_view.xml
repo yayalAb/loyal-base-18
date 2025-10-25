@@ -1,0 +1,57 @@
+<odoo>
+    <!-- list View -->
+    <record id="view_mor_api_list" model="ir.ui.view">
+        <field name="name">mor.api.list</field>
+        <field name="model">mor.api</field>
+        <field name="arch" type="xml">
+            <list string="MoR API Tokens" create="false" edit="false" delete="false">
+                <field name="access_token"/>
+                <field name="refresh_token"/>
+                <field name="encryption_key"/>
+                <field name="token_expiry"/>
+                <field name="status"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_mor_api_form" model="ir.ui.view">
+        <field name="name">mor.api.form</field>
+        <field name="model">mor.api</field>
+        <field name="arch" type="xml">
+            <form string="MoR API Token" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="access_token"/>
+                        <field name="refresh_token"/>
+                        <field name="encryption_key"/>
+                        <field name="token_expiry"/>
+                        <field name="status"/>
+                        <field name="create_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_mor_api" model="ir.actions.act_window">
+        <field name="name">MoR API Tokens</field>
+        <field name="res_model">mor.api</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_mor_api_list"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Records are created automatically via the MoR integration.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_mor_api"
+              name="MoR API Tokens"
+              parent="point_of_sale.menu_point_config_product"
+              sequence="52"
+              action="action_mor_api"/>
+</odoo>

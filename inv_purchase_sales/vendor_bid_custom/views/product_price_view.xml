@@ -1,0 +1,30 @@
+<odoo>
+    <record id="view_product_template_sales_price_visibility" model="ir.ui.view">
+        <field name="name">product.template.sales.price.visibility</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_standard_price']/div/field[@name='list_price']"
+                position="attributes">
+                <attribute name="groups">vendor_bid_custom.group_can_see_sales_price</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='group_standard_price']/div/span[@name='uom_span']"
+                position="attributes">
+                <attribute name="groups">vendor_bid_custom.group_can_see_sales_price</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_variant_sales_price_visibility" model="ir.ui.view">
+        <field name="name">product.variant.sales.price.visibility</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]/group[@name='pricing']/div/field[@name='lst_price']"
+                position="attributes">
+                <attribute name="groups">vendor_bid_custom.group_can_see_sales_price</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

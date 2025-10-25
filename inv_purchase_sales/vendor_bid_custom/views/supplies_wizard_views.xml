@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="supplies_rfp_supplier_wizard_form_view" model="ir.ui.view">
+        <field name="name">supplies.rfp.supplier.wizard.form</field>
+        <field name="model">supplies.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Select Suppliers">
+                <sheet>
+                    <group>
+                        <field name="supplies_rfp_id" readonly="1" force_save="1" />
+                    </group>
+                    <notebook>
+                        <page string="Available Suppliers">
+                            <field name="selected_suppliers" widget="many2many">
+                                <list>
+                                    <field name="display_name" string="Supplier Name" />
+                                    <field name="email" />
+                                    <field name="phone" />
+                                    <field name="vat" string="TIN" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Send" name="action_send" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id='action_send_email' model='ir.actions.act_window'>
+        <field name='name'>Send Email</field>
+        <field name='res_model'>supplies.wizard</field>
+        <field name='view_mode'>form</field>
+        <field name='target'>new</field>
+        <field name="context">{'default_supplies_rfp_id': active_id}</field>
+    </record>
+</odoo>

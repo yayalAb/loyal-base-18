@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View for Employee Deduction -->
+    <record id="employee_deduction_view_form" model="ir.ui.view">
+        <field name="name">employee.deduction.form</field>
+        <field name="model">employee.deduction</field>
+        <field name="arch" type="xml">
+            <form string="Employee Deduction">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight"
+                        invisible="state != 'draft'" />
+                    <button
+                        name="action_approve" string="Approve" type="object" class="oe_highlight"
+                        invisible="state != 'submitted'"
+                        groups="hr_employee_deduction.group_employee_deduction_manager" />
+                    <button
+                        name="action_reject" string="Reject" type="object"
+                        invisible="state not in ('submitted', 'approved')"
+                        groups="hr_employee_deduction.group_employee_deduction_manager" />
+                    <button
+                        name="action_reset_to_draft" string="Reset to Draft" type="object"
+                        invisible="state not in ('rejected', 'applied')"
+                        groups="hr_employee_deduction.group_employee_deduction_manager" />
+                
+                    <field
+                        name="state" widget="statusbar"
+                        statusbar_visible="draft,submitted,approved,applied" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="state != 'draft'" />
+                            <field name="employee_id" readonly="state != 'draft'" />
+                            <field name="deduction_type_id" readonly="state != 'draft'" />
+                        </group>
+                        <group>
+                            <field name="amount" readonly="state != 'draft'" />
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="payslip_id" invisible="state != 'applied'" />
+                        </group>
+                    </group>
+                </sheet>
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div> -->
+            </form>
+        </field>
+    </record>
+    <!-- Tree/List View for Employee Deduction -->
+    <record id="employee_deduction_view_tree" model="ir.ui.view">
+        <field name="name">employee.deduction.list</field>
+        <field name="model">employee.deduction</field>
+        <field name="arch" type="xml">
+            <list string="Employee Deductions">
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="deduction_type_id" />
+                <field name="amount" />
+                <field name="date" />
+                <field name="state" widget="badge" decoration-success="state == 'applied'"
+                    decoration-info="state == 'approved'" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Action to open the Employee Deduction views -->
+    <record id="action_employee_deduction" model="ir.actions.act_window">
+        <field name="name">Employee Deductions</field>
+        <field name="res_model">employee.deduction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Views for Deduction Type configuration -->
+    <record id="employee_deduction_type_view_tree" model="ir.ui.view">
+        <field name="name">employee.deduction.type.list</field>
+        <field name="model">employee.deduction.type</field>
+        <field name="arch" type="xml">
+            <list string="Deduction Types" editable="bottom">
+                <field name="name" />
+                <field name="code" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_employee_deduction_type" model="ir.actions.act_window">
+        <field name="name">Deduction Types</field>
+        <field name="res_model">employee.deduction.type</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_template_custom_applicant_offer" model="mail.template">
+        <field name="name">Custom Recruitment: Job Offer</field>
+        <field name="model_id" ref="hr_contract_salary.model_hr_contract_salary_offer"/>
+        <field name="subject">Job Offer from {{ object.company_id.name }}</field>
+        <field name="email_to">{{ object.applicant_id.email_from }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; color: #4c4c4c; background-color: #f2f2f2; padding: 20px;">
+                <div style="max-width: 650px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 5px; padding: 40px;">
+                    <t t-set="contract" t-value="object.contract_template_id"/>
+                    <t t-set="total_allowances" t-value="0.0"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.house_rent_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.dearness_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.travel_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.meal_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.medical_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.position_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.transport_home_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.transport_work_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.fuel_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.cash_indemnity_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.professional_allowance"/>
+                    <t t-set="total_allowances" t-value="total_allowances + contract.other_allowance"/>
+                    <t t-set="gross_salary" t-value="contract.wage + total_allowances"/>
+
+                    <p>
+                        Dear <strong t-field="object.applicant_id.partner_name"/>,
+                    </p>
+                    <p>
+                        Following our recent discussions, we are very pleased to formally offer you the position of <strong><t t-esc="object.job_title"/></strong> with <strong><t t-esc="object.company_id.name"/></strong>.
+                        Your anticipated start date will be <strong><t t-esc="object.contract_start_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></strong>.
+                    </p>
+                    
+                    <h5 style="margin-top: 25px; margin-bottom: 10px; color: #333;">Summary of Your Compensation Package</h5>
+                    
+                    <ul style="list-style-type: none; padding-left: 10px; border-top: 1px solid #eee; padding-top: 10px;">
+                        <li style="padding: 5px 0;">
+                            <strong>Basic Salary:</strong>
+                            <span style="float: right;" t-esc="contract.wage" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id}'/>
+                        </li>
+                        <div t-if="total_allowances > 0" style="padding: 5px 0; color: #555;">
+                            <strong style="display: block; margin-bottom: 5px;">Allowances:</strong>
+                            <ul style="list-style-type: disc; padding-left: 25px; margin: 0;">
+                                <li t-if="contract.house_rent_allowance > 0">House Rent: <span t-esc="contract.house_rent_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.dearness_allowance > 0">Dearness: <span t-esc="contract.dearness_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.travel_allowance > 0">Travel: <span t-esc="contract.travel_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.meal_allowance > 0">Meal: <span t-esc="contract.meal_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.medical_allowance > 0">Medical: <span t-esc="contract.medical_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.position_allowance > 0">Position: <span t-esc="contract.position_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.transport_home_allowance > 0">Transport (Home): <span t-esc="contract.transport_home_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.transport_work_allowance > 0">Transport (Work): <span t-esc="contract.transport_work_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.fuel_allowance > 0">Fuel: <span t-esc="contract.fuel_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.cash_indemnity_allowance > 0">Cash Indemnity: <span t-esc="contract.cash_indemnity_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.professional_allowance > 0">Professional: <span t-esc="contract.professional_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                                <li t-if="contract.other_allowance > 0">Other: <span t-esc="contract.other_allowance" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id, "no_symbol": True}'/></li>
+                            </ul>
+                        </div>
+                        
+                        <li style="padding: 10px 0; border-top: 2px solid #333; margin-top: 10px;">
+                            <strong>Total Gross Salary (per month):</strong>
+                            <strong style="float: right;" t-esc="gross_salary" t-options='{"widget": "monetary", "display_currency": object.company_id.currency_id}'/>
+                        </li>
+                    </ul>
+
+                    <p style="margin-top: 25px;">
+                        This offer is valid until <strong><t t-esc="object.offer_end_date" t-options='{"widget": "date", "format": "MMMM dd, yyyy"}'/></strong>. We are excited about the prospect of you joining our team and look forward to the contributions you will make.
+                    </p>
+                    <p>
+                        If you have any questions, please do not hesitate to reach out.
+                    </p>
+                    <br />
+                    <p>Best regards,</p>
+                    <p>
+                        <strong>The Hiring Team</strong><br />
+                        <span t-esc="object.company_id.name"/>
+                    </p>
+                </div>
+            </div>
+        </field>
+    </record>
+
+</odoo>

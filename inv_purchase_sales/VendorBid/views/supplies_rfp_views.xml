@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_supplies_rfp_tree" model="ir.ui.view">
+        <field name="name">supplies.rfp.tree</field>
+        <field name="model">supplies.rfp</field>
+        <field name="arch" type="xml">
+            <list string="Request for Purchases">
+                <field name="rfp_number" string="Reference" />
+                <field name="create_uid" string="Requested By" />
+                <field name="required_date" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-warning="state in ('draft',)"
+                    decoration-danger="state in ('rejected',)"
+                    decoration-info="state in ('approved',)"
+                    decoration-primary="state in ('recommendation',)"
+                    decoration-success="state in ('accepted',)"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_supplies_rfp_form" model="ir.ui.view">
+        <field name="name">supplies.rfp.form</field>
+        <field name="model">supplies.rfp</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Requests">
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,submitted,authorized,approved,closed,recommendation,accepted"
+                        invisible="state == 'rejected'"
+                    />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted"
+                        invisible="state != 'rejected'" />
+
+                    <button
+                        name="action_submit"
+                        string="Submit"
+                        class="oe_highlight"
+                        type="object"
+                        groups="VendorBid.group_supplies_reviewer"
+                        invisible="state != 'draft'"
+                    />
+                    <!-- Button for reviewers in submitted and rejected state -->
+                    <button
+                        name="action_return_to_draft"
+                        string="Return to Draft"
+                        type="object"
+                        groups="VendorBid.group_supplies_reviewer"
+                        invisible="state not in ('submitted','rejected')"
+                    />
+
+                    <button
+                        name="action_recommendation"
+                        string="Open Recommendation"
+                        type="object"
+                        class="btn-primary"
+                        groups="VendorBid.group_supplies_reviewer"
+                        invisible="state != 'closed' or not rfq_ids"
+                    />
+                    <button
+                        name="action_approve"
+                        string="Approve"
+                        class="oe_highlight"
+                        type="object"
+                        groups="VendorBid.group_supplies_approver"
+                        invisible="state != 'submitted'"
+                    />
+                    <button
+                        name="action_reject"
+                        string="Reject"
+                        class="btn-warning"
+                        type="object"
+                        groups="VendorBid.group_supplies_approver"
+                        invisible="state != 'submitted'"
+                    />
+
+                    <button 
+                        name="action_create_purchase_orders"
+                        string="Create Purchase Order"
+                        type="object"
+                        class="btn-primary"
+                        groups="VendorBid.group_supplies_approver"
+                        invisible="state != 'recommendation' or not recommendations_made"
+                    />
+
+
+                </header>
+                <sheet>
+                    <field name="state" invisible="1" />
+                    <widget name="web_ribbon" title="Rejected" bg_color="text-bg-danger"
+                        invisible="state != 'rejected'" />
+                    <widget name="web_ribbon" title="Accepted" bg_color="text-bg-success"
+                        invisible="state != 'accepted'" />
+                    <div class="oe_button_box" name="button_box">
+
+                        <!-- <button type="object" name="action_view_all_quotation"
+                        class="oe_stat_button" icon="fa-cube"
+                                invisible="state in ['draft','submitted']">
+                            <field widget="statinfo" name="total_rfq" string="Quotations"> </field>
+                        </button> -->
+
+                        <button type="object" name="action_view_all_rfq" class="oe_stat_button"
+                            icon="fa-cube" invisible="state in ['draft','submitted','approved']">
+                            <field name="total_rfq"> </field>
+                            <span> RFQs</span>
+
+                        </button>
+                        <button type="object" name="action_view_purchase_order"
+                            class="oe_stat_button" icon="fa-cube"
+                            invisible="state != 'accepted'">View Purchase Order </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="rfp_number" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_category_id" required="1"
+                                readonly="product_line_ids" force_save="1" />
+                            <field name="create_uid" string="Requested By" />
+                            <field name="review_by" string="Approved By"
+                                invisible="not id or state in ['draft', 'submitted', 'rejected']" />
+                            <field name="review_by" string="Rejected By"
+                                invisible="state not in ['rejected']" />
+                            <field name="date_approve" string="Rejected On"
+                                invisible="state not in ['rejected']" />
+                        </group>
+                        <group>
+
+                            <field name="required_date" readonly="state != 'draft'" />
+                            <field name="date_approve" string="Approved On"
+                                invisible="not id or state in ['draft', 'submitted', 'rejected']" />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Product Lines">
+                            <field
+                                name="product_line_ids"
+                                context="{'default_rfp_id': id}"
+                                readonly="state != 'draft'"
+                            >
+                                <list editable="bottom">
+                                    <field name="product_id" string="Product" />
+                                    <field name="description" string="Description" />
+                                    <field name="product_image" widget="image"
+                                        options='{"size": [120, 120]}' />
+                                    <field name="product_qty" string="Quantity" />
+                                    <field name="product_uom" string="UoM" />
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="RFQs" invisible="state in ['draft','submitted']">
+                            <div class="o_action_manager">
+                                <button
+                                    name="action_recommend_best_prices"
+                                    string="Recommend Best Prices"
+                                    type="object"
+                                    class="btn-primary" 
+                                    groups="VendorBid.group_supplies_approver"
+                                    invisible="state != 'recommendation'"
+                                    help="Automatically select the RFQ line with the lowest price for each product."
+                                />
+                            </div>
+                            <field name="rfq_line_ids" mode="list">
+                                <list create="false" delete="false" edit="false">
+                                    <field name="product_id" context="{'group_by':'product_id'}"
+                                        optional="show" />
+                                    <field name="order_id" string="Vendor RFQ" />
+                                    <field name="partner_id" related="order_id.partner_id"
+                                        string="Vendor" />
+                                    <field name="product_qty" />
+                                    <field name="product_uom" string="UoM" />
+                                    <field name="price_unit" />
+                                    <field name="price_subtotal" />
+                                    <field name="recommended" widget="boolean_toggle" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_supplies_rfp_search" model="ir.ui.view">
+        <field name="name">supplies.rfp.search</field>
+        <field name="model">supplies.rfp</field>
+        <field name="arch" type="xml">
+            <search string="Search Request for Purchases">
+                <field name="rfp_number" string="Reference" />
+                <field name="create_uid" string="Requested By" />
+                <field name="required_date" />
+                <filter name="running" string="Running"
+                    domain="[('state', 'not in', ('closed', 'rejected', 'accepted'))]" />
+                <searchpanel>
+                    <field name="state" />
+                    <field name="approved_supplier_id" string="Supplier" />
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="supplies_rfp_graph_view" model="ir.ui.view">
+        <field name="name">supplies.rfp.graph.view</field>
+        <field name="model">supplies.rfp</field>
+        <field name="arch" type="xml">
+            <graph string="Request for Purchases" type="line" disable_linking="1" stacked="0">
+                <field name="required_date" type="row" interval="month" />
+                <field name="total_amount" type="measure" />
+                <field name="rfp_number" type="group" />
+                <field name="approved_supplier_id" type="group" />
+                <field name="state" type="group" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_supplies_rfp_pivot" model="ir.ui.view">
+        <field name="name">supplies.rfp.pivot</field>
+        <field name="model">supplies.rfp</field>
+        <field name="arch" type="xml">
+            <pivot string="RFP Pivot" display_quantity="1" disable_linking="1"
+                default_order="total_amount desc">
+                <field name="approved_supplier_id" type="row" />
+                <field name="state" type="row" />
+                <field name="required_date" type="col" interval="month" />
+                <field name="total_amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="supplies_rfp_action" model="ir.actions.act_window">
+        <field name="name">Purchase Requests</field>
+        <field name="res_model">supplies.rfp</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Purchase Requests found
+            </p>
+        </field>
+        <field name="context">{'search_default_running': 1}</field>
+    </record>
+</odoo>

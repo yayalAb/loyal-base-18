@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_payroll.structure_002" model="hr.payroll.structure">
+            <field name="rule_ids" eval="[(0, 0, {
+                'name': 'Lunch Service',
+                'sequence': 190,
+                'code': 'LUNCHDED',
+                'category_id': ref('hr_payroll.DED'),
+                'condition_select': 'python',
+                'condition_python': 'result = True',
+                'amount_select': 'code',
+                'amount_python_compute': 'domain = [(\'employee_id\', \'=\', employee.id), (\'date\', \'&gt;=\', payslip.date_from), (\'date\', \'&lt;=\', payslip.date_to), (\'state\', \'=\', \'unbilled\')]; lunch_logs = payslip.env[\'lunch.log\'].search(domain); total_deduction = sum(lunch_logs.mapped(\'total_price\')); result = -total_deduction'
+            })]"/>
+        </record>
+    </data>
+</odoo>

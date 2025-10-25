@@ -1,0 +1,178 @@
+<odoo>
+    <template id="report_bank_statement_template">
+        <!-- Main container that will render a multi-page PDF -->
+        <t t-call="web.html_container">
+            <!-- Loop through the 'reports' data passed from the Python wizard -->
+            <t t-foreach="reports" t-as="report">
+                <!-- 
+                    This div creates a page break before each new report, except for the very first one.
+                    The 'report_first' variable is a special variable provided by t-foreach.
+                -->
+                <div t-if="not report_first" style="page-break-before: always;"/>
+
+                <!-- Use the standard Odoo external layout for each report's header/footer -->
+                <t t-call="web.external_layout">
+                    <style type="text/css">
+                        .page {
+                            font-family: "Times New Roman", Times, serif;
+                            font-size: 14px;
+                        }
+                        .page h5, .page h6 {
+                            font-family: "Times New Roman", Times, serif;
+                        }
+                        .report-table {
+                            font-size: 14px;
+                        }
+                        .report-table thead th {
+                            font-weight: bold;
+                            border: 1px solid #333 !important;
+                        }
+                        .report-table td, .report-table th {
+                            border: 1px solid #333 !important;
+                            padding: 5px;
+                        }
+                        .report-table tfoot td {
+                            font-weight: bold;
+                        }
+                        .report-table .text-end {
+                            padding-right: 14px !important;
+                        }
+                        .text-start { text-align: left; }
+                        .text-end { text-align: right; }
+                        .text-center { text-align: center; }
+                    </style>
+
+                    <!-- 
+                        Reconstruct recordsets from the IDs passed in the 'report' dictionary.
+                        This is the key fix to avoid the AttributeError.
+                    -->
+                    <t t-set="bank" t-value="env['res.partner.bank'].browse(report['bank_id'])" />
+                    <t t-set="branch" t-value="report['branch_address']" />
+                    <t t-set="payslips" t-value="env['hr.payslip'].browse(report['payslip_ids'])" />
+                    <t t-set="company" t-value="env['res.company'].browse(report['company_id'])" />
+                    
+                    <!-- Get other values from the report dictionary -->
+                    <t t-set="total_net" t-value="report['total_net']" />
+                    
+
+                    <!-- The rest of the template can now use the browsed recordsets safely -->
+                    <t t-set="total_in_words" t-value="company.currency_id.amount_to_text(total_net)" />
+                    <t t-set="payslip_period" t-value="payslips[0].payslip_run_id.name" />
+
+                    <!-- =================================================================== -->
+                    <!-- START: Pass data to the custom header -->
+                    <!-- =================================================================== -->
+                    <t t-set="doc_title" t-valuef="BANK SALARY TRANSFER"/>
+                    <t t-set="doc_number" t-valuef="OF/NC/FIN/051"/>
+                    <!-- <t t-set="doc_number" t-valuef="%s/90Fin/%s" t-esc-0="company.name[:3].upper()" t-esc-1="context_timestamp(datetime.datetime.now()).strftime('%Y%m%d')"/> -->
+                    <t t-set="issue_number" t-value="'1'"/>
+                    <!-- =================================================================== -->
+                    <!-- END: Pass data to the custom header -->
+                    <!-- =================================================================== -->
+
+                    <main>
+                        <!-- First Page: The Cover Letter -->
+                        <div class="page">
+                            <div style="line-height: 1.6;">
+                                <p class="mt-4">
+                                    <strong>Date:</strong> <span
+                                        t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y')" /><br />
+                                    <strong>Ref:</strong> <span t-esc="company.name[:3].upper()" />/Fin/<span
+                                        t-esc="datetime.datetime.now().strftime('%Y%m%d')" />
+                                </p>
+
+                                <p class="mt-5 mb-3">
+                                    <strong>
+                                       To: <t t-esc="bank.bank_id.name" />, <t t-esc="branch" />  Bole Atlas Branch, Addis Ababa
+                                    </strong>
+                                </p>
+
+                                <p class="mt-4" style="text-decoration: underline;">
+                                    <strong>Subject: Request to Deposit Staff Salary in their Respective Accounts</strong>
+                                </p>
+
+                                <p class="mt-4">
+                                    <strong>Dear Sir/Madam,</strong>
+                                </p>
+                                <p> Kindly deposit the salary for the attached list of employees for the
+                                    month of <strong t-esc="payslip_period" />, amounting to a total of <strong
+                                        t-esc="total_net"
+                                        t-options='{"widget": "monetary", "display_currency": company.currency_id}' />
+                                    (<span t-esc="total_in_words" />). </p>
+
+                                <p> We hereby authorize your bank to debit the total amount, along with any
+                                    applicable service charges, from our account number: <strong><t
+                                            t-esc="bank.acc_number" />
+                                    .</strong>
+                                </p>
+
+                                <p class="mt-5">Thank you for your cooperation.</p>
+                                <p class="mt-5">Sincerely,</p>
+                            </div>
+
+                            <!-- Force a page break to separate the letter from the table list -->
+                            <div style="page-break-after: always;" />
+
+                            <!-- Second Page: The Employee List Table -->
+                            <div class="mt-4">
+                                <div class="text-center mb-4">
+                                    <h5>
+                                        <strong>Payroll for the Month of <t t-esc="payslip_period" /></strong>
+                                    </h5>
+                                    <h6>Bank Payment List: <t t-esc="bank.bank_id.name" /></h6>
+                                </div>
+
+                                <table class="table table-sm table-bordered report-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-start" style="width: 5%;">#</th>
+                                            <th class="text-start">Employee Name</th>
+                                            <th class="text-start">Bank</th>
+                                            <th class="text-start">Account Number</th>
+                                            <th class="text-end" style="width: 20%;">Net Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="payslips" t-as="payslip">
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="payslip_index + 1" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="payslip.employee_id.name" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="payslip.employee_id.bank_account_id.bank_id.name" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="payslip.employee_id.bank_account_id.acc_number" />
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-esc="payslip._get_salary_line_total('NET')"
+                                                        t-options='{"widget": "monetary", "display_currency": company.currency_id}' />
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-end">
+                                                <strong>Total Amount</strong>
+                                            </td>
+                                            <td class="text-end">
+                                                <strong>
+                                                    <span t-esc="total_net"
+                                                        t-options='{"widget": "monetary", "display_currency": company.currency_id}' />
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </main>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

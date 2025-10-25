@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_salary_offer_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="o"
+                        t-value="doc.with_context(lang=doc.applicant_id.partner_id.lang or user.lang)" />
+
+                    <t t-set="doc_title" t-value="'Job Offer Letter'" />
+                    <t t-set="doc_number" t-value="OF/WW/HRGS/028" />
+                    <t t-set="issue_number" t-value="'1'" />
+
+
+                    <div class="page" style="font-family: Arial, sans-serif; font-size: 11pt;">
+                        <div style="margin-top: 20px; text-align: right;">
+                            <strong>Refe.No:</strong>
+                            <span t-esc="doc.company_id._get_formatted_sequence('external')" />
+                            <br />
+                            <strong>Date:</strong>
+                            <span t-esc="doc.offer_create_date"
+                                t-options='{"widget": "date", "format": "dd/MM/yy"}' />
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <strong>To: <t t-if="doc.applicant_id.gender == 'male'">Mr. </t>
+                                <t
+                                    t-if="doc.applicant_id.gender == 'female'">Ms. </t>
+                                <span
+                                    t-field="doc.applicant_id.partner_name" />
+                            </strong>
+                            <br />
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <strong>
+                                <u>Subject: Job Offer Letter</u>
+                            </strong>
+                        </div>
+                        <div style="margin-top: 20px; text-align: justify;">
+                            <p>Dear <t t-if="doc.applicant_id.gender == 'male'">Mr. </t>
+                                <t
+                                    t-if="doc.applicant_id.gender == 'female'">Ms. </t>
+                                <span
+                                    t-esc="doc.applicant_id.partner_name.split(' ')[0] if doc.applicant_id.partner_name else ''" />
+                                , </p>
+                            <p> We are pleased to inform you that you have been selected as our
+                                preferred candidate for the position of <strong>
+                                    <t t-esc="doc.job_title" />
+                                </strong>
+                                at <strong>
+                                    <t t-esc="doc.company_id.name" />
+                                </strong>.
+                                After careful evaluation of your application and thorough
+                                interviews, we are confident that your skills and experience will be
+                                a valuable addition to our team. In this role, you will work under
+                                the direct supervision of the Delivery Manager, where you will
+                                contribute your expertise to various projects. We believe your
+                                background aligns well with our organizational goals. </p>
+                            <t t-set="contract" t-value="doc.contract_template_id" />
+                            <t t-set="all_allowances"
+                                t-value="[
+                                ('house_rent_allowance', 'House Rent Allowance'),
+                                ('dearness_allowance', 'Dearness Allowance'),
+                                ('travel_allowance', 'Travel Allowance'),
+                                ('meal_allowance', 'Meal Allowance'),
+                                ('medical_allowance', 'Medical Allowance'),
+                                ('position_allowance', 'Position Allowance'),
+                                ('transport_home_allowance', 'Transport (Home) Allowance'),
+                                ('transport_work_allowance', 'Transport (Work) Allowance'),
+                                ('fuel_allowance', 'Fuel Allowance'),
+                                ('cash_indemnity_allowance', 'Cash Indemnity Allowance'),
+                                ('professional_allowance', 'Professional Allowance'),
+                                ('other_allowance', 'Other Allowance')
+                            ]" />
+
+                            <t t-set="active_allowances"
+                                t-value="[al for al in all_allowances if contract[al[0]] > 0]" />
+
+                            <t t-set="total_gross_salary" t-value="contract.wage" />
+                            <t t-foreach="active_allowances" t-as="allowance">
+                                <t t-set="total_gross_salary"
+                                    t-value="total_gross_salary + contract[allowance[0]]" />
+                            </t>
+                            <p> As part of your compensation package, you will receive a gross <strong>Base
+                                Salary</strong> of Birr <strong
+                                    t-esc="'{0:,.2f}'.format(contract.wage)" /> (<span
+                                    t-esc="doc.currency_id.amount_to_text(contract.wage)" />) <t
+                                    t-foreach="active_allowances" t-as="allowance">
+                                    <t t-if="not allowance_first">, </t>
+                                    <t
+                                        t-if="allowance_last and not allowance_first"> and </t> a <strong>
+                                        <t t-esc="allowance[1]" />
+                                    </strong>
+                                of Birr <strong t-esc="'{0:,.2f}'.format(contract[allowance[0]])" />
+                                (<span
+                                        t-esc="doc.currency_id.amount_to_text(contract[allowance[0]])" />
+                                ) </t>. In total, your gross salary will amount to Birr <strong
+                                    t-esc="'{0:,.2f}'.format(total_gross_salary)" /> (<span
+                                    t-esc="doc.currency_id.amount_to_text(total_gross_salary)" />). </p>
+                            <p> Please note that your employment will be permanent, contingent upon
+                                satisfactory performance evaluation results. Additionally, a
+                                probation period of 60 days will apply, during which your
+                                performance will be monitored to ensure alignment with our
+                                organizational standards. At the commencement of your employment on <strong>
+                                    <t t-esc="doc.contract_start_date"
+                                        t-options='{"widget": "date", "format": "MMMM dd, yyyy"}' />
+                                </strong>,
+                                you will be required to sign an employment agreement. </p>
+                            <p> We kindly request your response by <strong>
+                                    <t t-esc="doc.offer_end_date"
+                                        t-options='{"widget": "date", "format": "MMMM dd, yyyy"}' />
+                                </strong>,
+                                should you have any questions or require further clarification,
+                                please do not hesitate to reach out to me via email at <strong>
+                                    <t t-esc="doc.company_id.email" />
+                                </strong>
+                                or by phone at <strong>
+                                    <t t-esc="doc.company_id.phone" />
+                                </strong>.
+                                We look forward to welcoming you to our team and are excited about
+                                the contributions you will make. </p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

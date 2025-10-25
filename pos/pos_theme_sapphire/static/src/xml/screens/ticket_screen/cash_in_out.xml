@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="point_of_sale.CashMovePopup" t-inherit="point_of_sale.CashMovePopup" t-inherit-mode="extension">
+       <xpath expr="//Dialog[@header='false']" position="replace">
+        <Dialog header="false" size="sm">
+    
+            <div class="input-amount mb-2 gap-2">
+
+                <div class="input-group input_group  justify-content-between w-100 d-flex p-1"  t-att-class="{ 'w-100' : this.ui.isSmall }">
+                    <div class="d-flex gap-2" >
+                         <button
+                            t-on-click="() => this.onClickButton('in')"
+                            t-attf-class="input-type btn btn-secondary lh-lg d-flex align-items-center justify-content-center gap-2 #{this.ui.isSmall ? 'btn-md' : 'btn-lg'} #{state.type === 'in' ? 'cash_open_button' : '' }"
+                             >
+                            <i t-attf-class="fa #{state.type === 'in' ? 'fa-circle' : 'fa-circle-o'}"></i>
+                            Cash In
+                        </button>
+
+                        <!-- Cash Out Button -->
+                        <button
+                            t-on-click="() => this.onClickButton('out')"
+                            t-attf-class="input-type btn btn-secondary lh-lg d-flex align-items-center justify-content-center gap-2 #{this.ui.isSmall ? 'btn-md' : 'btn-lg'} #{state.type === 'out' ? 'cash_open_button' : '' }"
+                        >
+                            <i t-attf-class="fa #{state.type === 'out' ? 'fa-circle' : 'fa-circle-o'}"></i>
+                            Cash Out
+                        </button>
+
+                    </div>
+                       
+                        <img src="/pos_theme_sapphire/static/description/add-circle.svg" 
+                        alt="x"
+                        t-on-click="props.close"/>
+                </div>
+                <div class="gap-3 input_group p-3" t-attf-class="{{this.ui.isSmall ? 'mw-100 h-100' : 'w-100'}}">
+                    <label class="mb-3 ms-2">Cash <t t-esc="state.type == 'in' and ' In' or ' Out'"/></label>
+                    <div class="ms-2 me-2">
+                       <Input tModel="[state, 'amount']"
+                            
+                            iconOnLeftSide="pos.currency.position === 'before'"
+                            isValid.bind="env.utils.isValidFloat"
+                            placeholder="'Enter amount  '"
+                            autofocus="true"
+                            getRef="(ref) => this.inputRef = ref" />
+
+                    </div>
+            
+                </div>
+            </div> 
+            <div class="input_group p-2" >
+                <label class="reason mb-3 ms-2">Reason</label>
+                <div class="ms-2">
+                    <textarea class="form-control cash-reason"     t-att-placeholder="'Add your reason for the cash ' + (state.type === 'in' ? 'in' : 'out')"
+                                        name="reason" id="reason" t-model="state.reason" style="height:80px;" />
+                    <!-- <label for="reason">Reason</label> -->
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="button cancel btn  lh-lg cash_cancel_button me-3" style="min-width: 112px; min-height: 50px !important;" t-on-click="props.close">
+                    Cancel
+                </button>
+                <button class="button confirm btn  lh-lg  cash_open_button" style="min-width: 173px; min-height: 50px !important;"
+                    t-on-click="confirm"
+                    t-att-disabled="!isValidCashMove()">
+                    Confirm
+                </button>
+                
+            </t>
+        </Dialog>
+        </xpath>
+    </t>
+</templates>

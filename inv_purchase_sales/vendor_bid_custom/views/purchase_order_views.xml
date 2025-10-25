@@ -1,0 +1,38 @@
+<odoo>
+    <record id="view_purchase_order_inherit_form" model="ir.ui.view">
+        <field name="name">purchase.order.inherit.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="purchase_origin" readonly="1" />
+            </xpath>
+            
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="before">
+                <page string="Containers">
+                    <field name="container_ids" widget="one2many_list">
+                        <list editable="bottom">
+                            <field name="container_number" />
+                            <field name="current_location" />
+                            <field name="delivered_to" />
+                            <field name="status" />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_purchase_order_project_inherit_form" model="ir.ui.view">
+        <field name="name">purchase.order.project.inherit.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="project_purchase.view_order_form_inherit_project_purchase" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="groups"></attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
