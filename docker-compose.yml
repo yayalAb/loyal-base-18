@@ -1,27 +1,27 @@
 version: "2"
 services:
-  postgres:
-    image: postgres:15
-    environment:
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=odoo18@2021
-      - POSTGRES_DB=postgres
-    restart: unless-stopped
-    volumes:
-      - /var/lib/postgresql:/var/lib/postgresql/data
+    postgres:
+        image: postgres:15
+        environment:
+            - POSTGRES_USER=odoo
+            - POSTGRES_PASSWORD=odoo
+            - POSTGRES_DB=postgres
+        restart: unless-stopped
+        volumes:
+            - /var/lib/postgresql:/var/lib/postgresql/data
 
-  erp:
-    image: gitlab.niyatconsultancy.com:5050/yayal/niyat-erp-base/erp:${VERSION}
-    depends_on:   
-      - postgres
-    ports:
-      - "8069:8069"
-      - "8072:8072"
-    tty: true
-    environment:
-      - HOST=postgres
-      - USER=odoo
-      - PASSWORD=odoo18@2021
-    volumes:
-      - /var/lib/erp_data:/var/lib/odoo
-    restart: unless-stopped
+    erp:
+        image: gitlab.niyatconsultancy.com:5050/yayal/niyat-erp-base/erp:${VERSION}
+        depends_on:
+            - postgres
+        ports:
+            - "8069:8069"
+            - "8072:8072"
+        tty: true
+        environment:
+            - HOST=postgres
+            - USER=odoo
+            - PASSWORD=odoo
+        volumes:
+            - /var/lib/erp_data:/var/lib/odoo
+        restart: unless-stopped
