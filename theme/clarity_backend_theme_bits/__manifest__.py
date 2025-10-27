@@ -16,14 +16,14 @@
     "depends": ["web", 'muk_web_colors', 'web_replace_url'],
     "data": [
         'views/res_config_setting.xml',
-        'views/login_template.xml',
+        # 'views/login_template.xml',
         'views/res_company_inherit_view.xml',
         'views/webclient_templates.xml'
     ],
     "assets": {
         "web.assets_frontend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
-            'clarity_backend_theme_bits/static/src/scss/login.scss',
+            # 'clarity_backend_theme_bits/static/src/scss/login.scss',
             'clarity_backend_theme_bits/static/src/xml/navbar/user_switch.xml',
         ],
         "web.assets_backend": [
