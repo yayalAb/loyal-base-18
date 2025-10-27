@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loan_form_inherit_custom" model="ir.ui.view">
+        <field name="name">hr.loan.form.inherit.custom</field>
+        <field name="model">hr.loan</field>
+        <field name="inherit_id" ref="ent_ohrms_loan.hr_loan_view_form"/>
+        <field name="arch" type="xml">
+
+            <!--
+                THE DEFINITIVE FIX:
+                Replace the entire original group with our new, perfectly aligned structure.
+                This avoids all alignment issues and complex xpaths.
+            -->
+            <xpath expr="//group[field[@name='loan_amount']]" position="replace">
+                <group>
+                    <group>
+                        <field name="employee_id" readonly="state == 'approve'"/>
+                        <field name="is_employee_manager" invisible="1"/>
+                        <field name="is_special_loan" groups="hr.group_hr_manager"/>
+                        <field name="manager_loan_type"
+                               invisible="not is_employee_manager or is_special_loan"
+                               required="is_employee_manager and not is_special_loan and state != 'draft'"/>
+                        <field name="department_id"/>
+                        <field name="job_position_id"/>
+                    </group>
+                    <group>
+                        <field name="date"/>
+                        <field name="loan_amount" readonly="state == 'approve'"/>
+                        <field name="adjust_installment_amount"/>
+                        <field name="installment" readonly="adjust_installment_amount or state == 'approve'"/>
+                        <field name="installment_amount" readonly="not adjust_installment_amount or state == 'approve'"/>
+                        <field name="payment_date" readonly="state == 'approve'"/>
+                        <field name="has_grace_period"/>
+                        <field name="grace_period_start_date"
+                               invisible="not has_grace_period"
+                               required="has_grace_period"/>
+                        <field name="grace_period_end_date"
+                               invisible="not has_grace_period"
+                               required="has_grace_period"/>
+                        <field name="company_id"
+                               options="{'no_create': True}"
+                               readonly="state != 'draft'"
+                               groups="base.group_multi_company"/>
+                        <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                    </group>
+                </group>
+            </xpath>
+            
+            <!-- This part remains the same, it is correct -->
+            <xpath expr="//field[@name='loan_line_ids']//field[@name='paid']" position="attributes">
+                <attribute name="column_invisible">False</attribute>
+                <attribute name="readonly">0</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
