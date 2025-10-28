@@ -22,7 +22,7 @@
     "assets": {
         "web.assets_frontend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
-            'clarity_backend_theme_bits/static/src/scss/login.scss'
+            # 'clarity_backend_theme_bits/static/src/scss/login.scss'
         ],
         "web.assets_backend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
