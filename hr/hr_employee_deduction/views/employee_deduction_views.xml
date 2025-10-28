@@ -27,6 +27,11 @@
                         statusbar_visible="draft,submitted,approved,applied" />
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="state != 'draft'" placeholder="e.g. Mobile Expense for August"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="name" readonly="state != 'draft'" />
@@ -41,9 +46,9 @@
                     </group>
                 </sheet>
                 <!-- <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
+                    <field name="message_follower_ids" widget="mail_follower" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
                 </div> -->
             </form>
         </field>

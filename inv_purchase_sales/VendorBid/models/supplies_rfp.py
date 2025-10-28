@@ -6,34 +6,6 @@ from collections import defaultdict
 
 
 class SuppliesRfp(models.Model):
-    """
-    Model: supplies.rfp (Request for Purchase)
-
-    This model handles the lifecycle of a Request for Purchase (RFP) from creation to approval and final closure.
-    It integrates with reviewers and suppliers, manages email notifications for different state transitions,
-    and links with RFQs (Request for Quotations) and Purchase Orders.
-
-    Key Features:
-    - Tracks RFP states (Draft, Submitted, Rejected, Approved, Closed, Recommendation, Accepted).
-    - Automatically generates unique RFP numbers using a sequence.
-    - Allows adding multiple product lines and calculates total amount.
-    - Sends email notifications to reviewers and suppliers during state transitions.
-    - Supports user permission-based visibility (e.g., reviewer and requester access).
-    - Provides actions to view RFQs and Purchase Orders related to the RFP.
-    - Ensures only recommended RFQs can proceed to the recommendation stage.
-    - Custom visibility logic using computed and searchable fields.
-    - Integrates with external utilities: rfp_state_flow decorator, mail utilities.
-
-    Linked Models:
-    - `supplies.rfp.product.line`: Product lines added to the RFP.
-    - `purchase.order`: RFQs linked to this RFP.
-    - `res.partner`: Approved supplier.
-    - `res.users`: Reviewers and submitters.
-
-    Security Groups:
-    - `group_supplies_requester`: Users who can submit RFPs.
-    - `group_supplies_approver`: Users who can approve or reject RFPs.
-    """
 
     _name = 'supplies.rfp'
     _inherit = ['mail.thread']
@@ -87,20 +59,7 @@ class SuppliesRfp(models.Model):
             rec.visible_to_reviewer = self._is_visible_to_reviewer(rec)
 
     def _is_visible_to_reviewer(self, record):
-        """
-        Determines if a record (RFP) is visible to the current user (reviewer) based on specific conditions.
 
-        Conditions:
-        - If the record was created by the current user, it is visible to the user.
-        - If the record was created by a user in the 'requester' group and is in 'draft' state, it is visible to the user.
-        - If the record was submitted by the current user, it is visible to the user.
-
-        Args:
-            record (recordset): The RFP record being checked for visibility.
-
-        Returns:
-            bool: True if the record is visible to the current user, False otherwise.
-        """
         requester_group = self.env.ref('VendorBid.group_supplies_requester')
         user = self.env.user
 
@@ -117,25 +76,7 @@ class SuppliesRfp(models.Model):
 
     @api.model
     def _search_visible_to_reviewer(self, operator, value):
-        """
-        Returns the domain for searching records based on visibility to the current user (reviewer).
 
-        This method is used to build the search domain for filtering RFPs that are visible to the current user
-        based on the following conditions:
-        - The current user is the creator of the RFP.
-        - The current user is part of the 'requester' group and the RFP is in 'draft' state or was submitted by the user.
-
-        Args:
-            operator (str): The operator used in the search (either '=' or '!=').
-            value (bool): The value indicating whether to include or exclude records that are visible to the current user.
-
-        Returns:
-            list: A domain to be used in the search query. If `value` is `True`, it returns the domain for visible records;
-                  if `value` is `False`, it returns the inverse domain for non-visible records.
-
-        Raises:
-            UserError: If the operator is not '=' or '!=' or if the `value` is not a boolean.
-        """
         # Ensure the operator is either '=' or '!=' and the value is a boolean
         if operator not in ['=', '!='] or not isinstance(value, bool):
             raise UserError("Unsupported search operation for visible_to_reviewer")
@@ -158,56 +99,25 @@ class SuppliesRfp(models.Model):
         return domain if value else ['!', domain]
 
     def _compute_total_rfq(self):
-        """
-        Computes the total number of RFQs associated with the current RFP.
-        This updates the 'total_rfq' field with the count of related RFQs.
-
-        Args:
-            self: The current instance of the RFP record.
-        """
         
         for rec in self:
             recommended_rfq = rec.rfq_ids
             
             rec.total_rfq = len(recommended_rfq)
     def action_view_all_rfq(self):
-        """
-        Returns an action to open a list view of all RFQs related to the current RFP.
 
-        Depending on the user's group and the RFQ state, the domain will filter the RFQs.
-        If the user is an approver, it filters for RFQs with the same partner_id as the recommended RFQ.
-        Otherwise, it shows all RFQs associated with the RFP (excluding draft state).
-
-        Args:
-            self: The current instance of the RFP record.
-
-        Returns:
-            dict: The action dictionary to open the RFQs in the appropriate view.
-        """
         action = self.env.ref('purchase.purchase_rfq').read()[0]
         
         # Base domain to filter RFQs for the current RFP, excluding draft state
-        domain = [('rfp_id', '=', self.id)]
+        domain = [('rfp_id', '=', self.id), ('is_final_po_from_rfp', '=', False)]
         
         # Check if the user is in the approver group
        
         action['domain'] = domain
         return action
+    
     def action_view_all_quotation(self):
-        """
-                Returns an action to open a list view of all RFQs related to the current RFP.
 
-                Depending on the user's group and the RFQ state, the domain will filter the RFQs.
-
-                If the user is an approver, it filters for recommended RFQs only.
-                Otherwise, it shows all RFQs associated with the RFP.
-
-                Args:
-                    self: The current instance of the RFP record.
-
-                Returns:
-                    dict: The action dictionary to open the RFQs in the appropriate view.
-        """
         action = self.env.ref('purchase.purchase_rfq').read()[0]
         
         action['domain'] = [('rfp_id', '=', self.id),('state','=','draft')]
@@ -215,54 +125,22 @@ class SuppliesRfp(models.Model):
     
     @api.depends('product_line_ids', 'product_line_ids.subtotal_price')
     def _compute_total_amount(self):
-        """
-            Computes the total amount for the current RFP by summing the 'subtotal_price'
-                of all product lines associated with the RFP.
 
-            Args:
-                self: The current instance of the RFP record.
-        """
         for rfp in self:
             rfp.total_amount = sum(rfp.product_line_ids.mapped('subtotal_price'))
 
     @api.model
     def _get_rfq_domain(self):
-        """
-        Returns the domain to filter RFQs based on the current user's group and the RFP's state.
 
-        If the user is an approver, it returns a domain to filter RFQs where the recommendation is true,
-        but only if the RFP's state allows it.
-
-        Args:
-            self: The current instance of the RFP record.
-
-        Returns:
-            list: A domain list for filtering RFQs.
-        """
         domain=[]
         for rec in self:
          domain = [('rfp_id', '=', rec.id), ('is_final_po_from_rfp', '=', False)]
-        # approver_states = ['recommendation', 'accepted']
 
-        # if self.env.user.has_group('VendorBid.group_supplies_approver'):
-        #     if self.state in approver_states:
-        #         domain.append(('recommended', '=', True))
-        #     else:
-        #         # Hide everything for approvers when not in allowed states
-        #         domain.append(('id', '=', -1))
         return domain
 
     @api.model_create_multi
     def create(self, vals_list):
-        """
-        Overrides the create method to assign a unique sequence number to the 'rfp_number' field if it's set to 'New'.
 
-        Args:
-            vals_list (list): List of dictionaries containing the RFP values to be created.
-
-        Returns:
-            recordset: The created RFP records.
-        """
         for vals in vals_list:
             if vals.get('rfp_number', 'New') == 'New':
                 vals['rfp_number'] = self.env['ir.sequence'].next_by_code('supplies.rfp.number') or 'New'
@@ -270,26 +148,13 @@ class SuppliesRfp(models.Model):
 
     @api.depends('rfq_ids')
     def _compute_num_rfq(self):
-        """
-        Compute the number of RFQs associated with the current updates the 'num_rfq' field.
-        Args:
-            self: The current instance of the RFP record.
-        """
+
         for rfp in self:
             rfp.num_rfq = len(rfp.rfq_ids)
 
     @rfp_state_flow('draft')
     def action_submit(self):
-        """
-        Submits the RFP, performs validation checks, and updates the RFP state to 'submitted'.
-        Sends email notifications to the approvers and others involved in the submission process.
 
-        Raises:
-            UserError: If no product lines or invalid quantities are provided.
-
-        Args:
-            self: The current instance of the RFP record.
-        """
         if not self.product_line_ids:
             raise UserError('Please add product lines before submitting.')
 
@@ -313,32 +178,17 @@ class SuppliesRfp(models.Model):
 
     @rfp_state_flow('rejected', 'submitted')
     def action_return_to_draft(self):
-        """
-        Returns the RFP to the 'draft' state from 'rejected' or 'submitted' states.
 
-        Args:
-            self: The current instance of the RFP record.
-        """
         self.state = 'draft'
 
     @rfp_state_flow('submitted')
     def action_approve(self):
-        """
-        Approves the RFP, updates the state to 'approved', and sends email notifications to the reviewer and suppliers.
 
-        Args:
-            self: The current instance of the RFP record.
-        """
         self.write({'state': 'approved', 'date_approve': fields.Date.today(), 'review_by': self.env.user.id})
 
     @rfp_state_flow('submitted')
     def action_reject(self):
-        """
-        Rejects the RFP, updates the state to 'rejected', and sends email notifications to the reviewer.
 
-        Args:
-            self: The current instance of the RFP record.
-        """
         self.write({'state': 'rejected', 'review_by': self.env.user.id, 'date_approve': fields.Date.today()})
         email_values = {
             'email_from': get_smtp_server_email(self.env),
@@ -355,62 +205,16 @@ class SuppliesRfp(models.Model):
 
     @rfp_state_flow('approved')
     def action_close(self):
-        """
-        Closes the RFP, updating its state to 'closed'.
 
-        Args:
-            self: The current instance of the RFP record.
-        """
         self.state = 'closed'
 
     @rfp_state_flow('closed')
     def action_recommendation(self):
-        """
-        Changes the RFP state to 'recommendation' after at least one RFQ is approved.
-        Sends an email notification to the approvers.
 
-        Raises:
-            UserError: If no RFQs have been approved.
-
-        Args:
-            self: The current instance of the RFP record.
-        """
-        approved_rfqs = self.rfq_ids
-        # if not approved_rfqs:
-        #     raise UserError('Please approve at least one RFQ before recommending.')
-        self.state = 'recommendation'
-        self.rfq_ids.write({'recommended': False})
-
-        # Select the RFQ with the lowest amount_total
-        recommended_rfq = min(approved_rfqs, key=lambda rfq: rfq.amount_total)
-        recommended_rfq.recommended = True
-     
-    
-        email_values = {
-            'email_from': get_smtp_server_email(self.env),
-            'email_to': get_approver_emails(self.env),
-            'subject': f'RFQ Recommendation for {self.rfp_number}',
-           
-        }
-        contexts = {
-            'rfp_number': self.rfp_number,
-            'company_name': self.env.company.name,
-            # 'recommended_rfq': recommended_rfq.name,
-            # 'amount_total': recommended_rfq.amount_total,
-        }
-        template = self.env.ref('VendorBid.email_template_model_supplies_rfp_recommended').sudo()
-        template.with_context(**contexts).send_mail(self.id, email_values=email_values)
+        self.write({'state': 'recommendation'})
 
     def action_view_purchase_order(self):
-        """
-        Returns an action to view the purchase order related to the current RFP.
 
-        Args:
-            self: The current instance of the RFP record.
-
-        Returns:
-            dict: The action dictionary to view the related purchase order.
-        """
         self.ensure_one()
         return {
             'name': 'Purchase Orders',
@@ -423,21 +227,10 @@ class SuppliesRfp(models.Model):
 
     @api.model
     def get_rfp_sudo(self, domain, fields):
-        """
-        Returns RFP records using sudo access based on the provided domain and fields.
 
-        Args:
-            domain (list): A list of conditions for filtering the RFP records.
-            fields (list): A list of fields to retrieve from the RFP records.
-
-        Returns:
-            list: A list of RFP records based on the specified domain and fields.
-        """
         return self.sudo().search_read(domain, fields)
 
  
-
-
 
     def action_recommend_best_prices(self):
             self.ensure_one()
@@ -466,9 +259,7 @@ class SuppliesRfp(models.Model):
 
 
     def action_create_purchase_orders(self):
-            """
-            Creates Purchase Orders for all recommended lines, grouping them by supplier.
-            """
+
             self.ensure_one()
             recommended_lines = self.rfq_line_ids.filtered(lambda l: l.recommended)
             
@@ -508,7 +299,5 @@ class SuppliesRfp(models.Model):
 
             if self.rfq_ids:
                 self.rfq_ids.write({'state': 'done'})
-            self.write({
-                'state': 'accepted',
-                'date_accept': fields.Date.today(),
-            })
+
+            self.write({'state': 'accepted', 'date_accept':  fields.Date.today()})

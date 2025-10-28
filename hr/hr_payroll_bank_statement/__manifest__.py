@@ -5,6 +5,7 @@
     'depends': [
         'hr_payroll',
         'account',
+        'hr_customizations'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -16,5 +17,4 @@
     'installable': True,
     'application': False,
     'auto_install': False,
-    'license': 'LGPL-3',
 }

@@ -78,7 +78,7 @@
                         invisible="state != 'submitted'"
                     />
 
-                    <button 
+                    <button
                         name="action_create_purchase_orders"
                         string="Create Purchase Order"
                         type="object"
@@ -97,11 +97,6 @@
                         invisible="state != 'accepted'" />
                     <div class="oe_button_box" name="button_box">
 
-                        <!-- <button type="object" name="action_view_all_quotation"
-                        class="oe_stat_button" icon="fa-cube"
-                                invisible="state in ['draft','submitted']">
-                            <field widget="statinfo" name="total_rfq" string="Quotations"> </field>
-                        </button> -->
 
                         <button type="object" name="action_view_all_rfq" class="oe_stat_button"
                             icon="fa-cube" invisible="state in ['draft','submitted','approved']">
@@ -162,14 +157,14 @@
                                     name="action_recommend_best_prices"
                                     string="Recommend Best Prices"
                                     type="object"
-                                    class="btn-primary" 
+                                    class="btn-primary"
                                     groups="VendorBid.group_supplies_approver"
                                     invisible="state != 'recommendation'"
                                     help="Automatically select the RFQ line with the lowest price for each product."
                                 />
                             </div>
-                            <field name="rfq_line_ids" mode="list">
-                                <list create="false" delete="false" edit="false">
+                            <field name="rfq_line_ids">
+                                <list create="false" delete="false" editable="top">
                                     <field name="product_id" context="{'group_by':'product_id'}"
                                         optional="show" />
                                     <field name="order_id" string="Vendor RFQ" />
@@ -179,7 +174,28 @@
                                     <field name="product_uom" string="UoM" />
                                     <field name="price_unit" />
                                     <field name="price_subtotal" />
-                                    <field name="recommended" widget="boolean_toggle" />
+                                    <field name="recommended" widget="boolean_toggle" invisible="1" />
+                                    <button
+                                        name="action_update_recommendation"
+                                        type="object"
+                                        icon="fa-toggle-off"
+                                        class="btn-lg"
+                                        style="font-size:18px; color:red;"
+                                        aria-label="Recommend"
+                                        invisible="recommended"
+                                        
+                                    />
+
+                                    <!-- BUTTON 2: The "ON" state. Visible when 'recommended' is
+                                    True. -->
+                                    <button
+                                        name="action_update_recommendation"
+                                        type="object"
+                                        icon="fa-toggle-on"
+                                        class="btn-lg"
+                                        aria-label="Unrecommend"
+                                        invisible="not recommended"
+                                    />
                                 </list>
                             </field>
                         </page>

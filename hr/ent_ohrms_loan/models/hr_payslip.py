@@ -48,7 +48,7 @@ class HrPayslip(models.Model):
                         'code')):
                     for lines in get_amount:
                         for line in lines.loan_line_ids:
-                            if data.date_from <= line.date <= data.date_to:
+                            if data.date_from <= line.date <= data.date_to and line.paid is False:
                                 if not line.paid:
                                     amount = line.amount
                                     name = loan_line.id

@@ -24,7 +24,7 @@ class HrPayslip(models.Model):
                 if (month_diff - 12) % 3 == 0:
                     total_deduction = 0.0
 
-                    total_deduction += contract.cash_indemnity_deduction
+                    total_deduction += contract.cash_indemnity_allowance
 
                     past_payslips = self.env['hr.payslip'].search([
                         ('employee_id', '=', payslip.employee_id.id),
@@ -34,7 +34,7 @@ class HrPayslip(models.Model):
                     
                     for past_slip in past_payslips:
                         past_deduction_line = past_slip.line_ids.filtered(
-                            lambda line: line.code == 'CID'
+                            lambda line: line.code == 'CIA'
                         )
                         if past_deduction_line:
                             total_deduction += past_deduction_line.total
@@ -46,16 +46,14 @@ class HrPayslip(models.Model):
             
             if allowance_amount > 0:
                 cia_input = payslip.input_line_ids.filtered(
-                    lambda l: l.code == 'CIA')
+                    lambda l: l.code == 'CIR')
                 if cia_input:
-                    cia_input.amount = total
+                    cia_input.amount = allowance_amount
                 else:
                     payslip.input_line_ids = [(0, 0, {
-                        'code': 'CIA',
-                        'name': 'Cash Indemnity Allowance',
+                        'code': 'CIR',
+                        'name': 'Cash Indemnity Reward',
                         'amount': allowance_amount,
-                        'input_type_id': self.env.ref('hr_contract_customization.hr_payroll_input_CIA').id,
+                        'input_type_id': self.env.ref('hr_contract_customization.hr_payroll_input_CIR').id,
                     })]
         return super(HrPayslip, self).compute_sheet()
-            
-        return True

@@ -67,9 +67,9 @@
                             <field name="fuel_allowance" nolabel='1' widget='salary_validation' />
                             <span class="ms-2 text-muted">/ month</span>
                         </div>
-                        <label for="cash_indemnity_deduction" invisible="not apply_cash_indemnity"/>
+                        <label for="cash_indemnity_allowance" invisible="not apply_cash_indemnity"/>
                         <div class="o_row" invisible="not apply_cash_indemnity">
-                            <field name="cash_indemnity_deduction" nolabel='1'
+                            <field name="cash_indemnity_allowance" nolabel='1'
                                 widget='salary_validation' invisible="not apply_cash_indemnity"/>
                             <span class="ms-2 text-muted">/ month</span>
                         </div>

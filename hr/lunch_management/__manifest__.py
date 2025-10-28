@@ -2,7 +2,7 @@
     'name': 'Lunch Management',
     'category': 'Human Resources',
     'summary': 'A module to manage lunch service',
-    'depends': ['base','hr', 'account', 'hr_contract', 'hr_payroll'],
+    'depends': ['base', 'hr', 'hr_contract', 'hr_payroll'],
     'data': [
         'data/sequence.xml',
         'data/hr_salary_rule_data.xml',

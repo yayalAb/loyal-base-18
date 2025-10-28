@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="hr_payroll.structure_002" model="hr.payroll.structure">
-            <field name="rule_ids" eval="[(0, 0, {
-                'name': 'Lunch Service',
-                'sequence': 190,
-                'code': 'LUNCHDED',
-                'category_id': ref('hr_payroll.DED'),
-                'condition_select': 'python',
-                'condition_python': 'result = True',
-                'amount_select': 'code',
-                'amount_python_compute': 'domain = [(\'employee_id\', \'=\', employee.id), (\'date\', \'&gt;=\', payslip.date_from), (\'date\', \'&lt;=\', payslip.date_to), (\'state\', \'=\', \'unbilled\')]; lunch_logs = payslip.env[\'lunch.log\'].search(domain); total_deduction = sum(lunch_logs.mapped(\'total_price\')); result = -total_deduction'
-            })]"/>
+        <record id="hr_salary_rule_lunch" model="hr.salary.rule">
+            <field name="name">Lunch</field>
+            <field name="code">LUNCHDED</field>
+            <field name="sequence" eval="190" />
+            <field name="category_id" ref="hr_payroll.DED" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LUNCHDED' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -inputs['LUNCHDED'].amount</field>
+            <field name="appears_on_payslip" eval="True" />
+            <field name="struct_id" ref="hr_payroll.default_structure" />
+        </record>
+
+        <record id="hr_payroll_input_lunch" model="hr.payslip.input.type">
+            <field name="code">LUNCHDED</field>
+            <field name="name">Lunch</field>
         </record>
     </data>
 </odoo>

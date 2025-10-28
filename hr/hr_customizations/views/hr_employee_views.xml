@@ -263,8 +263,14 @@
                         <group>
                             <group string="Bank Account Info">
                                 <!-- The bank_name field is computed and should not be editable by the user -->
-                                <field name="bank_name" readonly="1"/>
-                                <!-- The bank account itself should only be editable if the employee record is saved -->
+                                 <field name="use_others_account"/>
+                                 <field name="merged_with_other"/>
+                                 <field name="other_account_name" required="use_others_account" invisible="not use_others_account"/>
+                                 <field name="merged_employee_id" invisible="not merged_with_other"/>
+                                 <field name="other_employee"/>
+                                 <field name="bank_name" readonly="1"/>
+                                <!-- The bank account its
+                                 elf should only be editable if the employee record is saved -->
                                 <field name="bank_account_id" context="{'default_partner_id': work_contact_id}" readonly="not id"/>
                             </group>
                             <group string="Tax Info">

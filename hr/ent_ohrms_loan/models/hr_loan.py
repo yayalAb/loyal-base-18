@@ -82,6 +82,19 @@ class HrLoan(models.Model):
     ], string="State", help="State of loan request", default='draft',
         tracking=True, copy=False, )
 
+    @api.constrains("total_amount", "loan_line_ids", 'total_paid_amount', 'balance_amount')
+    def validate_loan_amount(self):
+        """Ensure that the total paid amount does not exceed the loan amount."""
+        for record in self:
+            # total_line_amount = sum(
+            #     line.amount for line in record.loan_line_ids)
+            # if total_line_amount != record.loan_amount:
+            #     raise ValidationError(
+            #         _("The sum of installment amounts must equal the Loan Amount."))
+            if record.total_paid_amount > record.total_amount:
+                raise ValidationError(
+                    _("Total Paid Amount cannot exceed the Loan Amount."))
+
     @api.constrains('loan_amount')
     def _check_loan_amount(self):
         """Ensure that the loan amount is positive."""
@@ -102,6 +115,7 @@ class HrLoan(models.Model):
             [('user_id', '=', ts_user_id)], limit=1).id
         return result
 
+    @api.depends("loan_line_ids", "loan_line_ids.paid")
     def _compute_loan_amount(self):
         """ calculate the total amount paid towards the loan. """
         total_paid = 0.0
@@ -168,9 +182,9 @@ class HrLoan(models.Model):
 
     def unlink(self):
         """Unlink loan lines"""
-        for loan in self:
-            if loan.state not in ('draft', 'cancel'):
-                raise UserError(
-                    'You cannot delete a loan which is not in draft or '
-                    'cancelled state')
+        # for loan in self:
+        #     if loan.state not in ('draft', 'cancel'):
+        #         raise UserError(
+        #             'You cannot delete a loan which is not in draft or '
+        #             'cancelled state')
         return super(HrLoan, self).unlink()

@@ -37,6 +37,8 @@ class HrPayslip(models.Model):
             # 1. Compute overtime total
             get_amount = self.env['overtime.calculator'].search([
                 ('employee_id', '=', data.employee_id.id),
+                ('start_date', '>=', data.date_from),
+                ('end_date', '<=', data.date_to),
                 ('state', '=', 'in_payment')
             ])
             total = sum(get_amount.mapped('value'))

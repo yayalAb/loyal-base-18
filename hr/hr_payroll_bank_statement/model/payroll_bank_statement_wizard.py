@@ -5,12 +5,22 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 
+class EmployeeBank(models.Model):
+    _inherit = 'res.partner.bank'
+
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        readonly=False,
+    )
+
+
 class BankStatementWizard(models.TransientModel):
     _name = 'hr.payroll.bank.statement.wizard'
     _description = 'Bank Statement Wizard'
 
     bank_ids = fields.Many2many(
         'res.partner.bank',
+        domain="[('company_id', '!=', False)]",
         string='Banks',
         required=True,
         help="Select one or more banks to generate statements for."

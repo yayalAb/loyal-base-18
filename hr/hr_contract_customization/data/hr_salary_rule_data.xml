@@ -118,30 +118,43 @@
             <field name="struct_id" ref="hr_payroll.default_structure" />
         </record>
 
-        <record id="hr_salary_rule_cash_indemnity_deduct" model="hr.salary.rule">
-            <field name="name">Cash Indemnity Deduction</field>
-            <field name="code">CID</field>
+        <record id="hr_salary_rule_cash_indemnity_allow" model="hr.salary.rule">
+            <field name="name">Cash Indemnity Allowance</field>
+            <field name="code">CIA</field>
             <field name="sequence" eval="59" />
             <field name="category_id" ref="hr_payroll.ALW" />
             <field name="condition_select">python</field>
-            <field name="condition_python">result = contract.cash_indemnity_deduction > 0</field>
+            <field name="condition_python">result = contract.apply_cash_indemnity</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = contract.cash_indemnity_deduction</field>
+            <field name="amount_python_compute">result = contract.cash_indemnity_allowance</field>
             <field name="appears_on_payslip" eval="True" />
             <field name="struct_id" ref="hr_payroll.default_structure" />
         </record>
 
-        <record id="hr_salary_rule_cash_indemnity_allow" model="hr.salary.rule">
-            <field name="name">Cash Indemnity Allowance</field>
-            <field name="code">CIA</field>
+        <record id="hr_salary_rule_cash_indemnity_deduct" model="hr.salary.rule">
+            <field name="name">Cash Indemnity Deduction</field>
+            <field name="code">CID</field>
             <field name="sequence" eval="60" />
+            <field name="category_id" ref="hr_payroll.DED" />
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.apply_cash_indemnity</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -contract.cash_indemnity_allowance</field>
+            <field name="appears_on_payslip" eval="True" />
+            <field name="struct_id" ref="hr_payroll.default_structure" />
+        </record>
+
+        <record id="hr_salary_rule_cash_indemnity_reward" model="hr.salary.rule">
+            <field name="name">Cash Indemnity Reward</field>
+            <field name="code">CIR</field>
+            <field name="sequence" eval="61" />
             <field name="category_id" ref="hr_payroll.ALW" />
             <field name="condition_select">python</field>
             <field name="condition_python"><![CDATA[
-result = contract.cash_indemnity_deduction > 0 and contract.apply_cash_indemnity and ('CIA' in inputs)
+result = contract.apply_cash_indemnity and ('CIR' in inputs)
     ]]></field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = inputs['CIA'].amount</field>
+            <field name="amount_python_compute">result = inputs['CIR'].amount</field>
             <field name="appears_on_payslip" eval="True" />
             <field name="struct_id" ref="hr_payroll.default_structure" />
         </record>
@@ -149,7 +162,7 @@ result = contract.cash_indemnity_deduction > 0 and contract.apply_cash_indemnity
         <record id="hr_salary_rule_other_allow" model="hr.salary.rule">
             <field name="name">Other Allowance</field>
             <field name="code">OTHA</field>
-            <field name="sequence" eval="61" />
+            <field name="sequence" eval="62" />
             <field name="category_id" ref="hr_payroll.ALW" />
             <field name="condition_select">python</field>
             <field name="condition_python">result = contract.other_allowance > 0</field>
@@ -162,7 +175,7 @@ result = contract.cash_indemnity_deduction > 0 and contract.apply_cash_indemnity
         <record id="hr_salary_rule_professional" model="hr.salary.rule">
             <field name="name">professional Allowance</field>
             <field name="code">PROA</field>
-            <field name="sequence" eval="62" />
+            <field name="sequence" eval="63" />
             <field name="category_id" ref="hr_payroll.ALW" />
             <field name="condition_select">python</field>
             <field name="condition_python">result = contract.professional_allowance > 0</field>
@@ -172,9 +185,9 @@ result = contract.cash_indemnity_deduction > 0 and contract.apply_cash_indemnity
             <field name="struct_id" ref="hr_payroll.default_structure" />
         </record>
 
-        <record id="hr_payroll_input_CIA" model="hr.payslip.input.type">
-            <field name="code">CIA</field>
-            <field name="name">Cash Indemnity Allowance</field>
+        <record id="hr_payroll_input_CIR" model="hr.payslip.input.type">
+            <field name="code">CIR</field>
+            <field name="name">Cash Indemnity Reward</field>
         </record>
     </data>
 </odoo>

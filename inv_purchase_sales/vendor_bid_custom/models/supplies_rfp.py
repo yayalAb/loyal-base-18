@@ -90,7 +90,8 @@ class SuppliesRFP(models.Model):
                 'default_rfp_id': self.id,
                 'default_state': 'draft',
                 'default_purchase_origin': self.purchase_origin,
-                'default_project_id': self.project_id.id
+                'default_project_id': self.project_id.id,
+                'default_is_final_po_from_rfp': True,
             }
         }
 

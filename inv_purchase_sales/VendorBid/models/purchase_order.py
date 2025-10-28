@@ -77,7 +77,7 @@ class PurchaseOrder(models.Model):
     warrenty_period = fields.Integer(string='Warrenty Period (in months)')
     score = fields.Float(string='Score', default=0)
     system_score = fields.Float(string='System Score', compute='_compute_system_score')
-    recommended = fields.Boolean(string='Recommended', default=False)
+    # recommended = fields.Boolean(string='Recommended', default=False)
     last_changed_status_date = fields.Datetime(
         string='Last Updated Date of RFQ Status',
         compute='_compute_last_changed_status_date',
@@ -91,6 +91,8 @@ class PurchaseOrder(models.Model):
         help="Check this if the Purchase Order was created from a recommendation in an RFP, "
              "as opposed to being an initial RFQ from a supplier."
     )
+
+    
 
 
     @api.depends('state')
@@ -126,20 +128,6 @@ class PurchaseOrder(models.Model):
             'target': 'current',
         }
 
-    @api.constrains('recommended')
-    def _check_recommended(self):
-        for order in self:
-            if order.recommended:
-                existing_recommendation = self.env['purchase.order'].search([
-                    ('recommended', '=', True),
-                    ('rfp_id', '=', order.rfp_id.id),
-                    ('partner_id', '=', order.partner_id.id),
-                    ('id', '!=', order.id),
-                ])
-                if existing_recommendation:
-                    raise UserError(
-                        f'The supplier {order.partner_id.name} is recommended multiple times for the same RFP.'
-                    )
 
     @api.model
     def get_purchase_order_sudo(self, domain, fields):

@@ -1413,16 +1413,20 @@ export class MainDashboard extends Component {
     async getMonthlyPayrollData() {
         try {
             const today = new Date()
-            const limitDate = new Date()
-            limitDate.setDate(today.getDate() - 30)
-            const formattedLimitDate = limitDate.toISOString().split("T")[0]
+            const currentYear = today.getFullYear()
 
-            const domain = [["create_date", ">=", formattedLimitDate]]
+            const domain = [
+                ["code", "=", "GROSS"],
+                ["date_from", ">=", `${currentYear}-01-01`],
+                ["date_from", "<=", `${currentYear}-12-31`],
+            ]
 
             const data = await this.orm.searchRead("hr.payslip.line", domain, [
-                "create_date",
                 "total",
+                "slip_id",
+                "date_from",
             ])
+            console.log("Payroll data fetched gggg:", data)
 
             const monthData = {
                 jan: 0,
@@ -1440,9 +1444,9 @@ export class MainDashboard extends Component {
             }
 
             data.forEach(record => {
-                if (record.create_date) {
-                    const date = new Date(record.create_date)
-                    const month = date.getMonth()
+                if (record["date_from"]) {
+                    const date = new Date(record["date_from"])
+                    const month = date.getMonth() // 0–11
                     const monthKeys = [
                         "jan",
                         "feb",
@@ -1482,23 +1486,9 @@ export class MainDashboard extends Component {
                 ],
                 datasets: [
                     {
-                        label: "Amount by Month",
+                        label: "Gross Payroll by Month",
                         data: Object.values(monthData),
                         backgroundColor: [
-                            "rgba(255, 99, 132, 1)",
-                            "rgba(54, 162, 235, 1)",
-                            "rgba(255, 206, 86, 1)",
-                            "rgba(75, 192, 192, 1)",
-                            "rgba(153, 102, 255, 1)",
-                            "rgba(255, 159, 64, 1)",
-                            "rgba(255, 99, 132, 1)",
-                            "rgba(54, 162, 235, 1)",
-                            "rgba(255, 206, 86, 1)",
-                            "rgba(75, 192, 192, 1)",
-                            "rgba(153, 102, 255, 1)",
-                            "rgba(255, 159, 64, 1)",
-                        ],
-                        borderColor: [
                             "rgba(255, 99, 132, 1)",
                             "rgba(54, 162, 235, 1)",
                             "rgba(255, 206, 86, 1)",

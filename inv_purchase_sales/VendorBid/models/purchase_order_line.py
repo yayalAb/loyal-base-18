@@ -24,3 +24,7 @@ class PurchaseOrderLine(models.Model):
     product_image = fields.Binary(string='Product Image', related='product_id.image_1920')
     rfp_id = fields.Many2one('supplies.rfp', related="order_id.rfp_id")
     recommended = fields.Boolean(string='Recommended')
+
+    def action_update_recommendation(self):
+        self.ensure_one()
+        self.recommended = not self.recommended

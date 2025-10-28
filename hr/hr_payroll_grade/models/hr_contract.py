@@ -45,7 +45,7 @@ class HrContract(models.Model):
             'wage',
             'house_rent_allowance', 'dearness_allowance', 'travel_allowance',
             'meal_allowance', 'medical_allowance', 'position_allowance',
-            'transport_home_allowance', 'transport_work_allowance',
-            'fuel_allowance', 'cash_indemnity_allowance', 'professional_allowance', 'other_allowance',
+            'transport_home_allowance', 'transport_work_allowance', 'cash_indemnity_allowance',
+            'fuel_allowance', 'professional_allowance', 'other_allowance',
         ]:
             setattr(self, fld, getattr(sg, fld))

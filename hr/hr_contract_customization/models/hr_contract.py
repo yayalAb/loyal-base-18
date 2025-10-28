@@ -17,9 +17,16 @@ class HrContract(models.Model):
     transport_home_allowance = fields.Monetary()
     transport_work_allowance = fields.Monetary()
     fuel_allowance = fields.Monetary()
-    cash_indemnity_deduction = fields.Monetary()
+    cash_indemnity_allowance = fields.Monetary()
     professional_allowance = fields.Monetary()
     other_allowance = fields.Monetary()
+
+    @api.onchange('apply_cash_indemnity')
+    def _onchange_cash_indemnity_allowance(self):
+        for record in self:
+            if not record.apply_cash_indemnity:
+                record.cash_indemnity_allowance = 0
+                record.cash_indemnity_start_date = False
 
     @api.constrains('cash_indemnity_start_date')
     def _check_cash_indemnity_start_date(self):
@@ -31,7 +38,7 @@ class HrContract(models.Model):
                     'dearness_allowance', 'travel_allowance', 'meal_allowance',
                     'medical_allowance', 'position_allowance', 'transport_home_allowance',
                     'transport_work_allowance', 'fuel_allowance', 'professional_allowance', 
-                    'other_allowance'
+                    'other_allowance', 'cash_indemnity_allowance'
                     )
     def _check_positive_values(self):
         for record in self:
@@ -45,7 +52,7 @@ class HrContract(models.Model):
                 ('transport_home_allowance', record.transport_home_allowance),
                 ('transport_work_allowance', record.transport_work_allowance),
                 ('fuel_allowance', record.fuel_allowance),
-                ('cash_indemnity_deduction', record.cash_indemnity_deduction),
+                ('cash_indemnity_allowance', record.cash_indemnity_allowance),
                 ('professional_allowance', record.professional_allowance),
                 ('other_allowance', record.other_allowance),
             ]

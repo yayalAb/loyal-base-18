@@ -1,5 +1,34 @@
 <odoo>
     <template id="report_bank_statement_template">
+         <style type="text/css">
+                        .page {
+                            font-family: "Times New Roman", Times, serif;
+                            font-size: 16px;
+                        }
+                        .page h5, .page h6 {
+                            font-family: "Times New Roman", Times, serif;
+                        }
+                        .report-table {
+                            font-size:14px;
+                        }
+                        .report-table thead th {
+                            font-weight: bold;
+                            border: 1px solid #333 !important;
+                        }
+                        .report-table td, .report-table th {
+                            border: 1px solid #333 !important;
+                            padding: 2px;
+                        }
+                        .report-table tfoot td {
+                            font-weight: bold;
+                        }
+                        .report-table .text-end {
+                            padding-right:14px !important;
+                        }
+                        .text-start { text-align: left; }
+                        .text-end { text-align: right; }
+                        .text-center { text-align: center; }
+                    </style>
         <!-- Main container that will render a multi-page PDF -->
         <t t-call="web.html_container">
             <!-- Loop through the 'reports' data passed from the Python wizard -->
@@ -12,35 +41,7 @@
 
                 <!-- Use the standard Odoo external layout for each report's header/footer -->
                 <t t-call="web.external_layout">
-                    <style type="text/css">
-                        .page {
-                            font-family: "Times New Roman", Times, serif;
-                            font-size: 14px;
-                        }
-                        .page h5, .page h6 {
-                            font-family: "Times New Roman", Times, serif;
-                        }
-                        .report-table {
-                            font-size: 14px;
-                        }
-                        .report-table thead th {
-                            font-weight: bold;
-                            border: 1px solid #333 !important;
-                        }
-                        .report-table td, .report-table th {
-                            border: 1px solid #333 !important;
-                            padding: 5px;
-                        }
-                        .report-table tfoot td {
-                            font-weight: bold;
-                        }
-                        .report-table .text-end {
-                            padding-right: 14px !important;
-                        }
-                        .text-start { text-align: left; }
-                        .text-end { text-align: right; }
-                        .text-center { text-align: center; }
-                    </style>
+                   
 
                     <!-- 
                         Reconstruct recordsets from the IDs passed in the 'report' dictionary.
@@ -83,7 +84,7 @@
 
                                 <p class="mt-5 mb-3">
                                     <strong>
-                                       To: <t t-esc="bank.bank_id.name" />, <t t-esc="branch" />  Bole Atlas Branch, Addis Ababa
+                                       To: <t t-esc="bank.bank_id.name" />, <t t-esc="branch" />
                                     </strong>
                                 </p>
 
@@ -127,6 +128,7 @@
                                         <tr>
                                             <th class="text-start" style="width: 5%;">#</th>
                                             <th class="text-start">Employee Name</th>
+                                            <th class="text-start">ID</th>
                                             <th class="text-start">Bank</th>
                                             <th class="text-start">Account Number</th>
                                             <th class="text-end" style="width: 20%;">Net Salary</th>
@@ -134,12 +136,25 @@
                                     </thead>
                                     <tbody>
                                         <t t-foreach="payslips" t-as="payslip">
+                                            <t t-if="not payslip.employee_id.merged_with_other">
+                                                
+                                                
+                                            
                                             <tr>
                                                 <td>
                                                     <span t-esc="payslip_index + 1" />
                                                 </td>
                                                 <td>
-                                                    <span t-field="payslip.employee_id.name" />
+                                                    <t t-if="payslip.employee_id.use_others_account">
+                                                        <span t-esc="payslip.employee_id.other_account_name"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-field="payslip.employee_id.name" />
+                                                    </t>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span t-field="payslip.employee_id_no" />
                                                 </td>
                                                 <td>
                                                     <span t-field="payslip.employee_id.bank_account_id.bank_id.name" />
@@ -148,15 +163,16 @@
                                                     <span t-field="payslip.employee_id.bank_account_id.acc_number" />
                                                 </td>
                                                 <td class="text-end">
-                                                    <span t-esc="payslip._get_salary_line_total('NET')"
+                                                    <span t-esc="payslip._get_salary_line_total('NET') + payslip.marged_net"
                                                         t-options='{"widget": "monetary", "display_currency": company.currency_id}' />
                                                 </td>
                                             </tr>
+                                            </t>
                                         </t>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="4" class="text-end">
+                                            <td colspan="5" class="text-end">
                                                 <strong>Total Amount</strong>
                                             </td>
                                             <td class="text-end">

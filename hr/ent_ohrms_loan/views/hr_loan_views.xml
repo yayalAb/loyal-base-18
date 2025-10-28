@@ -56,7 +56,7 @@
                                 <list string="Installments" editable="bottom">
                                     <field name="date"/>
                                     <field name="amount"/>
-                                    <field name="paid" readonly="1"/>
+                                    <field name="paid"/>
                                 </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right" colspan="2" >

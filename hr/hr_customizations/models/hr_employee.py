@@ -104,7 +104,45 @@ class HrEmployee(models.Model):
         string='Branch',
         help="The branch where the employee is assigned."
     )
-    
+
+    use_others_account = fields.Boolean(
+        string="Use Other's Account on bank letter",
+        default=False,
+        help="Check this box if the bank letter should use another person's account details."
+    )
+    other_account_name = fields.Char(
+        string="Other's  Name",
+        help="The name of the account holder if using another person's account."
+    )
+    other_account_number = fields.Char(
+        string="Other's Account Number",
+        help="The account number if using another person's account."
+    )
+
+    merged_with_other = fields.Boolean(
+        string='Merged with Another Employee',
+        default=False,
+        help="Indicates if this employee record has been merged with another employee."
+    )
+    merged_employee_id = fields.Many2one(
+        'hr.employee',
+        string='Merged Employee',
+        help="If this employee record was merged from another, this field links to the original employee."
+    )
+    other_employee = fields.Many2one(
+        'hr.employee',
+        string="Other Employee",
+        help="Select another employee to view their details."
+    )
+
+    @api.depends('merged_with_other', 'merged_employee_id')
+    def showmarged_employee(self):
+        for rec in self:
+            if rec.merged_with_other and rec.merged_employee_id:
+                rec.merged_employee_id.write({
+                    'other_employee': rec.id
+
+                })
 
     @api.constrains('cost_sharing_type', 'cost_sharing_amount_rate')
     def _check_rate_or_amount(self):
