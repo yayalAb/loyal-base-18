@@ -11,16 +11,9 @@ import { CashMovePopup } from "@point_of_sale/app/navbar/cash_move_popup/cash_mo
 import { TicketScreen } from "@point_of_sale/app/screens/ticket_screen/ticket_screen"
 import { BackButton } from "@point_of_sale/app/screens/product_screen/action_pad/back_button/back_button"
 import { CashierName } from "@point_of_sale/app/navbar/cashier_name/cashier_name"
-import { usePos } from "@point_of_sale/app/store/pos_hook"
-import { useTime } from "@point_of_sale/app/utils/time_hook"
+import { Navbar } from "@point_of_sale/app/navbar/navbar"
 import { OrderTabs } from "@point_of_sale/app/components/order_tabs/order_tabs"
 import { isBarcodeScannerSupported } from "@web/core/barcode/barcode_video_scanner"
-import { ControlButtonsPopup } from "@point_of_sale/app/screens/product_screen/control_buttons/control_buttons"
-import { SelectPartnerButton } from "@point_of_sale/app/screens/product_screen/control_buttons/select_partner_button/select_partner_button"
-import {
-    isDisplayStandalone,
-    isMobileOS,
-} from "@web/core/browser/feature_detection"
 
 ProductScreen.components = {
     ...ProductScreen.components,
@@ -28,11 +21,8 @@ ProductScreen.components = {
     SaleDetailsButton,
     BackButton,
     CashierName,
-    usePos,
-    useTime,
+    Navbar,
     OrderTabs,
-    isBarcodeScannerSupported,
-    SelectPartnerButton,
 }
 
 patch(ProductScreen.prototype, {
@@ -40,18 +30,14 @@ patch(ProductScreen.prototype, {
         super.setup(...arguments)
         this.hardwareProxy = useService("hardware_proxy")
         this.selectedCategoryId = null
-        this.pos = usePos()
-        this.time = useTime()
-        this.isDisplayStandalone = isDisplayStandalone()
+        this.isBarcodeScannerSupported = isBarcodeScannerSupported
     },
-    async onClickMore() {
-        // You can show the same ControlButtons popup from POS
-        this.dialog.add(ControlButtonsPopup, {
-            close: () => this.dialog.close(),
-        })
-
-        // OR run custom logic:
-        // this.notification.add("Action button clicked!", { type: "success" });
+    onClickScan() {
+        if (!this.pos.scanning) {
+            this.pos.showScreen("ProductScreen")
+            this.pos.mobile_pane = "right"
+        }
+        this.pos.scanning = !this.pos.scanning
     },
     setSelectedCategory(categoryId) {
         this.selectedCategoryId = categoryId
@@ -62,22 +48,12 @@ patch(ProductScreen.prototype, {
         const info = await this.pos.getClosePosInfo()
         this.dialog.add(ClosePosPopup, info)
     },
-
-    get appUrl() {
-        return `/scoped_app?app_id=point_of_sale&app_name=${encodeURIComponent(
-            this.pos.config.display_name
-        )}&path=${encodeURIComponent(`pos/ui?config_id=${this.pos.config.id}`)}`
-    },
     onCashMoveButtonClick() {
         this.hardwareProxy.openCashbox(_t("Cash in / out"))
         this.dialog.add(CashMovePopup)
     },
     get orderCount() {
         return this.pos.get_open_orders().length
-    },
-
-    async clickLogout() {
-        window.location.href = "/web/session/logout"
     },
     async onTicketButtonClick() {
         if (this.isTicketScreenShown) {
@@ -99,14 +75,6 @@ patch(ProductScreen.prototype, {
             }
         }
     },
-    async clearCache() {
-        await this.pos.data.resetIndexedDB()
-        const items = { ...localStorage }
-        for (const key in items) {
-            localStorage.removeItem(key)
-        }
-        window.location.reload()
-    },
 
     _shouldLoadOrders() {
         return this.pos.config.trusted_config_ids.length > 0
@@ -117,34 +85,8 @@ patch(ProductScreen.prototype, {
     getOrderTabs() {
         return this.pos.get_open_orders().filter(order => !order.table_id)
     },
+
     get orderCount() {
         return this.pos.get_open_orders().length
-    },
-    _shouldLoadOrders() {
-        return this.pos.config.trusted_config_ids.length > 0
-    },
-
-    onClickScan() {
-        if (!this.pos.scanning) {
-            this.pos.showScreen("ProductScreen")
-            this.pos.mobile_pane = "right"
-        }
-        this.pos.scanning = !this.pos.scanning
-    },
-
-    getGreeting() {
-        const now = new Date()
-        const hour = now.getHours()
-
-        if (hour < 12) {
-            return "Good Morning"
-        } else if (hour < 18) {
-            return "Good Afternoon"
-        } else {
-            return "Good Evening"
-        }
-    },
-    goToHomeButton() {
-        this.pos.showScreen("ProductScreen")
     },
 })

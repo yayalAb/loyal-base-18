@@ -7,54 +7,6 @@
 //         display: none !important;
 //     }
 // }
-
-.o_kanban_record {
-    max-width: 333px !important;
-    max-height: 400px !important;
-    background-color: $new_white !important;
-    color: $new_o-navbar-entry-color !important;
-}
-.o_kanban_record .dropdown-toggle {
-    margin-top: -10px !important;
-    margin-bottom: 5px !important;
-    margin-right: 8px !important;
-    rotate: 90deg !important;
-    opacity: 1 !important;
-    font-size: 20px;
-    visibility: visible !important;
-}
-.pos-image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px 0;
-}
-
-.custom_btn_primary {
-    background-color: $new_login_button_backgroud !important;
-    padding: 5px;
-    padding-right: 7px;
-    padding-left: 7px;
-    color: $new_white;
-}
-
-.balance_backgroud_color {
-    background-color: $new_login_background_color !important;
-    padding: 10px;
-    border-radius: 5px !important;
-    margin-right: 5px !important;
-}
-
-/* Shared styling for both field and static image */
-.pos_imag {
-    margin-top: 5px !important;
-    width: 300px; /* adjust as you need */
-    height: 124px;
-    border-radius: 12px;
-    object-fit: cover; /* keeps image proportions nicely */
-    background-color: #fff;
-}
-
 .smooth-collapse {
     overflow: hidden;
     max-height: 0;
@@ -807,6 +759,7 @@ body.o_web_client {
     color: $sidbar_menu_default_color;
     text-decoration: none !important;
     position: relative;
+    font-family: sans-serif;
     max-width: $custom_side_bar_width !important;
     // min-width: $custom_side_bar_width !important;
     overflow: hidden;

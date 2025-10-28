@@ -200,6 +200,7 @@ body.o_web_client {
                 align-items: center !important;
                 padding: 8px;
                 font-size: 14px;
+                font-family: sans-serif;
                 font-weight: 300 !important;
             }
             ul.header-sub-menus.main {
@@ -213,6 +214,7 @@ body.o_web_client {
                 width: 100%;
                 padding: 0px 12px;
                 font-size: 13px;
+                font-family: sans-serif;
                 font-weight: 300 !important;
                 // &:not(.show){
                 // left: 100% !important;
@@ -262,6 +264,7 @@ body.o_web_client {
                 a {
                     padding: 0.5rem !important;
                     font-size: 13px;
+                    font-family: sans-serif;
                     font-weight: 300 !important;
                 }
                 &.show {

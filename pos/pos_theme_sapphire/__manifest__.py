@@ -31,25 +31,20 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'website': 'https://www.cybrosys.com',
-    'depends': ['point_of_sale', 'pos_hr', 'pos_restaurant'],
+    'depends': ['point_of_sale'],
     'data': [
-        'views/view_pos_config_kanban_view.xml',
+        'views/view_pos_config_kanban_view.xml'
     ],
     'assets': {
         'point_of_sale._assets_pos': [
             'pos_theme_sapphire/static/src/js/ProductScreen.js',
-            'pos_theme_sapphire/static/src/js/floor_screen.js',
-            'pos_theme_sapphire/static/src/js/payment_screen.js',
-            'pos_theme_sapphire/static/src/js/action_modal.js',
-            'pos_theme_sapphire/static/src/js/login_screen.js',
-            'pos_theme_sapphire/static/src/js/opening_control_popup.js',
-            'pos_theme_sapphire/static/src/js/payment_receipt.js',
-            'pos_theme_sapphire/static/src/js/ticket_screen.js',
-            'pos_theme_sapphire/static/src/js/payment_line.js',
             'pos_theme_sapphire/static/src/xml/**/*.xml',
             'pos_theme_sapphire/static/src/css/custom.css',
         ],
     },
+    'web.assets_backend': [
+        'pos_theme_sapphire/static/src/css/custom.css',
+    ],
     'images': [
         'static/description/banner.jpg',
         'static/description/theme_screenshot.jpg',

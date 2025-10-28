@@ -17,17 +17,12 @@
             <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
             <field name="arch" type="xml">
                   <xpath expr="//div[@name='card_title']" position="before">
-                   <div class="pos-image-container">
-                            <field name="pos_conf_imag"
-                                widget="image"
-                                class="pos_imag"
-                                invisible="not pos_conf_imag"/>
-                                
-                            <img class="pos_imag"
-                                src="/pos_theme_sapphire/static/description/Overlay.png"
-                                alt="logo"
-                                invisible="pos_conf_imag"/>
-                        </div>
+                        <field name="pos_conf_imag" widget="image" class="pos_imag" invisible="not pos_conf_imag"/>
+
+                    <img class="pos_imag" src="/pos_theme_sapphire/static/description/Overlay.png" 
+													alt="logo" invisible="pos_conf_imag"/>
+
+                    
                     
                 </xpath>
                 <xpath expr="//div[@name='card_title']" position="replace">
@@ -48,16 +43,14 @@
                 </xpath>
                 
               
-           <xpath expr="//field[@name='current_user_id']" position="attributes">
-                        <attribute name="invisible">1</attribute>
-                    </xpath>
+                    
                     <xpath expr="//div[@class='row g-0 pb-4 ms-2 mt-auto']" position="replace">
-                        <div t-if="record.last_session_closing_date.value" class="row d-flex justify-content-between align-items-center my-1 ms-2 balance_backgroud_color" invisible="not cash_control">
-                         <div class="col-auto">
+                        <div t-if="record.last_session_closing_date.value" class="row d-flex justify-content-between align-items-center my-1 ms-2" invisible="not cash_control">
+                        <div class="col-auto">
                             <span>Balance</span>
-                           </div>
-                           <div class="col-auto">
-                              <field name="last_session_closing_cash" widget="monetary"/>
+                            </div>
+                        <div class="col-auto">
+                            <field name="last_session_closing_cash" widget="monetary"/>
                             </div>
                         </div>      
                         <div t-if="record.last_session_closing_date.value" class="row d-flex justify-content-between align-items-center my-1 ms-2">
@@ -73,26 +66,26 @@
                             </div>
 
                              <div class="row d-flex justify-content-bstart align-items-center my-1 ms-2">
-                                <div class="col-auto w-100 d-flex mt-3 justify-content-between">
-                                    <button t-if="record.current_session_state.raw_value != 'closing_control'" class="btn custom_btn_primary" name="open_ui" type="object">
-                                        <t t-if="record.current_session_state.raw_value === 'opened'">Continue Selling <i class="fa fa-arrow-right ms-3"></i></t>
-                                        <t t-else="">Open Register <i class="fa fa-arrow-right ms-3"></i></t>
-                                    </button>
-                                    <button t-else="" class="btn btn-secondary" name="open_existing_session_cb" type="object">Close</button>
-                                    <field name="current_user_id"  widget="many2one_avatar_user"/>
-                                </div>
                         <div class="col-auto">
+                            <button t-if="record.current_session_state.raw_value != 'closing_control'" class="btn btn-primary" name="open_ui" type="object">
+                                <t t-if="record.current_session_state.raw_value === 'opened'">Continue Selling</t>
+                                <t t-else="">Open Register</t>
+                            </button>
+                             <button t-else="" class="btn btn-secondary" name="open_existing_session_cb" type="object">Close</button>
+                        </div>
+                        <div class="col-auto">
+                           <!-- <a role="button" class="o_kanban_manage_toggle">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </a> -->
                                                         
                         </div>
                         
                     </div>
                     <a t-if="record.number_of_rescue_session.value &gt; 0" class="col-12" name="open_opened_rescue_session_form" type="object">
-                          <field name="number_of_rescue_session"/> outstanding rescue session
-                        </a>
-                    </xpath>
-                     
+                                    <field name="number_of_rescue_session"/> outstanding rescue session
+                                </a>
 
-                    
+                    </xpath>
             </field>
         </record>
     </data>

@@ -1,5 +1,5 @@
 {
-    "name": "Main Niyat ERP Theme",
+    "name": "Clarity Backend Theme for community",
     "version": "18.0.1.0.1",
     'author': "Terabits Technolab",
     'summary': """   
@@ -12,19 +12,17 @@
     "sequence": 7,
     "license": "OPL-1",
     "category": "Themes/Backend",
-    "website": "https://www..xyz",
-    "depends": ["web", 'muk_web_colors', 'web_replace_url'],
+    "website": "https://www.terabits.xyz",
+    "depends": ["web", 'muk_web_colors'],
     "data": [
         'views/res_config_setting.xml',
-        # 'views/login_template.xml',
-        'views/res_company_inherit_view.xml',
+        'views/res_users.xml',
         'views/webclient_templates.xml'
     ],
     "assets": {
         "web.assets_frontend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
-            # 'clarity_backend_theme_bits/static/src/scss/login.scss',
-            'clarity_backend_theme_bits/static/src/xml/navbar/user_switch.xml',
+            'clarity_backend_theme_bits/static/src/scss/login.scss'
         ],
         "web.assets_backend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
@@ -36,16 +34,13 @@
             'clarity_backend_theme_bits/static/src/scss/layout.scss',
             'clarity_backend_theme_bits/static/src/scss/navbar.scss',
             'clarity_backend_theme_bits/static/src/js/navbar.js',
-            'clarity_backend_theme_bits/static/src/js/controll_panal.js',
         ],
     },
-    'post_init_hook': 'uninstalled_muk_theme',
     'installable': True,
     'application': True,
     'auto_install': False,
-
     'images': [
-        'static/description/logo.png',
+        'static/description/logo.gif',
         'static/description/theme_screenshot.gif',
     ],
 }

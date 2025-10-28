@@ -67,8 +67,6 @@ def update_menu_icons(env):
             "module": "website_slides"},
         {"xml_id": "fleet.menu_root",
             "module": "fleet"},
-        {"xml_id": "point_of_sale.menu_point_root",
-            "module": "point_of_sale"},
 
 
     ]
