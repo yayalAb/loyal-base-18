@@ -14,7 +14,7 @@ def update_menu_icons(env):
         {"xml_id": "crm.crm_menu_root", "module": "crm"},
         {"xml_id": "hr.menu_hr_root", "module": "hr"},
         {"xml_id": "survey.menu_surveys", "module": "survey"},
-        {"xml_id": "om_hr_payroll.menu_hr_payroll_root", "module": "om_hr_payroll"},
+        {"xml_id": "om_hr_payroll.menu_hr_payroll_root", "module": "hr_payroll"},
         {"xml_id": "hr_attendance.menu_hr_attendance_root", "module": "hr_attendance"},
         {"xml_id": "hr_reward_warning.hr_announcement",
             "module": "hr_reward_warning"},
@@ -48,25 +48,18 @@ def update_menu_icons(env):
             "module": "performance_evaluation"},
 
 
-        {"xml_id": "project_todo.menu_todo_todos",
-            "module": "project_todo"},
 
         {"xml_id": "ohrms_overtime.hr_overtime_menu_root",
             "module": "ohrms_overtime"},
-        {"xml_id": " hr_resignation.hr_resignation_menu_root",
-         "module": "hr_resignation"},
-        {"xml_id": "hr_payroll_community.menu_hr_payroll_community_root",
-         "module": "hr_payroll_community"},
+
         {"xml_id": "accountant.menu_accounting",
          "module": "accountant"},
         {"xml_id": "mass_mailing.mass_mailing_menu_root",
          "module": "mass_mailing"},
-        {"xml_id": "utm.menu_link_tracker_root",
-            "module": "utm"},
+
         {"xml_id": "website_slides.website_slides_menu_root",
             "module": "website_slides"},
-        {"xml_id": "fleet.menu_root",
-            "module": "fleet"},
+
 
 
     ]
