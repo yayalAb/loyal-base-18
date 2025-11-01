@@ -13,16 +13,17 @@
     "license": "OPL-1",
     "category": "Themes/Backend",
     "website": "https://www.terabits.xyz",
-    "depends": ["web", 'muk_web_colors'],
+    "depends": ["web", 'muk_web_colors', 'web_replace_url'],
     "data": [
         'views/res_config_setting.xml',
+        'views/login_template.xml',
         'views/res_users.xml',
         'views/webclient_templates.xml'
     ],
     "assets": {
         "web.assets_frontend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
-            # 'clarity_backend_theme_bits/static/src/scss/login.scss'
+            'clarity_backend_theme_bits/static/src/scss/login.scss'
         ],
         "web.assets_backend": [
             'clarity_backend_theme_bits/static/src/scss/variables_list.scss',
