@@ -25,7 +25,7 @@ COPY ./etc /etc/odoo
 #     /venv/bin/pip install --upgrade pip
 
 # Install Python packages in the virtual environment
-RUN pip install pandas num2words abyssinica email-validator opencv-python --break-system-packages
+RUN pip install pandas num2words abyssinica email-validator opencv-python python-barcode --break-system-packages
 RUN pip install --ignore-installed typing-extensions pydantic opencv-python --break-system-packages
 
 
