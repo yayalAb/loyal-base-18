@@ -6,7 +6,7 @@
             <div class="container-fluid o_pj_dashboard">
                 <div style="width:100%; margin:0; padding:0;">
                     <div class="row">
-                        <div> <span class="title"> Welcome</span></div>
+                        <div class="text-center fs-2">Welcome</div>
                         <div class="col-md-2 bg-white r_dashButtonContainer">
                             <div class="row r_dashButton outpatient_button"
                                  id="consultation" style="margin-top: 45px;"

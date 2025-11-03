@@ -61,30 +61,34 @@ class ReceptionDashBoard extends Component {
     }
     //  Method which returns the details of a patient given in the form
     fetch_patient_data() {
-        var patient_name = $("#patient-name").val()
-        var patient_img = $("#patient-img").data("file")
-        var patient_phone = $("#patient-phone").val()
-        var patient_mail = $("#patient-mail").val()
-        var patient_dob = $("#patient-dob").val()
-        var patient_bloodgroup = $("#patient-bloodgroup").val()
-        var patient_m_status = $("#patient-m-status").val() || ""
-        var patient_rhtype = $("input[name='rhtype']:checked").val()
-        var patient_gender = $("input[name='gender']:checked").val()
-        var data = {
-            name: patient_name,
-            blood_group: patient_bloodgroup,
-            rh_type: patient_rhtype,
-            gender: patient_gender,
-            marital_status: patient_m_status,
-            phone: patient_phone,
-            email: patient_mail,
+        const getValue = id => document.getElementById(id)?.value || ""
+        const getCheckedValue = name => {
+            const el = document.querySelector(`input[name="${name}"]:checked`)
+            return el ? el.value : ""
+        }
+
+        const patient_img =
+            document.getElementById("patient-img")?.dataset.file || ""
+
+        const data = {
+            name: getValue("patient-name"),
+            blood_group: getValue("patient-bloodgroup"),
+            rh_type: getCheckedValue("rhtype"),
+            gender: getCheckedValue("gender"),
+            marital_status: getValue("patient-m-status"),
+            phone: getValue("patient-phone"),
+            email: getValue("patient-mail"),
             image_1920: patient_img,
         }
+
+        const patient_dob = getValue("patient-dob")
         if (patient_dob) {
-            data["date_of_birth"] = patient_dob
+            data.date_of_birth = patient_dob
         }
+
         return data
     }
+
     //  Method on clicking  appointment button
     fetchAppointmentData() {
         // Remove existing 'r_active' if present
@@ -220,39 +224,70 @@ class ReceptionDashBoard extends Component {
 
     //  Method for saving outpatient
     async save_out_patient_data() {
-        var self = this
-        var data = await self.fetch_out_patient_data()
-        if (data != false) {
-            var result = await this.orm.call("res.partner", "create_patient", [
-                data,
-            ])
-            alert("the outpatient is created")
-            $("#o_patient-name").val("")
-            $("#sl_patient").val("")
-            $("#o_patient-phone").val("")
-            $("#o_patient-dob").val("")
+        try {
+            const data = await this.fetch_out_patient_data()
+
+            if (!data) {
+                return
+            }
+
+            const result = await this.orm.call(
+                "res.partner",
+                "create_patient",
+                [data]
+            )
+            alert("The outpatient has been created.")
+
+            // Clear input fields
+            const clearValue = id => {
+                const el = document.getElementById(id)
+                if (el) el.value = ""
+            }
+
+            clearValue("o_patient-name")
+            clearValue("sl_patient")
+            clearValue("o_patient-phone")
+            clearValue("o_patient-dob")
+        } catch (error) {
+            console.error("Error while saving outpatient data:", error)
+            alert(
+                "An error occurred while saving the outpatient data. Please try again."
+            )
         }
     }
 
     //  Method for displaying patient card
     patient_card() {
-        if ($("#select_type").val() === "dont_have_card") {
-            $("#sl_patient").hide()
-            $("#patient_label").hide()
+        const selectType = document.getElementById("select_type")
+        const slPatient = document.getElementById("sl_patient")
+        const patientLabel = document.getElementById("patient_label")
+
+        if (!selectType) return
+
+        if (selectType.value === "dont_have_card") {
+            if (slPatient) slPatient.style.display = "none"
+            if (patientLabel) patientLabel.style.display = "none"
         } else {
-            $("#sl_patient").show()
-            $("#patient_label").show()
+            if (slPatient) slPatient.style.display = ""
+            if (patientLabel) patientLabel.style.display = ""
         }
     }
 
     //  Method for fetching OP details
     async fetch_op_details() {
-        var patient_id = $("#sl_patient").val()
-        var phone = $("#o_patient-phone").val()
-        var data = {
-            patient_data: patient_id,
-            "patient-phone": phone,
+        const patient_id = $("#sl_patient").val()
+        const patient_phone = $("#o_patient-phone").val()
+
+        if (!patient_id && !patient_phone) {
+            alert("Please select a patient or enter a phone number.")
+            return false
         }
+
+        const data = {
+            patient_id: patient_id || null,
+            phone: patient_phone || null,
+        }
+
         return data
     }
 
