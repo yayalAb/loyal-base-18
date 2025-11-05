@@ -258,7 +258,7 @@ class HospitalInpatient(models.Model):
         self.ensure_one()
         return {
             'name': 'inpatient Invoice',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'res_model': 'account.move',
             'type': 'ir.actions.act_window',
             'domain': [('ref', '=', self.name)],
@@ -270,7 +270,7 @@ class HospitalInpatient(models.Model):
         return {
             'name': 'Lab Tests',
             'res_model': 'patient.lab.test',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'type': 'ir.actions.act_window',
             'domain': [('inpatient_id', '=', self.id)]
         }
@@ -297,7 +297,7 @@ class HospitalInpatient(models.Model):
         return {
             'name': 'Created Tests',
             'res_model': 'lab.test.line',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target': 'current',
             'type': 'ir.actions.act_window',
             'domain': [

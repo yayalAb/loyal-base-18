@@ -113,7 +113,8 @@ class DoctorAllocation(models.Model):
             work_to_hr = int(self.work_to)
             work_to_min = int((self.work_to - work_to_hr) * 60)
             work_to = "{:02d}:{:02d}".format(work_to_hr, work_to_min)
-            self.name = str(self.doctor_id.name) + ': ' + work_from + '-' + work_to
+            self.name = str(self.doctor_id.name) + ': ' + \
+                work_from + '-' + work_to
 
     @api.model
     def default_get(self, doctor_id):
@@ -188,7 +189,7 @@ class DoctorAllocation(models.Model):
         return {
             'name': "Patient Booking",
             'type': 'ir.actions.act_window',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'res_model': 'hospital.outpatient',
             'domain': [('id', 'in', self.op_ids.ids)],
             'context': {'create': False}

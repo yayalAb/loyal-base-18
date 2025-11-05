@@ -71,6 +71,6 @@ class HospitalWard(models.Model):
             'domain': [('ward_id', '=', self.ward_no)],
             'type': 'ir.actions.act_window',
             'res_model': 'hospital.bed',
-            'view_mode': 'tree',
+            'view_mode': 'list',
             'context': {'create': False},
         }

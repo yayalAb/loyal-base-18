@@ -71,7 +71,7 @@ class HospitalBuilding(models.Model):
             'domain': [('building_id', '=', self.id)],
             'type': 'ir.actions.act_window',
             'res_model': 'patient.room',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'context': {'create': False},
         }
 
@@ -82,6 +82,6 @@ class HospitalBuilding(models.Model):
             'domain': [('building_id', '=', self.id)],
             'type': 'ir.actions.act_window',
             'res_model': 'hospital.ward',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'context': {'create': False},
         }

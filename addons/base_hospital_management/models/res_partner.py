@@ -132,7 +132,8 @@ class ResPartner(models.Model):
                            help='True if you have trash collection')
     home_phone = fields.Boolean(string='Telephone',
                                 help='True if you have telephone')
-    tv = fields.Boolean(string='Television', help='True if you have television')
+    tv = fields.Boolean(string='Television',
+                        help='True if you have television')
     internet = fields.Boolean(string='Internet',
                               help='True if you have internet')
     help = fields.Selection([('yes', 'Yes'), ('no', 'No')],
@@ -329,7 +330,7 @@ class ResPartner(models.Model):
         self.ensure_one()
         return {
             'name': 'Patient Invoice',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'res_model': 'account.move',
             'type': 'ir.actions.act_window',
             'domain': [('partner_id', '=', self.id)],
@@ -566,7 +567,8 @@ class ResPartner(models.Model):
                     patient.sudo().write({'date_of_birth': post['op_dob']})
         else:
             patient = self.sudo().search([('id', '=', post['patient_id'])])
-            out_patient = self.env['hospital.outpatient'].sudo().search([('patient_id','=', patient.id)])
+            out_patient = self.env['hospital.outpatient'].sudo().search(
+                [('patient_id', '=', patient.id)])
             if not out_patient:
                 self.env['hospital.outpatient'].sudo().create({
                     'patient_id': patient.id,

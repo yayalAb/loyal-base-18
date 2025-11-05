@@ -93,7 +93,8 @@ class HospitalPharmacy(models.Model):
                     'product_id': self.env['product.product'].search([('product_tmpl_id', '=', int(rec['product']))]).id,
                     'product_uom_qty': float(rec['qty']),
                     'price_unit': float(rec['price']) if 'price' in rec.keys() else
-                        self.env['product.product'].search([('product_tmpl_id', '=', int(rec['product']))]).list_price
+                    self.env['product.product'].search(
+                        [('product_tmpl_id', '=', int(rec['product']))]).list_price
                 })]
             })
         pharmacy_sale_order.action_confirm()
@@ -132,7 +133,7 @@ class HospitalPharmacy(models.Model):
             'res_model': 'stock.quant',
             'view_id': self.env.ref(
                 'stock.view_stock_quant_tree_inventory_editable').id,
-            'view_mode': 'tree',
+            'view_mode': 'list',
         }
 
     def action_get_sale_order(self):
@@ -140,7 +141,7 @@ class HospitalPharmacy(models.Model):
         return {
             'name': 'Sales',
             'res_model': 'sale.order',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('team_id', '=', self.sales_team_id.id)],
             'type': 'ir.actions.act_window',
             'context': {'default_team_id': self.sales_team_id.id}

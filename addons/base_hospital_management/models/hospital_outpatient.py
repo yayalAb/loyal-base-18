@@ -186,8 +186,8 @@ class HospitalOutpatient(models.Model):
         })
         return {
             'url': f'/web/content'
-                   f'/{record.attachment_id.id}?download=true&amp'
-                   f';access_token=',
+            f'/{record.attachment_id.id}?download=true&amp'
+            f';access_token=',
         }
 
     @api.model
@@ -227,7 +227,7 @@ class HospitalOutpatient(models.Model):
         return {
             'name': 'Created Tests',
             'res_model': 'lab.test.line',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target': 'current',
             'type': 'ir.actions.act_window',
             'domain': [
@@ -289,7 +289,7 @@ class HospitalOutpatient(models.Model):
             'domain': [('id', '=', self.invoice_id.id)],
             'type': 'ir.actions.act_window',
             'res_model': 'account.move',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'context': {'create': False},
         }
 

@@ -275,8 +275,11 @@ class ReceptionDashBoard extends Component {
 
     //  Method for fetching OP details
     async fetch_op_details() {
-        const patient_id = $("#sl_patient").val()
-        const patient_phone = $("#o_patient-phone").val()
+        const patient_id_el = document.getElementById("sl_patient")
+        const patient_phone_el = document.getElementById("o_patient-phone")
+
+        const patient_id = patient_id_el ? patient_id_el.value : null
+        const patient_phone = patient_phone_el ? patient_phone_el.value : null
 
         if (!patient_id && !patient_phone) {
             alert("Please select a patient or enter a phone number.")

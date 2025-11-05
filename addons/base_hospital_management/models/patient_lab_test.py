@@ -268,7 +268,7 @@ class PatientLabTest(models.Model):
             'name': 'Invoice',
             'type': 'ir.actions.act_window',
             'res_model': 'account.move',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             "context": {"create": False, 'default_move_type': 'out_invoice'},
             'domain': [('id', '=', self.invoice_id.id)]
         }
