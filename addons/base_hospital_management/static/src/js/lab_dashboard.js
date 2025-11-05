@@ -97,7 +97,8 @@ export class LabDashBoard extends Component {
     //  Method for getting all test data
     fetch_all_test_data(ev) {
         var self = this
-        var record_id = parseInt($(ev.target).closest("tr").data("index"))
+        var target = ev.target.closest("tr")
+        var record_id = parseInt(target?.dataset.index)
         self.load_all_test_data(record_id)
     }
     //  Method for loading all test data
