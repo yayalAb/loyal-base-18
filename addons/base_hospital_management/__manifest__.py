@@ -77,6 +77,7 @@
         "views/patient_booking_templates.xml",
         "views/patient_room_views.xml",
         "views/lab_test_line_views.xml",
+        "views/address_detail.xml",
         "report/res_partner_reports.xml",
         "report/lab_test_line_reports.xml",
     ],

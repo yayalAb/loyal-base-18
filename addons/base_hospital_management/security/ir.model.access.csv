@@ -212,3 +212,10 @@ access_patient_lab_test_nurse,access.patient.lab.test.nurse,model_patient_lab_te
 access_patient_lab_test_doctor,access.patient.lab.test.doctor,model_patient_lab_test,base_hospital_management.base_hospital_management_group_doctor,1,1,0,0
 access_patient_lab_test_receptionist,access.patient.lab.test.receptionist,model_patient_lab_test,base_hospital_management.base_hospital_management_group_receptionist,1,1,1,1
 access_patient_lab_test_manager,access.patient.lab.test.manager,model_patient_lab_test,base_hospital_management.base_hospital_management_group_manager,1,1,1,1
+
+
+access_address_country,access.address.country,model_address_country,,1,1,1,1
+access_address_region,access.address.region,model_address_region,,1,1,1,1
+access_address_city,access.address.city,model_address_city,,1,1,1,1
+access_address_woreda,access.address.woreda,model_address_woreda,,1,1,1,1
+access_address_kebele,access.address.kebele,model_address_kebele,,1,1,1,1

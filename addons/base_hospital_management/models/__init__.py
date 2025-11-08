@@ -56,3 +56,4 @@ from . import product_template
 from . import res_partner
 from . import res_users
 from . import room_facility
+from . import adress_detail
