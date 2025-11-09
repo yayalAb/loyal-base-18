@@ -219,3 +219,6 @@ access_address_region,access.address.region,model_address_region,,1,1,1,1
 access_address_city,access.address.city,model_address_city,,1,1,1,1
 access_address_woreda,access.address.woreda,model_address_woreda,,1,1,1,1
 access_address_kebele,access.address.kebele,model_address_kebele,,1,1,1,1
+
+
+access_visit_case,access.visit.case,model_visit_case,,1,1,1,1

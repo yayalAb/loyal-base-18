@@ -1,6 +1,27 @@
 from odoo import fields, models
 
 
+class VisitCase(models.Model):
+
+    _name = 'visit.case'
+    _description = 'visit Case'
+    _rec_name = 'name'
+
+    name = fields.Char(
+        string="Visit Case",
+        required=True,
+    )
+    description = fields.Html(
+        string="Description",
+        sanitize=True,
+        sanitize_tags=True,
+        sanitize_attributes=True,
+        sanitize_style=False,
+        strip_style=False,
+        strip_classes=False,
+    )
+
+
 class AddressCountry(models.Model):
 
     _name = 'address.country'

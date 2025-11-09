@@ -36,6 +36,27 @@ class ResPartner(models.Model):
 
     date_of_birth = fields.Date(string='Date of Birth',
                                 help='Date of birth of the patient')
+    age = fields.Integer(string='Age', compute='_compute_age', store=True)
+
+    @api.depends('date_of_birth')
+    def _compute_age(self):
+        for record in self:
+            if record.date_of_birth:
+                today = date.today()
+                dob = record.date_of_birth
+                record.age = today.year - dob.year - \
+                    ((today.month, today.day) < (dob.month, dob.day))
+            else:
+                record.age = 0
+    is_reffered = fields.Boolean(
+        string="is Reffered",
+    )
+    reffered_from_id = fields.Many2one(
+        string="Reffered From",
+        comodel_name="res.partner",
+        domain=[('is_company', '=', True)]
+    )
+
     blood_group = fields.Selection(string='Blood Group',
                                    help='Blood group of the patient',
                                    selection=[('a', 'A'), ('b', 'B'),
@@ -181,22 +202,22 @@ class ResPartner(models.Model):
         'hospital.vaccination', 'patient_id',
         string='Vaccination', help='Vaccination details of '
                                    'patient')
-    fertile = fields.Boolean(string='Fertile', help="""Capable of developing 
-                                             into a complete organism; 
-                                             fertilized. Capable of supporting 
-                                             plant life; favorable to the 
+    fertile = fields.Boolean(string='Fertile', help="""Capable of developing
+                                             into a complete organism;
+                                             fertilized. Capable of supporting
+                                             plant life; favorable to the
                                              growth of crops and plants.""")
-    menarche_age = fields.Integer(string='Menarche Age', help="""The first 
+    menarche_age = fields.Integer(string='Menarche Age', help="""The first
                                      menstrual period in a female adolescent""")
-    pause = fields.Boolean(string='Menopause', help="""Menopause is a point in 
+    pause = fields.Boolean(string='Menopause', help="""Menopause is a point in
                                  time 12 months after a woman's last period""")
     pause_age = fields.Integer(string='Menopause Age',
                                help='Age at which menopause occurred')
     pap = fields.Boolean(string='PAP Test',
                          help="""
-                         A procedure in which a small brush is used to gently 
-                         remove cells from the surface of the cervix and the 
-                         area around it so they can be checked under a 
+                         A procedure in which a small brush is used to gently
+                         remove cells from the surface of the cervix and the
+                         area around it so they can be checked under a
                          microscope for cervical cancer or cell changes that
                          may lead to cervical cancer.""")
     colposcopy = fields.Boolean(string='Colposcopy', help=""" test to take a
@@ -316,6 +337,55 @@ class ResPartner(models.Model):
                             help='True if you have car child safety')
     home = fields.Boolean(string='Home Safety', help='True for home safety')
     occupation = fields.Char(string='Occupation', help='Your occupation')
+
+    department_id = fields.Many2one(
+        string="Department",
+        comodel_name="hr.department",
+    )
+    card_fee = fields.Float(
+        string="Fard Fee",
+        digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
+    )
+
+    visit_case_id = fields.Many2one(
+        string="Visit Case",
+        comodel_name="visit.case",
+    )
+
+    inpatient_count = fields.Integer(
+        string="inpatient count",
+        compute="_compute_inpatient_count"
+    )
+    outpatient_count = fields.Integer(
+        string="inpatient count",
+        compute="_compute_outpatient_count"
+    )
+
+    def _compute_inpatient_count(self):
+        for rec in self:
+            rec.inpatient_count = 0
+
+    def _compute_outpatient_count(self):
+        for rec in self:
+            rec.outpatient_count = 0
+
+    def open_inpatient_info(self):
+        return {
+            'name': 'IPD',
+            'view_mode': 'list,form',
+            'res_model': 'hospital.inpatient',
+            'type': 'ir.actions.act_window',
+            'domain': [('patient_id', '=', self.id)]
+        }
+
+    def open_outpatient_info(self):
+        return {
+            'name': 'OPD',
+            'view_mode': 'list,form',
+            'res_model': 'hospital.outpatient',
+            'type': 'ir.actions.act_window',
+            'domain': [('patient_id', '=', self.id)]
+        }
 
     @api.model
     def create(self, vals):

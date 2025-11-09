@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+      <!-- country -->
+    <record id="visit_case_view_tree" model="ir.ui.view">
+        <field name="name">visit.case.view.tree</field>
+        <field name="model">visit.case</field>
+        <field name="arch" type="xml">
+            <list create="1" editable="bottom">
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="visit_case_action" model='ir.actions.act_window'>
+        <field name="name">visit.case</field>
+        <field name="res_model">visit.case</field>
+        <field name="view_mode">list</field>
+    </record>
+    
+
+
+    <menuitem id="visit_case_menu" name="visit case" sequence="50"
+              parent="hospital_menu_configuration"
+              action="visit_case_action"/>
+
+</odoo>
