@@ -168,6 +168,10 @@ class HospitalInpatient(models.Model):
                                        compute='_compute_room_rent_amount',
                                        help='Total rent for the room',
                                        copy=False)
+    initial_depost = fields.Float(
+        string="Initial Depost",
+        digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
+    )
 
     @api.model
     def create(self, vals):

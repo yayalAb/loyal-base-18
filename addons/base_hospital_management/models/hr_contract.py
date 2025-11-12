@@ -1,5 +1,5 @@
 from odoo.exceptions import ValidationError
-from odoo import models, fields
+from odoo import api, fields, models
 
 
 class HrContractCommissionLine(models.Model):

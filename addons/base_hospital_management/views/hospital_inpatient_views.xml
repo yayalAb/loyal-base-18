@@ -75,6 +75,7 @@
                                    placeholder="Patient'S Name"/>
                             <field name="is_invoice" invisible="1"/>
                             <field name="enable_outpatient"/>
+                            <field name="initial_depost"/>
                         </group>
                         <group>
                             <field name="type_admission"/>
@@ -122,11 +123,10 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Facilities"
-                             invisible="state in ['draft','reserve']">
+                        <page string="Facilities">
                             <group>
                                 <group>
-                                    <field name="is_ward"/>
+                                    <field name="is_ward" record="1"/>
                                     <field name="bed_type"/>
                                     <field name="bed_id"
                                            options="{'no_create': True, 'no_edit': True}"
