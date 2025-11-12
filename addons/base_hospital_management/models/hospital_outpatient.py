@@ -43,10 +43,16 @@ class HospitalOutpatient(models.Model):
     doctor_id = fields.Many2one('doctor.allocation',
                                 string='Doctor',
                                 help='Select the doctor',
-                                required=True,
+                                # required=True,
                                 domain=[('slot_remaining', '>', 0),
                                         ('date', '=', fields.date.today()),
                                         ('state', '=', 'confirm')])
+    department_id = fields.Many2one(
+        string="Department",
+        comodel_name="hr.department",
+        # required=True,
+    )
+
     op_date = fields.Date(default=fields.Date.today(), string='Date',
                           help='Date of OP')
     reason = fields.Text(string='Reason', help='Reason for visiting hospital')
@@ -94,13 +100,13 @@ class HospitalOutpatient(models.Model):
                 vals['op_reference'] = f'OP{str(new_number).zfill(3)}'
             else:
                 vals['op_reference'] = 'OP001'
-        if self.search([
-            ('patient_id', '=', vals['patient_id']),
-            ('doctor_id', '=', vals['doctor_id'])
-        ]):
-            raise ValidationError(
-                'An OP already exists for this patient under the specified '
-                'allocation')
+        # if self.search([
+        #     ('patient_id', '=', vals['patient_id']),
+        #     ('doctor_id', '=', vals['doctor_id'])
+        # ]):
+        #     raise ValidationError(
+        #         'An OP already exists for this patient under the specified'
+        #         'allocation')
         return super().create(vals)
 
     @api.depends('test_ids')

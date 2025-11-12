@@ -95,9 +95,11 @@
                             <field name="invoiced" invisible="1"/>
                         </group>
                         <group>
-                            <field name="doctor_id"
+                            <!-- <field name="doctor_id"
                                    options="{'no_create': True, 'no_edit': True}"
-                                   readonly="state in ('invoice','cancel')"/>
+                                   readonly="state in ('invoice','cancel')"/> -->
+                            <field name="department_id"/>
+                                
                             <field name="slot" invisible="state not in ('op','inpatient','invoice')"
                                    readonly="state in ('invoice','cancel')"  widget="float_time"/>
                             <field name="test_count" invisible="1"/>
