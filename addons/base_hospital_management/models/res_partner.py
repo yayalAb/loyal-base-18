@@ -480,6 +480,7 @@ class ResPartner(models.Model):
             })],
         }
         invoice = self.env['account.move'].create(invoice_vals)
+        # invoice.action_post()
 
     @api.model
     def create(self, vals):
