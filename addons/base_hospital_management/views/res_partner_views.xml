@@ -79,8 +79,7 @@
                                 class="oe_stat_button"
                                 invisible="name == False"
                                 icon="fa-pencil-square-o">
-                                Balance <field name="total_unpaid_amount" /> ETB
-                            
+                                <field name="total_unpaid_amount" widget="monetary" options="{'currency_field': 'currency_id', 'display_currency': 'ETB'}"/>                            
                             </button>
                         <button name="action_generate_patient_card"
                                 type="object"
