@@ -79,8 +79,10 @@
                         <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
-                                icon="fa-pencil-square-o"
-                                string="Invoice"/>
+                                icon="fa-pencil-square-o">
+                                Balance <field name="total_unpaid_amount" /> ETB
+                            
+                            </button>
                         <button name="action_generate_patient_card"
                                 type="object"
                                 class="oe_stat_button"
@@ -115,9 +117,8 @@
                                     'show_address': 1, 'show_email':1}"
                                     required="1"
                                    options="{&quot;always_reload&quot;: True}"/>
-                            <field name="date_of_birth" required="1"/>
-                            
-                            <!-- <field name="age"/> -->                            
+                            <field name="age"/> 
+                            <field name="date_of_birth" required="1"/>                    
                             <field name="phone"/>
                             <field name="email"/>
                             <field name="vat" string="Tin"/>
@@ -476,16 +477,33 @@
             </form>
         </field>
     </record>
+    <record id="base_hospital_management_res_partner_search_inherit" model="ir.ui.view">
+    <field name="name">res.partner.search.inherit</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+        <!-- Add the filter after the "Archived" filter -->
+        <xpath expr="//filter[@name='type_person']" position="before">
+            
+            <filter string="Today's Patients" name="created_today" domain="[('create_date', '>=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+            <filter string="Last 7 Days" name="last_7_days" domain="[('create_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+            <filter string="This Month" name="this_month" domain="[('create_date', '>=', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
+            <separator/>
+        </xpath>
+    </field>
+</record>
     <!--    Patient menu action-->
     <record id="res_partner_action" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
+         (0, 0,{'view_mode': 'list', 'view_id': ref('res_partner_view_tree')}),
         (0, 0,{'view_mode': 'kanban', 'view_id': ref('res_partner_view_kanban')}),
-        (0, 0,{'view_mode': 'list', 'view_id': ref('res_partner_view_tree')}),
         (0, 0,{'view_mode': 'form', 'view_id': ref('res_partner_view_form')})]"/>
-        <field name="domain">[('patient_seq','not in',['Employee', 'User'])]</field>
+        <field name="domain">[('patient_seq','not in',['New', 'Employee', 'User'])]</field>
+        <field name="context">{'search_default_created_today': 1}</field>
+
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Create a new Patient</p>
         </field>

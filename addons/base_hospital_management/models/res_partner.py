@@ -35,11 +35,11 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
     _description = 'Hospital Patients'
 
+    age = fields.Integer(string='Age',  store=True)
     date_of_birth = fields.Date(string='Date of Birth',
                                 help='Date of birth of the patient')
-    age = fields.Integer(string='Age', compute='_compute_age', store=True)
 
-    @api.depends('date_of_birth')
+    @api.onchange("date_of_birth")
     def _compute_age(self):
         for record in self:
             if record.date_of_birth:
@@ -49,6 +49,23 @@ class ResPartner(models.Model):
                     ((today.month, today.day) < (dob.month, dob.day))
             else:
                 record.age = 0
+
+    @api.onchange('age')
+    def _onchange_age(self):
+        """Compute date of birth from age"""
+        for record in self:
+            if record.age:
+                today = date.today()
+                try:
+                    record.date_of_birth = today.replace(
+                        year=today.year - record.age)
+                except ValueError:
+                    # handle leap year (Feb 29)
+                    record.date_of_birth = today - \
+                        timedelta(days=365 * record.age)
+            else:
+                record.date_of_birth = False
+
     is_reffered = fields.Boolean(
         string="is Reffered",
     )
@@ -376,6 +393,23 @@ class ResPartner(models.Model):
         comodel_name="product.template",
         compute="_compute_registration_fee"
     )
+
+    total_unpaid_amount = fields.Float(
+        digits=(10, 2),
+        compute="compute_total_unpaid_amount"
+    )
+
+    @api.depends("name")
+    def compute_total_unpaid_amount(self):
+        for rec in self:
+            unpaid_moves = self.env['account.move'].search([
+                ('payment_state', '!=', 'paid'),
+                ('partner_id', '=', self.id),
+                ('move_type', 'in', ['out_invoice', 'in_invoice']),
+                ('state', 'in', ['draft', 'posted'])  # Only posted moves
+            ])
+            rec.total_unpaid_amount = sum(
+                unpaid_moves.mapped('amount_residual'))
 
     def _compute_daytype(self):
         for rec in self:
