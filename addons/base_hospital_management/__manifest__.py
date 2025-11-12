@@ -35,7 +35,7 @@
     "company": "Cybrosys Techno Solutions",
     "maintainer": "Cybrosys Techno Solutions",
     "website": "https://www.cybrosys.com",
-    "depends": ["website", "hr", "stock", "sale_management"],
+    "depends": ["website", "hr", "stock", "sale_management", "hr_contract"],
     "data": [
         "security/base_hospital_management_groups.xml",
         "security/doctor_allocation_security.xml",
@@ -79,6 +79,7 @@
         "views/lab_test_line_views.xml",
         # "views/address_detail.xml",
         "views/hr_department_view.xml",
+        "views/hr_contract.xml",
         "views/visit_case.xml",
         "report/res_partner_reports.xml",
         "report/lab_test_line_reports.xml",

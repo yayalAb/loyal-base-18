@@ -222,3 +222,6 @@ access_address_kebele,access.address.kebele,model_address_kebele,,1,1,1,1
 
 
 access_visit_case,access.visit.case,model_visit_case,,1,1,1,1
+
+
+access_hr_contract_commission_line,access.hr.contract.commission.line,model_hr_contract_commission_line,,1,1,1,1

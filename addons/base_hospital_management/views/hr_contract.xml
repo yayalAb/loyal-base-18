@@ -1,0 +1,23 @@
+<!-- views/hr_contract_view_inherit.xml -->
+<odoo>
+    <record id="view_hr_contract_form_inherit_commission" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit.commission</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other']" position="before">
+                  <page name="commission_lines" string="Commission Lines">
+                            <field name="commission_line_ids"
+                                   string="Commission Lines">
+                                <list editable="bottom">
+                                    <field name="product_categ_id"/>
+                                    <field name="percentage"/>
+                                    <field name="applied_for"/>
+                                </list>
+                            </field>
+                        </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
