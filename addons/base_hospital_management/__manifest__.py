@@ -78,6 +78,7 @@
         "views/patient_room_views.xml",
         "views/lab_test_line_views.xml",
         # "views/address_detail.xml",
+        "views/hr_department_view.xml",
         "views/visit_case.xml",
         "report/res_partner_reports.xml",
         "report/lab_test_line_reports.xml",

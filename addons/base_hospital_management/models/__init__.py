@@ -57,3 +57,4 @@ from . import res_partner
 from . import res_users
 from . import room_facility
 from . import adress_detail
+from . import hr_department

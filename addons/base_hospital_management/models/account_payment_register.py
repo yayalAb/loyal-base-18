@@ -39,4 +39,5 @@ class AccountPaymentRegister(models.TransientModel):
                 order='create_date desc', limit=1).id,
             'date': vals_list['payment_date']
         })
+
         return super().create(vals_list)

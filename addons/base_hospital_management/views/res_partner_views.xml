@@ -124,14 +124,14 @@
                             <field name="department_id"/>
                         </group>
                         <group>
-                            <label for="blood_group" string="Blood Group"/>
+                            <!-- <label for="blood_group" string="Blood Group"/>
                             <div class="o_address_format">
                                 <field name="blood_group"
                                        class="o_address_zip"/>
                                 <field name="rh_type" widget="radio"
                                        options="{'horizontal': true}"
                                        class="o_address_state"/>
-                            </div>
+                            </div> -->
                             <field name="gender" required="1"/>
                             <field name="marital_status"/>
                             <field name="is_reffered"/>
@@ -140,6 +140,7 @@
                                    options="{'horizontal': true}"/>
                             <field name="card_fee"/>
                             <field name="visit_case_id"/>
+                            <field name="valid_untill" readonly="True"/>
 
                         </group>
                     </group>
@@ -479,12 +480,12 @@
     <record id="res_partner_action" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">kanban,form,list</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
         (0, 0,{'view_mode': 'kanban', 'view_id': ref('res_partner_view_kanban')}),
         (0, 0,{'view_mode': 'list', 'view_id': ref('res_partner_view_tree')}),
         (0, 0,{'view_mode': 'form', 'view_id': ref('res_partner_view_form')})]"/>
-        <field name="domain">[('patient_seq','not in',['New', 'Employee', 'User'])]</field>
+        <field name="domain">[('patient_seq','not in',['Employee', 'User'])]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Create a new Patient</p>
         </field>

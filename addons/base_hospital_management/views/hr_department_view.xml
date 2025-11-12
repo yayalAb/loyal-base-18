@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+
+        <!-- Inherit HR Department Form View -->
+        <record id="view_hr_department_form_inherit_custom" model="ir.ui.view">
+            <field name="name">hr.department.form.inherit.custom</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Example: Add field after the name field -->
+                <xpath expr="//field[@name='color']" position="after">
+                    <field name="reg_fee_new_id"/>
+                    <field name="reg_fee_repeat_id"/>
+                    <field name="reg_fee_weekend_id"/>
+                    <field name="reg_fee_holiday_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

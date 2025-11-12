@@ -27,6 +27,7 @@ from barcode import EAN13
 from barcode.writer import ImageWriter
 from dateutil.relativedelta import *
 from odoo import api, fields, models
+from datetime import timedelta
 
 
 class ResPartner(models.Model):
@@ -338,15 +339,6 @@ class ResPartner(models.Model):
     home = fields.Boolean(string='Home Safety', help='True for home safety')
     occupation = fields.Char(string='Occupation', help='Your occupation')
 
-    department_id = fields.Many2one(
-        string="Department",
-        comodel_name="hr.department",
-    )
-    card_fee = fields.Float(
-        string="Fard Fee",
-        digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
-    )
-
     visit_case_id = fields.Many2one(
         string="Visit Case",
         comodel_name="visit.case",
@@ -360,6 +352,60 @@ class ResPartner(models.Model):
         string="inpatient count",
         compute="_compute_outpatient_count"
     )
+
+    valid_untill = fields.Datetime(
+        string="Valid until")
+    department_id = fields.Many2one(
+        string="Department",
+        comodel_name="hr.department",
+        required=True,
+    )
+    card_fee = fields.Float(
+        string="Card Fee",
+        compute="_compute_registration_fee",
+        digits=(10, 2),
+    )
+    day_type = fields.Selection([
+        ('working', 'Working Day'),
+        ('night', 'Night/Weekend'),
+        ('holiday', 'Holiday'),
+        ('repeat', 'Repeat'),
+    ], string="Day Type", compute="_compute_daytype", default="working",)
+
+    product_id = fields.Many2one(
+        comodel_name="product.template",
+        compute="_compute_registration_fee"
+    )
+
+    def _compute_daytype(self):
+        for rec in self:
+            rec.day_type = "working"
+
+    @api.depends("department_id", "day_type")
+    def _compute_registration_fee(self):
+        for rec in self:
+            fee = 0.0
+            department = rec.department_id
+
+            if not department:
+                rec.card_fee = 0.0
+                product_id = False
+                continue
+            if rec.day_type == "working" and department.reg_fee_new_id:
+                fee = department.reg_fee_new_id.list_price
+                product_id = department.reg_fee_new_id.id,
+            elif rec.day_type == "repeat" and department.reg_fee_repeat_id:
+                fee = department.reg_fee_repeat_id.list_price
+                product_id = department.reg_fee_repeat_id.id
+            elif rec.day_type == "night" and department.reg_fee_weekend_id:
+                fee = department.reg_fee_weekend_id.list_price
+                product_id = department.reg_fee_weekend_id.id
+            elif rec.day_type == "holiday" and department.reg_fee_holiday_id:
+                fee = department.reg_fee_holiday_id.list_price
+                product_id = department.reg_fee_holiday_id.id
+
+            rec.card_fee = fee
+            rec.product_id = product_id
 
     def _compute_inpatient_count(self):
         for rec in self:
@@ -387,13 +433,32 @@ class ResPartner(models.Model):
             'domain': [('patient_id', '=', self.id)]
         }
 
+    def action_create_invoice(self, record):
+        invoice_vals = {
+            'move_type': 'out_invoice',  # customer invoice
+            'partner_id': record.id,
+            'invoice_date': fields.Date.context_today(self),
+            'invoice_line_ids': [(0, 0, {
+                'product_id': record.product_id.id,
+                'quantity': 1.0,
+                'price_unit': record.card_fee,
+                'name': record.product_id.name or 'Registration Fee',
+            })],
+        }
+        invoice = self.env['account.move'].create(invoice_vals)
+
     @api.model
     def create(self, vals):
         """Inherits create function for sequence generation"""
-        if vals.get('patient_seq', 'New') == 'New':
-            vals['patient_seq'] = self.env['ir.sequence'].next_by_code(
-                'patient.sequence') or 'New'
-        return super().create(vals)
+        record = super().create(vals)
+        valid_untill = fields.Date.context_today(record) + timedelta(days=10)
+
+        # if vals.get('patient_seq', 'New') == 'New':
+        record.patient_seq = self.env['ir.sequence'].next_by_code(
+            'patient.sequence') or 'New'
+        record.valid_untill = valid_untill
+        self.action_create_invoice(record)
+        return record
 
     def action_view_invoice(self):
         """Returns patient invoice"""
