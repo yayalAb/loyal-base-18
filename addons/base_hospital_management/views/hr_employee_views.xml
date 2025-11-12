@@ -16,9 +16,9 @@
                 <field name="consultancy_type"
                        invisible="job_title != 'Doctor'"/>
             </xpath>
-            <xpath expr="//field[@name='coach_id']" position="replace">
+            <!-- <xpath expr="//field[@name='coach_id']" position="replace">
                 <field name="coach_id" invisible="1"/>
-            </xpath>
+            </xpath> -->
             <xpath expr="//field[@name='certificate']" position="after">
                 <field name="degree_ids" widget="many2many_tags"
                        invisible="doctor == False"/>
