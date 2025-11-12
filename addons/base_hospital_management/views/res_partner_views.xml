@@ -65,17 +65,16 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                         <button name="open_inpatient_info" type="object"
-                                class="oe_stat_button"
-                                invisible="name == False"
-                                icon="fa-solid fa-bed"
-                                string="IPD"/>
-                                
                         <button name="open_outpatient_info" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
                                 icon="fa-solid fa-person-walking"
                                 string="OPD"/>
+                        <button name="open_inpatient_info" type="object"
+                                class="oe_stat_button"
+                                invisible="name == False"
+                                icon="fa-solid fa-bed"
+                                string="IPD"/>
                         <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
