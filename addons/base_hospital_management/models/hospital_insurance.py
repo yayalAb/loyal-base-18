@@ -39,7 +39,7 @@ class HospitalInsurance(models.Model):
                                      help='Total coverage of the insurance')
     fixed_amount = fields.Boolean(string="Fixed Amount Coverage",)
     item_based = fields.Boolean(string="is item based",)
-    coverage_ids = fields.One2many('insurance.coverage.line',
+    coverage_ids = fields.One2many('hospital.coverage.line',
                                    'insurance_id',
                                    string='coverage Lines',
                                    help='coverage Lines')
@@ -81,8 +81,8 @@ class HospitalInsurance(models.Model):
 
 
 class InsuranceCoverageLine(models.Model):
-    _name = 'insurance.coverage.line'
-    _description = 'insurance.coverage.line'
+    _name = 'hospital.coverage.line'
+    _description = 'hospital.coverage.line'
 
     insurance_id = fields.Many2one(
         'hospital.insurance', string='insurance', ondelete='cascade')

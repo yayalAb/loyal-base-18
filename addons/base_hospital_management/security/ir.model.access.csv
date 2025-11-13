@@ -225,7 +225,7 @@ access_visit_case,access.visit.case,model_visit_case,,1,1,1,1
 
 
 access_hr_contract_commission_line,access.hr.contract.commission.line,model_hr_contract_commission_line,,1,1,1,1
-access_insurance_coverage_line,access.insurance.coverage.line,model_insurance_coverage_line,,1,1,1,1
+access_hospital_coverage_line,access.hospital.coverage.line,model_hospital_coverage_line,,1,1,1,1
 
 
 access_insurance_pricing.line, access.insurance.pricing.line,model_insurance_pricing_line,,1,1,1,1
