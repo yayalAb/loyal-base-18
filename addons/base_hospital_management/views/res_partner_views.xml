@@ -207,9 +207,9 @@
                             <field name="vital_sign_ids" string="vital Sign" >
                                 <list editable="top">
                                     <field name="date_recorded"/>
-                                    <!-- <field name="mode_of_arrival"/>
+                                    <field name="mode_of_arrival"/>
                                     <field name="is_reffered"/>
-                                    <field name="Status"/> -->
+                                    <field name="Status"/>
                                     <field name="temperature"/>
                                     <field name="pulse"/>
                                     <field name="respiration_rate"/>
@@ -218,13 +218,13 @@
                                     <field name="weight"/>
                                     <field name="height"/>
                                     <field name="bmi"/>
-                                    <!-- <field name="bsa"/>
+                                    <field name="bsa"/>
                                     <field name="current_medication"/>
                                     <field name="reason_for_visit"/>
                                     <field name="pain_level"/>
 
                                     <field name="allergy"/>
-                                    <field name="is_emergency"/> -->
+                                    <field name="is_emergency"/>
                                     
                                 </list>
                             </field>
