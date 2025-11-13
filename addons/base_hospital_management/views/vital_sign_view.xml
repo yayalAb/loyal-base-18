@@ -34,7 +34,7 @@
         </field>
     </record>
     <!--    Lab test tree view-->
-    <record id="hospital.vital.signs_view_tree" model="ir.ui.view">
+    <record id="hospital_vital_signs_view_tree" model="ir.ui.view">
         <field name="name">hospital.vital.signs.view.tree</field>
         <field name="model">hospital.vital.signs</field>
         <field name="arch" type="xml">
