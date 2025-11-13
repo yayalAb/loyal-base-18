@@ -99,10 +99,12 @@
                                    options="{'no_create': True, 'no_edit': True}"
                                    readonly="state in ('invoice','cancel')"/> -->
                             <field name="department_id"/>
+                            <field name="card_fee"/>
                                 
                             <field name="slot" invisible="state not in ('op','inpatient','invoice')"
                                    readonly="state in ('invoice','cancel')"  widget="float_time"/>
                             <field name="test_count" invisible="1"/>
+                            
                         </group>
                     </group>
                     <group>

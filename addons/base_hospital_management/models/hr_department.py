@@ -28,3 +28,6 @@ class Department(models.Model):
         comodel_name="product.template",
         domain=[('categ_id.name', '=', 'Registration Fee')]
     )
+    is_default = fields.Boolean(
+        string="Is default Department",
+    )

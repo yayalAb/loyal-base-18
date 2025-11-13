@@ -79,6 +79,7 @@
         "views/lab_test_line_views.xml",
         # "views/address_detail.xml",
         "views/hr_department_view.xml",
+        "views/res_configuration.xml",
         "views/hr_contract.xml",
         "views/visit_case.xml",
         "report/res_partner_reports.xml",

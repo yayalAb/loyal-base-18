@@ -113,12 +113,7 @@ class ResPartner(models.Model):
         string="Ethnic Group", help="Specify your religion")
     risk = fields.Text(string="Genetic Risks",
                        help='Genetic risks of the patient')
-    insurance_id = fields.Many2one('hospital.insurance',
-                                   string="Insurance",
-                                   help="Patient insurance")
-    unique_id = fields.Char(string='Unique ID',
-                            help="Unique identifier to fetch "
-                                 "patient insurance data")
+
     family_ids = fields.One2many('hospital.family',
                                  'family_id',
                                  string="Family ID", help='Family of a patient')
@@ -376,6 +371,10 @@ class ResPartner(models.Model):
         string="Department",
         comodel_name="hr.department",
         required=True,
+        default=lambda self: self.env['hr.department'].search(
+            [('is_default', '=', True)], limit=1)
+
+
     )
     card_fee = fields.Float(
         string="Card Fee",
@@ -398,6 +397,18 @@ class ResPartner(models.Model):
         digits=(10, 2),
         compute="compute_total_unpaid_amount"
     )
+    insured = fields.Boolean(
+        string="Is insured",
+    )
+    insurance_id = fields.Many2one('hospital.insurance',
+                                   string="Insurance",
+                                   help="Patient insurance")
+    unique_id = fields.Char(string='Unique ID',
+                            help="Unique identifier to fetch "
+                                 "patient insurance data")
+    vital_sign_ids = fields.One2many('hospital.vital.signs',
+                                     'patient_id',
+                                     string='Vital Sign',)
 
     @api.depends("name")
     def compute_total_unpaid_amount(self):
@@ -420,10 +431,10 @@ class ResPartner(models.Model):
         for rec in self:
             fee = 0.0
             department = rec.department_id
+            product_id = False
 
             if not department:
                 rec.card_fee = 0.0
-                product_id = False
                 continue
             if rec.day_type == "working" and department.reg_fee_new_id:
                 fee = department.reg_fee_new_id.list_price
@@ -486,13 +497,17 @@ class ResPartner(models.Model):
     def create(self, vals):
         """Inherits create function for sequence generation"""
         record = super().create(vals)
-        valid_untill = fields.Date.context_today(record) + timedelta(days=10)
+        days = int(self.env['ir.config_parameter'].sudo().get_param(
+            'hospital.patient_validity_days', default=10))
+
+        valid_untill = fields.Date.context_today(record) + timedelta(days=days)
 
         # if vals.get('patient_seq', 'New') == 'New':
         record.patient_seq = self.env['ir.sequence'].next_by_code(
             'patient.sequence') or 'New'
         record.valid_untill = valid_untill
-        self.action_create_invoice(record)
+        if record.card_fee > 0:
+            self.action_create_invoice(record)
         return record
 
     def action_view_invoice(self):

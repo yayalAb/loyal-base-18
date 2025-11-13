@@ -22,6 +22,7 @@
 import base64
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from datetime import timedelta
 
 
 class HospitalOutpatient(models.Model):
@@ -50,7 +51,12 @@ class HospitalOutpatient(models.Model):
     department_id = fields.Many2one(
         string="Department",
         comodel_name="hr.department",
-        # required=True,
+        required=True,
+    )
+    card_fee = fields.Float(
+        string="Card Fee",
+        compute="_compute_registration_fee",
+        digits=(10, 2),
     )
 
     op_date = fields.Date(default=fields.Date.today(), string='Date',
@@ -85,10 +91,86 @@ class HospitalOutpatient(models.Model):
                         copy=False, readonly=True)
     is_sale_created = fields.Boolean(string='Sale Created',
                                      help='True if sale order created')
+    day_type = fields.Selection([
+        ('working', 'Working Day'),
+        ('night', 'Night/Weekend'),
+        ('holiday', 'Holiday'),
+        ('repeat', 'Repeat'),
+    ], string="Day Type", compute="_compute_daytype", default="working",)
+    product_id = fields.Many2one(
+        comodel_name="product.template",
+        compute="_compute_registration_fee"
+    )
+
+    def _compute_daytype(self):
+        for rec in self:
+            rec.day_type = "working"
+
+    @api.depends("department_id", "day_type")
+    def _compute_registration_fee(self):
+        for rec in self:
+            fee = 0.0
+            department = rec.department_id
+            product_id = False
+            today = fields.Datetime.now()
+            if (rec.department_id == rec.patient_id.department_id) and (rec.patient_id.card_fee > 0 and rec.patient_id.valid_untill and rec.patient_id.valid_untill >= today):
+                rec.card_fee = 0.0
+                product_id = False
+            else:
+                if not department:
+                    rec.card_fee = 0.0
+                    continue
+                if rec.day_type == "working" and department.reg_fee_new_id:
+                    fee = department.reg_fee_new_id.list_price
+                    product_id = department.reg_fee_new_id.id,
+                elif rec.day_type == "repeat" and department.reg_fee_repeat_id:
+                    fee = department.reg_fee_repeat_id.list_price
+                    product_id = department.reg_fee_repeat_id.id
+                elif rec.day_type == "night" and department.reg_fee_weekend_id:
+                    fee = department.reg_fee_weekend_id.list_price
+                    product_id = department.reg_fee_weekend_id.id
+                elif rec.day_type == "holiday" and department.reg_fee_holiday_id:
+                    fee = department.reg_fee_holiday_id.list_price
+                    product_id = department.reg_fee_holiday_id.id
+
+            rec.card_fee = fee
+            rec.product_id = product_id
+
+    def action_create_invoice(self, record):
+        today = fields.Datetime.now()
+        if (record.department_id == record.patient_id.department_id) and (record.patient_id.card_fee > 0 and record.patient_id.valid_untill and record.patient_id.valid_untill >= today):
+            print("invoice  free: ")
+        else:
+            days = int(self.env['ir.config_parameter'].sudo().get_param(
+                'hospital.patient_validity_days', default=10))
+
+            valid_untill = fields.Date.context_today(
+                record) + timedelta(days=days)
+            record.patient_id.write({
+                'card_fee': record.card_fee,
+                'department_id': record.department_id,
+                'valid_untill': valid_untill
+
+            })
+            invoice_vals = {
+                'move_type': 'out_invoice',  # customer invoice
+                'partner_id': record.patient_id.id,
+                'invoice_date': fields.Date.context_today(self),
+                'invoice_line_ids': [(0, 0, {
+                    'product_id': record.product_id.id,
+                    'quantity': 1.0,
+                    'price_unit': record.card_fee,
+                    'name': record.product_id.name or 'Registration Fee',
+                })],
+            }
+            invoice = self.env['account.move'].create(invoice_vals)
 
     @api.model
     def create(self, vals):
         """Op number generator"""
+        record = super().create(vals)
+        days = int(self.env['ir.config_parameter'].sudo().get_param(
+            'hospital.patient_validity_days', default=10))
         if vals.get('op_reference', 'New') == 'New':
             last_op = self.search([
                 ('doctor_id', '=', vals.get('doctor_id')),
@@ -102,11 +184,14 @@ class HospitalOutpatient(models.Model):
                 vals['op_reference'] = 'OP001'
         # if self.search([
         #     ('patient_id', '=', vals['patient_id']),
-        #     ('doctor_id', '=', vals['doctor_id'])
+        #     ('department_id', '=', vals['department_id'])
         # ]):
         #     raise ValidationError(
         #         'An OP already exists for this patient under the specified'
         #         'allocation')
+
+        if record.card_fee > 0:
+            self.action_create_invoice(record)
         return super().create(vals)
 
     @api.depends('test_ids')

@@ -140,6 +140,11 @@
                             <field name="card_fee"/>
                             <field name="visit_case_id"/>
                             <field name="valid_untill" readonly="True"/>
+                            <field name="insured"/>
+                            <field name="insurance_id"
+                                           options="{'no_create': True, 'no_edit': True}" invisible="not insured"/>
+                            <!-- <field name="unique_id"
+                                           invisible="insurance_id == False" /> -->
 
                         </group>
                     </group>
@@ -197,31 +202,24 @@
                                 </group>
                             </group>
                         </page>
-                        <page name="family" string="Family and Insurance"
-                              groups="base_hospital_management.base_hospital_management_group_doctor,base_hospital_management.base_hospital_management_group_lab_assistant,base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager">
-                            <group>
-                                <group>
-                                     <field name="insurance_id"
-                                           options="{'no_create': True, 'no_edit': True}"/>
-                                    <field name="unique_id"
-                                           invisible="insurance_id == False"/>
-                                    <field name="group"/>
-                                </group>
-                                <group>
-                                    <field name="risk"/>
-                                   
-                                </group>
-                            </group>
-                            <group string="Family"/>
-                            <field name="family_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="relation"/>
-                                    <field name="age"/>
-                                    <field name="deceased"/>
-                                </list>
-                            </field>
-                        </page>
+                         <page name="vital Sign" string="Vital Sign">
+                        <field name="vital_sign_ids" string="vital Sign">
+                            <list editable="top">
+                                <!-- <field name="patient_id"/> -->
+                                <field name="date_recorded"/>
+                                <field name="temperature"/>
+                                <field name="pulse"/>
+                                <field name="respiration_rate"/>
+                                <field name="blood_pressure"/>
+                                <field name="oxygen_saturation"/>
+                                <field name="weight"/>
+                                <field name="height"/>
+                                <field name="bmi"/>
+                            </list>
+                        </field>
+                    </page>
+                        
+
                          <page name="medicine" string="Medical"
                               groups="base_hospital_management.base_hospital_management_group_lab_assistant, base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager">
                             <notebook>
@@ -384,6 +382,28 @@
                             </notebook>
                         </page>
                        
+                             <page name="family" string="Family"
+                              groups="base_hospital_management.base_hospital_management_group_doctor,base_hospital_management.base_hospital_management_group_lab_assistant,base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager">
+                            <group>
+                                <group>
+                                     
+                                    <field name="group"/>
+                                </group>
+                                <group>
+                                    <field name="risk"/>
+                                   
+                                </group>
+                            </group>
+                            <group string="Family"/>
+                            <field name="family_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="relation"/>
+                                    <field name="age"/>
+                                    <field name="deceased"/>
+                                </list>
+                            </field>
+                        </page>
                         <page name="social" string="Socioeconomic">
                             <group>
                                 <group string="General">
