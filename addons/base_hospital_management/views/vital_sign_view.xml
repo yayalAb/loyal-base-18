@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Lab test form view-->
+    <record id="hospital_vital_signs_view_form" model="ir.ui.view">
+        <field name="name">hospital.vital.signs.form</field>
+        <field name="model">hospital.vital.signs</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                         <field name="date_recorded"/>
+                            <field name="mode_of_arrival"/>
+                            <field name="is_reffered"/>
+                            <field name="Status"/>
+                            <field name="temperature"/>
+                            <field name="pulse"/>
+                            <field name="respiration_rate"/>
+                            <field name="blood_pressure"/>
+                            <field name="oxygen_saturation"/>
+                            <field name="weight"/>
+                            <field name="height"/>
+                            <field name="bmi"/>
+                            <field name="bsa"/>
+                            <field name="current_medication"/>
+                            <field name="reason_for_visit"/>
+                            <field name="pain_level"/>
+
+                            <field name="allergy"/>
+                            <field name="is_emergency"/>
+                    </group>
+                   
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--    Lab test tree view-->
+    <record id="hospital.vital.signs_view_tree" model="ir.ui.view">
+        <field name="name">hospital.vital.signs.view.tree</field>
+        <field name="model">hospital.vital.signs</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date_recorded"/>
+                <field name="mode_of_arrival"/>
+                <field name="is_reffered"/>
+                <field name="Status"/>
+                <field name="temperature"/>
+                <field name="pulse"/>
+                <field name="respiration_rate"/>
+                <field name="blood_pressure"/>
+                <field name="oxygen_saturation"/>
+                <field name="weight"/>
+                <field name="height"/>
+                <field name="bmi"/>
+                <field name="bsa"/>
+                <field name="current_medication"/>
+                <field name="reason_for_visit"/>
+                <field name="pain_level"/>
+
+                <field name="allergy"/>
+                <field name="is_emergency"/>
+            </list>
+        </field>
+    </record>
+    <!--Lab test menu action-->
+    <record id="hospital_vital_signs_action" model="ir.actions.act_window">
+        <field name="name">hospital.vital.signs</field>
+        <field name="res_model">hospital.vital.signs</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Laboratory
+            </p>
+        </field>
+    </record>
+    <!--Lab test menu-->
+    <!-- <menuitem id="lab_test_menu" name="Lab Test"
+              parent="hospital_menu_laboratory" sequence="4"
+              action="lab_test_action"/> -->
+</odoo>

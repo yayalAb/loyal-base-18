@@ -203,21 +203,32 @@
                             </group>
                         </page>
                          <page name="vital Sign" string="Vital Sign">
-                        <field name="vital_sign_ids" string="vital Sign">
-                            <list editable="top">
-                                <!-- <field name="patient_id"/> -->
-                                <field name="date_recorded"/>
-                                <field name="temperature"/>
-                                <field name="pulse"/>
-                                <field name="respiration_rate"/>
-                                <field name="blood_pressure"/>
-                                <field name="oxygen_saturation"/>
-                                <field name="weight"/>
-                                <field name="height"/>
-                                <field name="bmi"/>
-                            </list>
-                        </field>
-                    </page>
+                            <!-- <field name="vital_sign_ids" mode="list,form" context="{'default_patient_id': active_id}"> -->
+                            <field name="vital_sign_ids" string="vital Sign" >
+                                <list editable="top">
+                                    <field name="date_recorded"/>
+                                    <!-- <field name="mode_of_arrival"/>
+                                    <field name="is_reffered"/>
+                                    <field name="Status"/> -->
+                                    <field name="temperature"/>
+                                    <field name="pulse"/>
+                                    <field name="respiration_rate"/>
+                                    <field name="blood_pressure"/>
+                                    <field name="oxygen_saturation"/>
+                                    <field name="weight"/>
+                                    <field name="height"/>
+                                    <field name="bmi"/>
+                                    <!-- <field name="bsa"/>
+                                    <field name="current_medication"/>
+                                    <field name="reason_for_visit"/>
+                                    <field name="pain_level"/>
+
+                                    <field name="allergy"/>
+                                    <field name="is_emergency"/> -->
+                                    
+                                </list>
+                            </field>
+                        </page>
                         
 
                          <page name="medicine" string="Medical"

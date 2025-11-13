@@ -81,6 +81,7 @@
         "views/hr_department_view.xml",
         "views/res_configuration.xml",
         "views/hr_contract.xml",
+        "views/vital_sign_view.xml",
         "views/visit_case.xml",
         "report/res_partner_reports.xml",
         "report/lab_test_line_reports.xml",

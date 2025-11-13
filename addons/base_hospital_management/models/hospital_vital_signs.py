@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+import math
 
 
 class HospitalVitalSigns(models.Model):
@@ -9,6 +10,31 @@ class HospitalVitalSigns(models.Model):
 
     patient_id = fields.Many2one(
         'res.partner', string='Patient', required=True)
+    mode_of_arrival = fields.Selection(
+        selection=[
+            ("walking", "walking"),
+            ("wheelchair", "wheelchair"),
+            ("stretcher", "Stretcher"),
+        ],
+        string="MOA",
+        default="walking")
+    is_reffered = fields.Boolean(
+        string="Refferal",
+    )
+    Status = fields.Selection(
+        selection=[
+            ("alert", "Alert"),
+            ("verbal", "verbal"),
+            ("pain", "Pain"),
+            ("unresponsive", "Unresponsive"),
+        ],
+        string="status",
+        default="alert"
+    )
+    allergy = fields.Char(
+        string="Allergy",
+    )
+
     date_recorded = fields.Datetime(
         string='Date', default=fields.Datetime.now)
     temperature = fields.Float(string='Temperature')
@@ -19,6 +45,37 @@ class HospitalVitalSigns(models.Model):
     weight = fields.Float(string='Weight')
     height = fields.Float(string='Height')
     bmi = fields.Float(string='BMI', compute='_compute_bmi', store=True)
+    bsa = fields.Float(string='BSA', compute='_compute_bsa', store=True)
+    current_medication = fields.Char(
+        string="Current Medication",
+    )
+    reason_for_visit = fields.Char(
+        string="Reason For Visit",
+    )
+    pain_level = fields.Selection(
+        selection=[
+            ("no", "No Pain"),
+            ("mild", "Mild"),
+            ("moderate", "Moderate"),
+            ("severe", "Severe"),
+            ("very", "Very severe"),
+            ("worest", "Worest Pain"),
+        ],
+        string="Pain Leavel",
+        default="no"
+    )
+    is_emergency = fields.Boolean(
+        string="Emergency Patient(Please Give Priority)",
+    )
+
+    @api.depends('height', 'weight')
+    def _compute_bsa(self):
+        for record in self:
+            if record.height > 0 and record.weight > 0:
+                record.bsa = math.sqrt(
+                    (record.height * record.weight) / 3600)
+            else:
+                record.bsa = 0.0
 
     @api.depends('weight', 'height')
     def _compute_bmi(self):

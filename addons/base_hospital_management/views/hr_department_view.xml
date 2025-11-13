@@ -14,7 +14,7 @@
                     <field name="reg_fee_repeat_id"/>
                     <field name="reg_fee_weekend_id"/>
                     <field name="reg_fee_holiday_id"/>
-                    <field name="is_default"/>
+                    <!-- <field name="is_default"/> -->
                 </xpath>
 
             </field>
