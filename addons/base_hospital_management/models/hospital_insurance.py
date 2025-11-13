@@ -44,7 +44,7 @@ class HospitalInsurance(models.Model):
                                    string='coverage Lines',
                                    help='coverage Lines')
     price_ids = fields.One2many('insurance.pricing.line',
-                                'insurance_id',
+                                'price_insurance_id',
                                 string='Price Lines',
                                 help='Agreed Price List per product Lines')
     date_from = fields.Datetime(
@@ -101,7 +101,7 @@ class InsurancePricingLine(models.Model):
     _name = 'insurance.pricing.line'
     _description = 'insurance.pricing.line'
 
-    insurance_id = fields.Many2one(
+    price_insurance_id = fields.Many2one(
         'hospital.insurance', string='insurance', ondelete='cascade')
     product_id = fields.Many2one(
         'product.template', string='Item', required=True)
