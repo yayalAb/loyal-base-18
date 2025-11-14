@@ -29,7 +29,7 @@
                             class="oe_stat_button"
                             invisible="id == False">
                             <i class="oi oi-view-list"/>
-                            <span class="me-2"> Coverage </span>
+                            <span class="ms-2 me-2"> Coverage </span>
                             <field name="coverage_count"/>
                         </button>
 
@@ -37,7 +37,7 @@
                             class="oe_stat_button"
                             invisible="id == False">
                             <i class="oi oi-view-list"/>
-                            <span class="me-2"> Price List </span>
+                            <span class="ms-2 me-2"> Price List </span>
                             <field name="item_count"/>
                         </button>
                     </div>
