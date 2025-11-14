@@ -371,7 +371,11 @@ class ResPartner(models.Model):
         string="Department",
         comodel_name="hr.department",
         required=True,
+        default=lambda self: self._default_department(),
     )
+
+    def _default_department(self):
+        return self.env['hr.department'].search([('name', '=', "Nursing Station")], limit=1)
 
     card_fee = fields.Float(
         string="Card Fee",
