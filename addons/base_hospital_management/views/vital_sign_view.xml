@@ -31,6 +31,9 @@
                             <field name="bmi"/>
                             <field name="bsa"/>
                         </group>
+                        <div class="o_row">
+                           <field name="is_emergency" /><span class="ms-2" style="color:red;">Emergency Patient(Please Give Priority)</span>
+                        </div>
                     </group>
                     <notebook>
                         <page string="Current Medication">

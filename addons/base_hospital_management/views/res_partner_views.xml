@@ -58,16 +58,33 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_schedule" string="Add Appointment"
+                    <button name="request_vital_sign" string="Request Vital sign"
                             type="object"
+                            invisible="state == 'vital_sign' or  id == False"
                             groups="base_hospital_management.base_hospital_management_group_manager,base_hospital_management.base_hospital_management_group_receptionist"
                             class="oe_highlight"/>
+                    <button name="action_change_department" string="Assign Department"
+                            type="object"
+                            invisible="card_fee != 0 or id == False"
+                            groups="base_hospital_management.base_hospital_management_group_manager,base_hospital_management.base_hospital_management_group_receptionist"
+                            class="oe_highlight"/>
+                    <!-- <button name="request_card_fee" string="Request Card Fee"
+                            type="object"
+                             invisible="id == False"
+                            groups="base_hospital_management.base_hospital_management_group_manager,base_hospital_management.base_hospital_management_group_receptionist"
+                            class="oe_highlight"/> -->
+                    <button name="action_schedule" string="Add Appointment"
+                            type="object"
+                             invisible="id == False"
+                            groups="base_hospital_management.base_hospital_management_group_manager,base_hospital_management.base_hospital_management_group_receptionist"
+                            class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_open_vital_signs_list" type="object"
                                 class="oe_stat_button"
-                                invisible="name == False"
+                                invisible="id == False"
                                 icon="fa-solid fa-heartbeat">
                                 <span class="me-2"> Vital</span>
                                 <field name="vital_sign_count"/>
@@ -75,7 +92,7 @@
 
                         <button name="open_outpatient_info" type="object"
                                 class="oe_stat_button"
-                                invisible="name == False"
+                                invisible="id == False"
                                 icon="fa-solid fa-heartbeat">
                                 <span class="me-2"> OPD</span>
                                 <field name="opd_count"/>
@@ -83,14 +100,14 @@
                                 
                         <button name="open_inpatient_info" type="object"
                                 class="oe_stat_button"
-                                invisible="name == False"
+                                invisible="id == False"
                                 icon="fa-solid fa-bed">
                                 <span class="me-2"> IPD</span>
                                 <field name="ipd_count"/>
                             </button>
                         <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
-                                invisible="name == False"
+                                invisible="id == False"
                                 icon="fa-pencil-square-o">
                                 <field name="total_unpaid_amount" widget="monetary" options="{'currency_field': 'currency_id', 'display_currency': 'ETB'}"/>                            
                             </button>
@@ -133,7 +150,7 @@
                             <field name="phone"/>
                             <field name="email"/>
                             <field name="vat" string="Tin"/>
-                            <field name="department_id"/>
+                            <field name="department_id" readonly="id != False"/>
                         </group>
                         <group>
                             <!-- <label for="blood_group" string="Blood Group"/>

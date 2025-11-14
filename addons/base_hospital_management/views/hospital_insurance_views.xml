@@ -28,6 +28,7 @@
                     <group>
                         <field name="name"/>
                         <field name="item_based"/>
+                        <field name="fixed_amount"/>
                     </group>
                     <group>
                          <label for="date_from" string="Period"/>
@@ -36,7 +37,7 @@
                                 <i class="fa fa-long-arrow-right mx-2" aria-label="to" title="to"/>
                                 <field name="date_to" nolabel="1" class="oe_inline" readonly="state != 'draft'"/>
                             </div>
-                        <field name="fixed_amount"/>
+                            <field name="tin_no" />
                     </group>
                 </group>
                 <notebook>

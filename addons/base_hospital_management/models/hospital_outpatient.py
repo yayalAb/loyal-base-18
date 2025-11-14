@@ -190,6 +190,11 @@ class HospitalOutpatient(models.Model):
         record = super().create(vals)
         if record.card_fee > 0:
             self.action_create_invoice(record)
+        record.patient_id.write({
+            "state": "opd"
+
+
+        })
         return record
 
     @api.depends('test_ids')

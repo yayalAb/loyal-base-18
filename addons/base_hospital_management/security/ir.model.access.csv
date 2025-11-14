@@ -230,3 +230,6 @@ access_hospital_coverage_line,access.hospital.coverage.line,model_hospital_cover
 
 access_insurance_pricing.line, access.insurance.pricing.line,model_insurance_pricing_line,,1,1,1,1
 access_hospital_vital_signs, access.hospital.vital.signs,model_hospital_vital_signs,,1,1,1,1
+
+
+access_patient_department_change, access.patient.department.change,model_patient_department_change,,1,1,1,1

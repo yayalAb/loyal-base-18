@@ -66,6 +66,8 @@ class HospitalInsurance(models.Model):
         string="state",
         default="draft",
     )
+    tin_no = fields.Char(
+        string="Tin",)
 
     def action_approve(self):
         for rec in self:

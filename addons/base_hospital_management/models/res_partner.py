@@ -353,7 +353,9 @@ class ResPartner(models.Model):
 
     visit_case_id = fields.Many2one(
         string="Visit Case",
+        track_visibility="always",
         comodel_name="visit.case",
+
     )
 
     inpatient_count = fields.Integer(
@@ -366,11 +368,13 @@ class ResPartner(models.Model):
     )
 
     valid_untill = fields.Datetime(
-        string="Valid until")
+        string="Valid until",
+        track_visibility="always",)
     department_id = fields.Many2one(
         string="Department",
         comodel_name="hr.department",
         required=True,
+        track_visibility="always",
         default=lambda self: self._default_department(),
     )
 
@@ -400,9 +404,11 @@ class ResPartner(models.Model):
     )
     insured = fields.Boolean(
         string="Is insured",
+        track_visibility="always",
     )
     insurance_id = fields.Many2one('hospital.insurance',
                                    string="Insurance",
+                                   track_visibility="always",
                                    help="Patient insurance")
     unique_id = fields.Char(string='Unique ID',
                             help="Unique identifier to fetch "
@@ -413,6 +419,53 @@ class ResPartner(models.Model):
     vital_sign_count = fields.Integer(
         string="Vital Sign Count",
         compute="_compute_vital_sign_count")
+
+    state = fields.Selection(
+        selection=[
+            ("new", "New"),
+            ("vital_sign", "Vital Sign"),
+            ("card_fee", "Payment"),
+            ("opd", "OPD"),
+            ("ipd", "IPD"),
+        ],
+        string="State",
+        track_visibility="always",
+        default="new",
+    )
+
+    last_reg_fee_paid_date = fields.Float(
+        string="last_reg_fee_paid_date",
+        digits=(10, 2),
+    )
+    paid_department_id = fields.Many2one(
+        string="paid_department_id",
+        comodel_name="hr.department")
+
+    def request_vital_sign(self):
+        for rec in self:
+            rec.state = "vital_sign"
+
+    def request_card_fee(self):
+        for rec in self:
+            rec.state = "card_fee"
+
+    def request_vital_sign(self):
+        for rec in self:
+            rec.state = "vital_sign"
+
+    def action_change_department(self):
+        for rec in self:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Do you want to change  the patient Department ?',
+                'res_model': 'patient.department.change',
+                'view_mode': 'form',
+                'context': {
+                    'default_old_department_id': self.department_id.id,
+                    'default_patient_id': self.id,
+                },
+                'target': 'new',
+            }
 
     def _compute_vital_sign_count(self):
         for rec in self:
@@ -534,6 +587,11 @@ class ResPartner(models.Model):
         }
 
     def action_create_invoice(self, record):
+        days = int(self.env['ir.config_parameter'].sudo().get_param(
+            'hospital.patient_validity_days', default=10))
+        valid_untill = fields.Date.context_today(record) + timedelta(days=days)
+        record.valid_untill = valid_untill
+        record.card_fee = "card_fee"
         invoice_vals = {
             'move_type': 'out_invoice',  # customer invoice
             'partner_id': record.id,
@@ -546,21 +604,14 @@ class ResPartner(models.Model):
             })],
         }
         invoice = self.env['account.move'].create(invoice_vals)
-        # invoice.action_post()
 
     @api.model
     def create(self, vals):
         """Inherits create function for sequence generation"""
         record = super().create(vals)
-        days = int(self.env['ir.config_parameter'].sudo().get_param(
-            'hospital.patient_validity_days', default=10))
-
-        valid_untill = fields.Date.context_today(record) + timedelta(days=days)
-
         # if vals.get('patient_seq', 'New') == 'New':
         record.patient_seq = self.env['ir.sequence'].next_by_code(
             'patient.sequence') or 'New'
-        record.valid_untill = valid_untill
         if record.card_fee > 0:
             self.action_create_invoice(record)
         return record

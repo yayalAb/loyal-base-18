@@ -83,6 +83,8 @@
         "views/hr_contract.xml",
         "views/vital_sign_view.xml",
         "views/visit_case.xml",
+
+        "wizard/change_pattient_dep_wizard.xml",
         "report/res_partner_reports.xml",
         "report/lab_test_line_reports.xml",
     ],
