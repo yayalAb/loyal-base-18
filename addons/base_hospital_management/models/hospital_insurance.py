@@ -92,6 +92,20 @@ class HospitalInsurance(models.Model):
         digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
         compute="compute_item_count"
     )
+    documets = fields.Html(
+        string="Document",
+        sanitize=True,
+        sanitize_tags=True,
+        sanitize_attributes=True,
+        sanitize_style=False,
+        strip_style=False,
+        strip_classes=False,
+    )
+
+    card_free_days = fields.Integer(
+        string="Card Free Days",
+        default=10,
+    )
 
     def compute_item_count(self):
         for rec in self:

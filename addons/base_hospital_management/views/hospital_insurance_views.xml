@@ -49,6 +49,7 @@
                         <field name="partner_id" context="{'default_is_company': True, 'patient_seq':False}"/>
                         <field name="item_based"/>
                         <field name="fixed_amount"/>
+                        <field name="card_free_days"/>
                     </group>
                     <group>
                          <label for="date_from" string="Period"/>
@@ -82,6 +83,10 @@
                                 <field name="amount"/>
                             </list>
                         </field>
+                    </page>
+                    <page name="documets" string="Documets">
+                        <field name="documets"></field>
+
                     </page>
                 </notebook>
                 </sheet>
