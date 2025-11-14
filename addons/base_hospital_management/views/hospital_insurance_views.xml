@@ -7,8 +7,11 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="item_based"/>
-                <field name="fixed_amount"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="tin_no"/>
+                <field name="discount_rate"/>
+
             </list>
         </field>
     </record>
