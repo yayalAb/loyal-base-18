@@ -76,14 +76,18 @@
                         <button name="open_outpatient_info" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
-                                icon="fa-solid fa-heartbeat"
-                                string="OPD"/>
+                                icon="fa-solid fa-heartbeat">
+                                <span class="me-2"> OPD</span>
+                                <field name="opd_count"/>
+                                </button>
                                 
                         <button name="open_inpatient_info" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
-                                icon="fa-solid fa-bed"
-                                string="IPD"/>
+                                icon="fa-solid fa-bed">
+                                <span class="me-2"> IPD</span>
+                                <field name="ipd_count"/>
+                            </button>
                         <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"

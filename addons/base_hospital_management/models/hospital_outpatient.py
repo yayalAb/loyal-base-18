@@ -168,12 +168,10 @@ class HospitalOutpatient(models.Model):
     @api.model
     def create(self, vals):
         """Op number generator"""
-        record = super().create(vals)
-        days = int(self.env['ir.config_parameter'].sudo().get_param(
-            'hospital.patient_validity_days', default=10))
+
         if vals.get('op_reference', 'New') == 'New':
             last_op = self.search([
-                ('doctor_id', '=', vals.get('doctor_id')),
+                ('doctor_id', '=', vals.get('department_id')),
                 ('op_reference', '!=', 'New'),
             ], order='create_date desc', limit=1)
             if last_op:
@@ -189,10 +187,10 @@ class HospitalOutpatient(models.Model):
         #     raise ValidationError(
         #         'An OP already exists for this patient under the specified'
         #         'allocation')
-
+        record = super().create(vals)
         if record.card_fee > 0:
             self.action_create_invoice(record)
-        return super().create(vals)
+        return record
 
     @api.depends('test_ids')
     def _compute_test_count(self):

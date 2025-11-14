@@ -415,6 +415,24 @@ class ResPartner(models.Model):
             rec.vital_sign_count = self.env['hospital.vital.signs'].search_count(
                 [('patient_id', '=', rec.id)])
 
+    opd_count = fields.Integer(
+        string="OPD Count",
+        compute="_compute_opd_count")
+
+    def _compute_opd_count(self):
+        for rec in self:
+            rec.opd_count = self.env['hospital.outpatient'].search_count(
+                [('patient_id', '=', rec.id)])
+
+    ipd_count = fields.Integer(
+        string="IPD Count",
+        compute="_compute_ipd_count")
+
+    def _compute_ipd_count(self):
+        for rec in self:
+            rec.ipd_count = self.env['hospital.inpatient'].search_count(
+                [('patient_id', '=', rec.id)])
+
     def action_open_vital_signs_list(self):
         self.ensure_one()
         return {
