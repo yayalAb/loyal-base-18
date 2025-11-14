@@ -65,10 +65,17 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button name="action_open_vital_signs_list" type="object"
+                                class="oe_stat_button"
+                                invisible="name == False"
+                                icon="fa-light fa-heart-pulse">
+                                Vital - <field name="vital_sign_count"/>
+                            </button>
+
                         <button name="open_outpatient_info" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
-                                icon="fa-solid fa-person-walking"
+                                icon="fa-light fa-clipboard-medical"
                                 string="OPD"/>
                         <button name="open_inpatient_info" type="object"
                                 class="oe_stat_button"
@@ -144,7 +151,7 @@
                             <field name="insurance_id"
                                            options="{'no_create': True, 'no_edit': True}" invisible="not insured"/>
                             <!-- <field name="unique_id"
-                                           invisible="insurance_id == False" /> -->
+                                           invisible="insurance_id == False"optional="hide" -->
 
                         </group>
                     </group>
@@ -205,26 +212,25 @@
                          <page name="vital Sign" string="Vital Sign">
                             <!-- <field name="vital_sign_ids" mode="list,form" context="{'default_patient_id': active_id}"> -->
                             <field name="vital_sign_ids" string="vital Sign" >
-                                <list editable="top">
-                                    <field name="date_recorded"/>
-                                    <field name="mode_of_arrival"/>
-                                    <field name="is_reffered"/>
-                                    <field name="Status"/>
-                                    <field name="temperature"/>
-                                    <field name="pulse"/>
-                                    <field name="respiration_rate"/>
-                                    <field name="blood_pressure"/>
-                                    <field name="oxygen_saturation"/>
-                                    <field name="weight"/>
-                                    <field name="height"/>
-                                    <field name="bmi"/>
-                                    <field name="bsa"/>
-                                    <field name="current_medication"/>
-                                    <field name="reason_for_visit"/>
-                                    <field name="pain_level"/>
-
-                                    <field name="allergy"/>
-                                    <field name="is_emergency"/>
+                                <list>
+                                    <field name="date_recorded" optional="show"/>
+                                    <field name="mode_of_arrival" optional="hide"/>
+                                    <field name="is_reffered" optional="hide"/>
+                                    <field name="Status" optional="hide"/>
+                                    <field name="temperature" optional="show"/>
+                                    <field name="pulse"  optional="show"/>
+                                    <field name="respiration_rate" optional="show"/>
+                                    <field name="blood_pressure" optional="show"/>
+                                    <field name="oxygen_saturation" optional="show"/>
+                                    <field name="weight" optional="show"/>
+                                    <field name="height" optional="show"/>
+                                    <field name="bmi" optional="show"/>
+                                    <field name="bsa" optional="hide"/>
+                                    <field name="current_medication" optional="hide"/>
+                                    <field name="reason_for_visit" optional="hide"/>
+                                    <field name="pain_level" optional="hide"/>
+                                    <field name="allergy" optional="hide"/>
+                                    <field name="is_emergency" optional="hide"/>
                                     
                                 </list>
                             </field>

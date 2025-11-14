@@ -8,28 +8,43 @@
             <form>
                 <sheet>
                     <group>
-                         <field name="date_recorded"/>
-                            <field name="mode_of_arrival"/>
-                            <field name="is_reffered"/>
-                            <field name="Status"/>
+                        <group>
+                            <field name="mode_of_arrival" widget="radio" options="{'horizontal': true}"/>
+                            <field name="Status" widget="radio" options="{'horizontal': true}"/>
                             <field name="temperature"/>
                             <field name="pulse"/>
                             <field name="respiration_rate"/>
-                            <field name="blood_pressure"/>
+                            <field name="date_recorded"/>
+                            <field name="is_reffered"/>
+                        </group>
+                        <group >
+                            <field name="pain_level" widget="radio" options="{'horizontal': true}"/>
+                            <label for="systolic" string="Blood pressure"/>
+                            <div class="o_row">
+                                <field name="systolic" nolabel="1" class="oe_inline"/>
+                               <span class="mx-2" style="font-weight:bold; font-size: 16px;">/</span>
+                                <field name="diastolic" nolabel="1" class="oe_inline"/>
+                            </div>    
                             <field name="oxygen_saturation"/>
                             <field name="weight"/>
                             <field name="height"/>
                             <field name="bmi"/>
                             <field name="bsa"/>
-                            <field name="current_medication"/>
-                            <field name="reason_for_visit"/>
-                            <field name="pain_level"/>
-
-                            <field name="allergy"/>
-                            <field name="is_emergency"/>
+                        </group>
                     </group>
-                   
+                    <notebook>
+                        <page string="Current Medication">
+                            <field name="current_medication"/>
+                        </page>
+                        <page string="Reason For Visit">
+                            <field name="reason_for_visit"/>
+                        </page>
+                        <page string="Allergy">
+                            <field name="allergy"/>
+                        </page>
+                    </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -39,25 +54,24 @@
         <field name="model">hospital.vital.signs</field>
         <field name="arch" type="xml">
             <list>
-                <field name="date_recorded"/>
-                <field name="mode_of_arrival"/>
-                <field name="is_reffered"/>
-                <field name="Status"/>
-                <field name="temperature"/>
-                <field name="pulse"/>
-                <field name="respiration_rate"/>
-                <field name="blood_pressure"/>
-                <field name="oxygen_saturation"/>
-                <field name="weight"/>
-                <field name="height"/>
-                <field name="bmi"/>
-                <field name="bsa"/>
-                <field name="current_medication"/>
-                <field name="reason_for_visit"/>
-                <field name="pain_level"/>
-
-                <field name="allergy"/>
-                <field name="is_emergency"/>
+                <field name="date_recorded" optional="show"/>
+                <field name="mode_of_arrival" optional="hide"/>
+                <field name="is_reffered" optional="hide"/>
+                <field name="Status" optional="hide"/>
+                <field name="temperature" optional="show"/>
+                <field name="pulse"  optional="show"/>
+                <field name="respiration_rate" optional="show"/>
+                <field name="blood_pressure" optional="show"/>
+                <field name="oxygen_saturation" optional="show"/>
+                <field name="weight" optional="show"/>
+                <field name="height" optional="show"/>
+                <field name="bmi" optional="show"/>
+                <field name="bsa" optional="hide"/>
+                <field name="current_medication" optional="hide"/>
+                <field name="reason_for_visit" optional="hide"/>
+                <field name="pain_level" optional="hide"/>
+                <field name="allergy" optional="hide"/>
+                <field name="is_emergency" optional="hide"/>
             </list>
         </field>
     </record>

@@ -406,6 +406,42 @@ class ResPartner(models.Model):
     vital_sign_ids = fields.One2many('hospital.vital.signs',
                                      'patient_id',
                                      string='Vital Sign',)
+    vital_sign_count = fields.Integer(
+        string="Vital Sign Count",
+        compute="_compute_vital_sign_count")
+
+    def _compute_vital_sign_count(self):
+        for rec in self:
+            rec.vital_sign_count = self.env['hospital.vital.signs'].search_count(
+                [('patient_id', '=', rec.id)])
+
+    def action_open_vital_signs_list(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Patient Vital Signs',
+            'res_model': 'hospital.vital.signs',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.id)],
+            'context': {
+                'default_patient_id': self.id,
+            },
+            'target': 'current',
+        }
+
+    def action_open_vital_signs_form(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Patient Vital Signs',
+            'res_model': 'hospital.vital.signs',
+            'view_mode': 'form, list',
+            # 'domain': [('patient_id', '=', self.id)],
+            'context': {
+                'default_patient_id': self.id,
+            },
+            'target': 'current',
+        }
 
     @api.depends("name")
     def compute_total_unpaid_amount(self):
