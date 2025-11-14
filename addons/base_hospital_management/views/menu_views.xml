@@ -4,7 +4,8 @@
     <menuitem id="hospital_menu_root"
               web_icon="base_hospital_management,static/description/icon.png"
               groups="base_hospital_management.base_hospital_management_group_lab_assistant,base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_doctor,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager"
-              name="Hospital Management"/>
+              name="Hospital Management"
+              sequence="1"/>
     <!--    Appointment menu-->
     <menuitem id="hospital_menu_appointment" name="Appointment"
               parent="hospital_menu_root"

@@ -15,7 +15,7 @@
     "website": "https://www.terabits.xyz",
     "depends": ["web", 'muk_web_colors', 'web_replace_url'],
     "data": [
-        'views/res_config_setting.xml',
+        # 'views/res_config_setting.xml',
         'views/login_template.xml',
         'views/res_users.xml',
         'views/webclient_templates.xml'
