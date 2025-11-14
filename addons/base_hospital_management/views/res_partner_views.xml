@@ -560,7 +560,7 @@
         (0, 0,{'view_mode': 'kanban', 'view_id': ref('res_partner_view_kanban')}),
         (0, 0,{'view_mode': 'form', 'view_id': ref('res_partner_view_form')})]"/>
         <field name="domain">[('patient_seq','not in',['New', 'Employee', 'User'])]</field>
-        <field name="context">{'search_default_created_today': 1}</field>
+        <field name="context">{'search_default_created_today': 1, 'patient_seq':True}</field>
 
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Create a new Patient</p>

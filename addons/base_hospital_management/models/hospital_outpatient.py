@@ -95,8 +95,7 @@ class HospitalOutpatient(models.Model):
         ('working', 'Working Day'),
         ('night', 'Night/Weekend'),
         ('holiday', 'Holiday'),
-        ('repeat', 'Repeat'),
-    ], string="Day Type", compute="_compute_daytype", default="working",)
+        ('repeat', 'Repeat'),], string="Day Type", compute="_compute_daytype", default="working",)
     product_id = fields.Many2one(
         comodel_name="product.template",
         compute="_compute_registration_fee"

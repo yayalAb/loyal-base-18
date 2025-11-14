@@ -24,9 +24,26 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_coverage" type="object"
+                            class="oe_stat_button"
+                            invisible="id == False">
+                            <i class="oi oi-view-list"/>
+                            <span class="me-2"> Coverage </span>
+                            <field name="coverage_count"/>
+                        </button>
+
+                         <button name="action_open_item" type="object"
+                            class="oe_stat_button"
+                            invisible="id == False">
+                            <i class="oi oi-view-list"/>
+                            <span class="me-2"> Price List </span>
+                            <field name="item_count"/>
+                        </button>
+                    </div>
                     <group>
                     <group>
-                        <field name="partner_id" context="{'default_is_company': True}"/>
+                        <field name="partner_id" context="{'default_is_company': True, 'patient_seq':False}"/>
                         <field name="item_based"/>
                         <field name="fixed_amount"/>
                     </group>
@@ -57,6 +74,7 @@
                      <page name="Price List" string="Price List">
                         <field name="price_ids" string="Price List">
                             <list editable="bottom">
+                                <field name="product_id"/>
                                 <field name="product_id"/>
                                 <field name="amount"/>
                             </list>

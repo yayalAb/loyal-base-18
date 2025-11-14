@@ -82,6 +82,45 @@ class HospitalInsurance(models.Model):
         digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
         default=5
     )
+    item_count = fields.Float(
+        string="",
+        digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
+        compute="compute_item_count"
+    )
+    coverage_count = fields.Float(
+        string="",
+        digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
+        compute="compute_item_count"
+    )
+
+    def compute_item_count(self):
+        for rec in self:
+            rec.item_count = len(rec.price_ids)
+            rec.coverage_count = len(rec.coverage_ids)
+
+    def action_open_coverage(self):
+        return {
+            'name': 'Coverage',
+            'view_mode': 'list,form',
+            'res_model': 'hospital.coverage.line',
+            'type': 'ir.actions.act_window',
+            'domain': [('insurance_id', '=', self.id)],
+            'context': {
+                'default_insurance_id': self.id,
+            }
+        }
+
+    def action_open_item(self):
+        return {
+            'name': 'Item',
+            'view_mode': 'list,form',
+            'res_model': 'insurance.pricing.line',
+            'type': 'ir.actions.act_window',
+            'domain': [('price_insurance_id', '=', self.id)],
+            'context': {
+                'default_price_insurance_id': self.id,
+            }
+        }
 
     def action_approve(self):
         for rec in self:

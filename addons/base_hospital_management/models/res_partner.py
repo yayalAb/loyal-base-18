@@ -609,11 +609,12 @@ class ResPartner(models.Model):
     def create(self, vals):
         """Inherits create function for sequence generation"""
         record = super().create(vals)
-        # if vals.get('patient_seq', 'New') == 'New':
-        record.patient_seq = self.env['ir.sequence'].next_by_code(
-            'patient.sequence') or 'New'
-        if record.card_fee > 0:
-            self.action_create_invoice(record)
+        if self.env.context.get('patient_seq'):
+            record.patient_seq = self.env['ir.sequence'].next_by_code(
+                'patient.sequence') or 'New'
+
+            if record.card_fee > 0:
+                self.action_create_invoice(record)
         return record
 
     def action_view_invoice(self):
