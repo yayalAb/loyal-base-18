@@ -19,14 +19,14 @@
             <form>
                 <header>
                     <button string="Approve" name="action_approve" invisible="state != 'draft'" type="object" class="btn-primary"/>
-                    <button string="Cancel" name="action_cancel"  type="object" class="btn-secondary"/>
-                    <button string="Reject" name="action_reject" invisible="state != 'active'" type="object" class="btn-secondary"/>
+                    <button string="Cancel" name="action_cancel"  invisible="state == 'canceled'" type="object" class="btn btn-warning"/>
+                    <button string="Reject" name="action_reject" invisible="state != 'draft'" type="object" class="btn btn-danger"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <group>
                     <group>
-                        <field name="name"/>
+                        <field name="partner_id" context="{'default_is_company': True}"/>
                         <field name="item_based"/>
                         <field name="fixed_amount"/>
                     </group>
@@ -38,6 +38,7 @@
                                 <field name="date_to" nolabel="1" class="oe_inline" readonly="state != 'draft'"/>
                             </div>
                             <field name="tin_no" />
+                            <field name="discount_rate" /> <button string="Apply Discount" name="applay_discount"  type="object" class="btn-secondary"/>
                     </group>
                 </group>
                 <notebook>

@@ -27,14 +27,24 @@ class HospitalInsurance(models.Model):
     _name = 'hospital.insurance'
     _description = 'Hospital Insurance'
 
+    partner_id = fields.Many2one(
+        string="Company",
+        comodel_name="res.partner",
+        domain=[('is_company', '=', True)]
+    )
     name = fields.Char(string='Provider',
-                       help='Name of the insurance provider', required=True,)
+                       related="partner_id.name",
+                       help='Name of the insurance provider')
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   help='Currency in which insurance will be '
                                        'calculated',
                                   default=lambda self: self.env.user.company_id
                                   .currency_id.id,
                                   required=True)
+    tin_no = fields.Char(
+        related="partner_id.vat",
+        string="Tin",)
+
     total_coverage = fields.Monetary(string='Total Coverage',
                                      help='Total coverage of the insurance')
     fixed_amount = fields.Boolean(string="Fixed Amount Coverage",)
@@ -66,12 +76,16 @@ class HospitalInsurance(models.Model):
         string="state",
         default="draft",
     )
-    tin_no = fields.Char(
-        string="Tin",)
+
+    discount_rate = fields.Float(
+        string="Discount",
+        digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
+        default=5
+    )
 
     def action_approve(self):
         for rec in self:
-            rec.state = "state"
+            rec.state = "active"
 
     def action_cancel(self):
         for rec in self:
@@ -80,6 +94,11 @@ class HospitalInsurance(models.Model):
     def action_reject(self):
         for rec in self:
             rec.state = "reject"
+
+    def applay_discount(self):
+        for rec in self.price_ids:
+            rec.amount = rec.product_id.list_price - \
+                (rec.product_id.list_price * self.discount_rate)/100
 
 
 class InsuranceCoverageLine(models.Model):
