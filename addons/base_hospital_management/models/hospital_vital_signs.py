@@ -38,7 +38,6 @@ class HospitalVitalSigns(models.Model):
     )
     allergy = fields.Html(
         string="Allergy",
-        track_visibility="always",
     )
 
     date_recorded = fields.Datetime(
