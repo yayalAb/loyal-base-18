@@ -48,8 +48,8 @@
                             base_hospital_management.base_hospital_management_group_receptionist,
                             base_hospital_management.base_hospital_management_group_nurse"/>
                     <button name="action_create_lab_test"
-                            string="Create Test" class="oe_highlight"
-                            invisible="state!='op'" type="object"
+                            string="Request Lab Test" class="oe_highlight"
+                            invisible="state not in ('op','hold')" type="object"
                             groups="base_hospital_management.base_hospital_management_group_manager,
                             base_hospital_management.base_hospital_management_group_receptionist,
                             base_hospital_management.base_hospital_management_group_lab_assistant,
@@ -61,16 +61,36 @@
                             base_hospital_management.base_hospital_management_group_lab_assistant,
                             base_hospital_management.base_hospital_management_group_receptionist"/>
                     <button name="action_op_cancel" string="Cancel"
-                            invisible="state != 'op'" type="object"
+                            invisible="state == 'done'" type="object"
                             groups="base_hospital_management.base_hospital_management_group_manager,
                             base_hospital_management.base_hospital_management_group_receptionist,
                             base_hospital_management.base_hospital_management_group_doctor,
                             base_hospital_management.base_hospital_management_group_nurse"/>
+                    <button name="action_done" string="Done"
+                            invisible="state == 'done'" type="object"
+                            groups="base_hospital_management.base_hospital_management_group_manager,
+                            base_hospital_management.base_hospital_management_group_receptionist,
+                            base_hospital_management.base_hospital_management_group_doctor,
+                            base_hospital_management.base_hospital_management_group_nurse"/>
+                     <button name="action_hold" string="Hold"
+                            invisible="state in ('hold', 'draft')" type="object"
+                            groups="base_hospital_management.base_hospital_management_group_manager,
+                            base_hospital_management.base_hospital_management_group_receptionist,
+                            base_hospital_management.base_hospital_management_group_doctor,
+                            base_hospital_management.base_hospital_management_group_nurse"/>
+                    
                     <field name="state" widget="statusbar"
                            statusbar_visible="op,invoice"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                         <button name="action_open_vital_signs_list" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-solid fa-heartbeat">
+                                <span class="me-2"> Vital</span>
+                                <field name="vital_sign_count"/>
+                            </button>
                         <button invisible="test_count == 0"
                                 name="action_view_test" type="object"
                                 class="oe_stat_button"

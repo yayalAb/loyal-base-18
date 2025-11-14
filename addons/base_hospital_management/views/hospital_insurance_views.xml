@@ -59,7 +59,10 @@
                                 <field name="date_to" nolabel="1" class="oe_inline" readonly="state != 'draft'"/>
                             </div>
                             <field name="tin_no" />
-                            <field name="discount_rate" /> <button string="Apply Discount" name="applay_discount"  type="object" class="btn-secondary"/>
+                            <field name="discount_rate" /> 
+                            <button string="Apply Discount" name="applay_discount"  type="object" class="btn-secondary"/>
+                            <button string="Load Items" name="action_load_all_items"  type="object" class="btn-secondary"/>
+                            <!-- <button string="Load Category" name="action_load_all_category"  type="object" class="btn-secondary"/> -->
                     </group>
                 </group>
                 <notebook>
@@ -78,7 +81,6 @@
                      <page name="Price List" string="Price List">
                         <field name="price_ids" string="Price List">
                             <list editable="bottom">
-                                <field name="product_id"/>
                                 <field name="product_id"/>
                                 <field name="amount"/>
                             </list>

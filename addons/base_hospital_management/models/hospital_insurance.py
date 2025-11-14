@@ -106,7 +106,35 @@ class HospitalInsurance(models.Model):
         string="Card Free Days",
         default=10,
     )
+    def action_load_all_category(self):
+        categorys = self.env['product.category'].search([])
 
+        for rec in self:
+            # Delete old lines if needed
+            rec.price_ids.unlink()
+
+            # Create new lines
+            for category in categorys:
+                self.env['hospital.coverage.line'].create({
+                    'insurance_id': rec.id,
+                    'product.category': category.id,
+                })
+
+    def action_load_all_items(self):
+        products = self.env['product.template'].search([])
+
+        for rec in self:
+            # Delete old lines if needed
+            rec.price_ids.unlink()
+
+            # Create new lines
+            for product in products:
+                self.env['insurance.pricing.line'].create({
+                    'price_insurance_id': rec.id,
+                    'product_id': product.id,
+                    'amount': product.list_price,  # or your custom price
+                })
+    
     def compute_item_count(self):
         for rec in self:
             rec.item_count = len(rec.price_ids)

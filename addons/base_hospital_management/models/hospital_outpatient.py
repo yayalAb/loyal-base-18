@@ -69,8 +69,13 @@ class HospitalOutpatient(models.Model):
                                string='Tests',
                                help='Tests for the patient')
     state = fields.Selection(
-        [('draft', 'Draft'), ('op', 'OP'), ('inpatient', 'In Patient'),
-         ('invoice', 'Invoiced'), ('cancel', 'Canceled')],
+        [('draft', 'Draft'),
+         ('op', 'OP'), 
+        ('inpatient', 'In Patient'),
+        ('invoice', 'Invoiced'),
+        ('hold', 'hold'),
+        ('done', 'Done'),
+        ('cancel', 'Canceled')],
         default='draft', string='State', help='State of the outpatient')
     prescription_ids = fields.One2many('prescription.line',
                                        'outpatient_id',
@@ -100,6 +105,30 @@ class HospitalOutpatient(models.Model):
         comodel_name="product.template",
         compute="_compute_registration_fee"
     )
+    vital_sign_count = fields.Integer(
+        related="patient_id.vital_sign_count"
+    )
+
+    def action_open_vital_signs_list(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Patient Vital Signs',
+            'res_model': 'hospital.vital.signs',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.patient_id.id)],
+            'context': {
+                'default_patient_id': self.patient_id.id,
+            },
+            'target': 'current',
+        }
+
+    def action_done(self):
+        for rec in self:
+            rec.state="done"
+    def action_hold(self):
+        for rec in self:
+            rec.state="hold"
 
     def _compute_daytype(self):
         for rec in self:
