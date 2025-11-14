@@ -68,15 +68,17 @@
                         <button name="action_open_vital_signs_list" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
-                                icon="fa-light fa-heart-pulse">
-                                Vital - <field name="vital_sign_count"/>
+                                icon="fa-solid fa-heartbeat">
+                                <span class="me-2"> Vital</span>
+                                <field name="vital_sign_count"/>
                             </button>
 
                         <button name="open_outpatient_info" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
-                                icon="fa-light fa-clipboard-medical"
+                                icon="fa-solid fa-heartbeat"
                                 string="OPD"/>
+                                
                         <button name="open_inpatient_info" type="object"
                                 class="oe_stat_button"
                                 invisible="name == False"
