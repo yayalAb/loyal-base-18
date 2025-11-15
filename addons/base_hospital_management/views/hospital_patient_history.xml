@@ -41,9 +41,26 @@
         <field name="model">hospital.patient.history</field>
         <field name="arch" type="xml">
             <list>
-                <field name="history_type" widget="radio" options="{'horizontal': true}"/>
+                <field name="history_type"/>
                 <field name="name"/>
+                 <field name="result_type"/>
             </list>
+        </field>
+    </record>
+    <record id="hospital_patient_history_search_view" model="ir.ui.view">
+        <field name="name">hospital.patient.history.search</field>
+        <field name="model">hospital.patient.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="history_type"/>
+                <filter string="Patient History" name="filter_history"
+                    domain="[('history_type', '=', 'history')]"/>
+                <filter string="Physical Findings" name="filter_physical"
+                        domain="[('history_type', '=', 'physical')]"/>
+                <filter string="Chronic Disease" name="filter_chronic"
+                        domain="[('history_type', '=', 'chronic')]"/>
+            </search>
         </field>
     </record>
     <!--Lab test menu action-->
@@ -87,6 +104,33 @@
                 </sheet>
                 <chatter/>
             </form>
+        </field>
+    </record>
+    <record id="patient_history_view_tree" model="ir.ui.view">
+        <field name="name">patient.history.view.tree</field>
+        <field name="model">patient.history</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="history_id"/>
+                <field name="hist_type"/>
+                <field name="display_result"/>
+            </list>
+        </field>
+    </record>
+    <record id="patient_history_search_view" model="ir.ui.view">
+        <field name="name">patient.history.search</field>
+        <field name="model">patient.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="history_id"/>
+                <field name="hist_type"/>
+                <filter string="Patient History" name="filter_history"
+                    domain="[('hist_type', '=', 'history')]"/>
+                <filter string="Physical Findings" name="filter_physical"
+                        domain="[('hist_type', '=', 'physical')]"/>
+                <filter string="Chronic Disease" name="filter_chronic"
+                        domain="[('hist_type', '=', 'chronic')]"/>
+            </search>
         </field>
     </record>
 

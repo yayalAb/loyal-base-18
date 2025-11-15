@@ -121,6 +121,7 @@ class PhysicalFinding(models.Model):
         ],
         default="history",
         related="history_id.history_type",
+        store=True
     )
     result_type = fields.Selection(
         selection=[

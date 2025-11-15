@@ -457,6 +457,32 @@ class ResPartner(models.Model):
                                  string='Patient History',
                                  help='Patient History')
 
+    patient_his_count = fields.Integer(
+        string="His Count",
+        compute="_compute_his_count"
+    )
+
+    def _compute_his_count(self):
+        for rec in self:
+            rec.patient_his_count = self.env['patient.history'].search_count(
+                [('patient_id', '=', rec.id) or ('physical_patient_id', '=', rec.id) or ('cronic_patient_id', '=', rec.id)])
+
+    def open_patient_history(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Patient History',
+            'res_model': 'patient.history',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.id) or ('physical_patient_id', '=', self.id) or ('cronic_patient_id', '=', self.id)],
+            'context': {
+                'default_patient_id': self.id,
+                'default_physical_patient_id': self.id,
+                'default_cronic_patient_id': self.id,
+            },
+            'target': 'current',
+        }
+
     def request_vital_sign(self):
         for rec in self:
             rec.state = "vital_sign"
