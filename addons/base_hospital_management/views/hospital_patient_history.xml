@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Lab test form view-->
+    <record id="hospital_patient_history_view_form" model="ir.ui.view">
+        <field name="name">hospital.patient.history.form</field>
+        <field name="model">hospital.patient.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="history_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="name"/>
+                        </group>
+                        <group >
+                            <field name="result_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="default_value_yes_no" invisible="result_type != 'yes'"  widget="radio" options="{'horizontal': true}"/>
+                            <field name="default_value_htm"  invisible="result_type != 'long'"/>
+                            <field name="default_value_char" invisible="result_type != 'text'"/>
+                            <field name="default_value_float" invisible="result_type != 'number'"/>
+                        </group>
+                    </group>
+                     <notebook invisible="result_type != 'selection'">
+                    <page name="option_list" string="Options">
+                        <field name="option_ids" string="Options">
+                            <list editable="bottom">
+                                <field name="name"/>
+                            </list>
+                        </field>
+                    </page>
+                    </notebook>
+                
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <!--    Lab test tree view-->
+    <record id="hospital_patient_history_view_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.history.view.tree</field>
+        <field name="model">hospital.patient.history</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="history_type" widget="radio" options="{'horizontal': true}"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <!--Lab test menu action-->
+    <record id="hospital_patient_history_action" model="ir.actions.act_window">
+        <field name="name">hospital.patient.history</field>
+        <field name="res_model">hospital.patient.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Laboratory
+            </p>
+        </field>
+    </record>
+    <!--Lab test menu-->
+    <menuitem id="hospital_patient_history_menu" name="Patient History"
+              parent="hospital_menu_configuration" sequence="120"
+              action="hospital_patient_history_action"/>
+
+
+
+ <record id="patient_history_view_form" model="ir.ui.view">
+        <field name="name">patient.history.form</field>
+        <field name="model">patient.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            
+                            <field name="history_id"/>
+                            <field name="history_datetime" />
+                        </group>
+                        <group >
+                            <field name="result_htm" invisible="result_type != 'long'"/>
+                            <field name="result_char" invisible="result_type != 'text'"/>
+                            <field name="result_float" invisible="result_type != 'number'"/>
+                            <field name="result_selection"  invisible="result_type != 'slection'"/>
+                            <field name="default_value_yes_no" invisible="result_type != 'yes'"  widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+        <record id="patient_history_action" model="ir.actions.act_window">
+        <field name="name">patient.history</field>
+        <field name="res_model">patient.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Laboratory
+            </p>
+        </field>
+    </record>
+</odoo>

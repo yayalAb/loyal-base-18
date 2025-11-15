@@ -441,6 +441,22 @@ class ResPartner(models.Model):
         string="paid_department_id",
         comodel_name="hr.department")
 
+    history_ids = fields.One2many('patient.history',
+                                  'patient_id',
+                                  domain="[('hist_type', '=', 'cronic')]",
+                                  string='Patient History',
+                                  help='Patient History')
+    phsical_finding_ids = fields.One2many('patient.history',
+                                          'physical_patient_id',
+                                          domain="[('hist_type', '=', 'cronic')]",
+                                          string='Patient History',
+                                          help='Patient History')
+    cronic_ids = fields.One2many('patient.history',
+                                 'cronic_patient_id',
+                                 domain="[('hist_type', '=', 'cronic')]",
+                                 string='Patient History',
+                                 help='Patient History')
+
     def request_vital_sign(self):
         for rec in self:
             rec.state = "vital_sign"

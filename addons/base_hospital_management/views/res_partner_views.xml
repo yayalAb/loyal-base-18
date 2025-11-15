@@ -258,8 +258,41 @@
                                 </list>
                             </field>
                         </page>
-                        
-
+                        <page name="history_line" string="Patient History">
+                            <notebook>
+                                <page name="PatientHistory" string="Patient History">
+                                    <field name="history_ids" >
+                                        <list>
+                                            <field name="history_datetime"/>
+                                            <field name="history_id"/>
+                                            <field name="display_result"/>
+                                        </list>
+                                    </field>
+                                    
+                                </page>
+                                <page name="PhysicalFindings" string="Physical Findings">
+                                    <field name="phsical_finding_ids">
+                                        <list>
+                                            <field name="history_datetime"/>
+                                            <field name="history_id"/>
+                                            <field name="display_result"/>
+                                        </list>
+                                    </field>
+                                    
+                                </page>
+                                <page name="ChronicDiseaseAssessment" string="Chronic Disease Assessment">
+                                    <field name="cronic_ids" >
+                                        <list>
+                                            <field name="history_datetime"/>
+                                            <field name="history_id"/>
+                                            <field name="display_result"/>
+                                        </list>
+                                    </field>
+                                    
+                                </page>
+                            </notebook>
+                          
+                        </page>
                          <page name="medicine" string="Medical"
                               groups="base_hospital_management.base_hospital_management_group_lab_assistant, base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager">
                             <notebook>
