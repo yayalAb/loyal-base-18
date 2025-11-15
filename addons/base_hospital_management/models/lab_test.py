@@ -19,7 +19,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 ################################################################################
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class LabTest(models.Model):
@@ -27,6 +27,7 @@ class LabTest(models.Model):
     _name = 'lab.test'
     _description = 'Laboratory Test'
 
+    lab_code = fields.Char(string='Code')
     name = fields.Char(string='Test', help='Name of the test')
     patient_lead = fields.Float(string='Result Within',
                                 help='Time taken to get the result')
@@ -45,3 +46,11 @@ class LabTest(models.Model):
     test_type = fields.Selection(
         [('range', 'Range'), ('objective', 'Objective')],
         string='Type', required=True, help='Type of test')
+
+    @api.model
+    def create(self, vals):
+        """Method for creating lab sequence number"""
+        if vals.get('lab_code', 'New') == 'New':
+            vals['lab_code'] = self.env['ir.sequence'].next_by_code(
+                'lab.test') or 'New'
+        return super().create(vals)

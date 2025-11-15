@@ -30,7 +30,5 @@ class ChangePatientDepartment(models.TransientModel):
         for rec in self:
             rec.patient_id.write({
                 "department_id": rec.new_department_id.id
-
-
             })
             rec.patient_id.action_create_invoice(rec.patient_id)

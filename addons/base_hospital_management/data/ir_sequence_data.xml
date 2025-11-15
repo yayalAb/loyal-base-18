@@ -70,5 +70,14 @@
             <field name="prefix">VAC</field>
             <field name="padding">3</field>
         </record>
+
+
+        <!--        Lab test sequence generator-->
+        <record id="lab_test_sequence" model="ir.sequence">
+            <field name="name">Laboratory Test Sequence</field>
+            <field name="code">lab.test</field>
+            <field name="prefix">LABT</field>
+            <field name="padding">5</field>
+        </record>
     </data>
 </odoo>

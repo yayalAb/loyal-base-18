@@ -9,6 +9,7 @@
                 <sheet>
                     <group>
                         <group>
+                            <field name="lab_code" readonly="True"/>
                             <field name="name"/>
                             <field name="patient_lead" widget="float_time"/>
                             <field name="test_type"/>

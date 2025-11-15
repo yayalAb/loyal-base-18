@@ -556,7 +556,6 @@ class ResPartner(models.Model):
             elif rec.day_type == "holiday" and department.reg_fee_holiday_id:
                 fee = department.reg_fee_holiday_id.list_price
                 product_id = department.reg_fee_holiday_id.id
-
             rec.card_fee = fee
             rec.product_id = product_id
 
@@ -591,7 +590,6 @@ class ResPartner(models.Model):
             'hospital.patient_validity_days', default=10))
         valid_untill = fields.Date.context_today(record) + timedelta(days=days)
         record.valid_untill = valid_untill
-        record.card_fee = "card_fee"
         invoice_vals = {
             'move_type': 'out_invoice',  # customer invoice
             'partner_id': record.id,
@@ -612,7 +610,6 @@ class ResPartner(models.Model):
         if self.env.context.get('patient_seq'):
             record.patient_seq = self.env['ir.sequence'].next_by_code(
                 'patient.sequence') or 'New'
-
             if record.card_fee > 0:
                 self.action_create_invoice(record)
         return record
