@@ -19,6 +19,7 @@
                         </group>
                         <group>
                             <field name="uom_id"/>
+                            <field name="parent_id"/>
                             <field name="attachment"/>
                             
                         </group>

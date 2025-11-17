@@ -17,7 +17,7 @@
                     <button name="action_start_test"
                             string="Start Test"
                             class="oe_highlight"
-                            invisible="invoiced == True"
+                            invisible="invoiced != True or  state != 'draft'"
                             groups="base_hospital_management.base_hospital_management_group_lab_assistant"
                             type="object"/>
                     <button name="action_test_end"

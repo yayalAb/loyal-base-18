@@ -64,6 +64,8 @@ class LabTest(models.Model):
         string="Result Type",
         required=True,
     )
+    lab_id = fields.Many2one('hospital.laboratory', string='Lab',
+                             help='Lab in which test is doing')
 
     upper_panic_value = fields.Float(string='Upper Panic',
                                      help='Upper panic value for the test')
