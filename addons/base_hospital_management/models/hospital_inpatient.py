@@ -177,6 +177,46 @@ class HospitalInpatient(models.Model):
         string="Progress Note Count",
         compute="_progress_note_count")
 
+    sale_order_count = fields.Integer(
+        string="Sale Order Count",
+        compute='_compute_sale_order_count',
+    )
+
+    total_unpaid_amount = fields.Float(
+        digits=(10, 2),
+        compute="compute_total_unpaid_amount"
+    )
+
+    @api.depends("patient_id")
+    def compute_total_unpaid_amount(self):
+        for rec in self:
+            unpaid_moves = self.env['account.move'].search([
+                ('payment_state', '!=', 'paid'),
+                ('partner_id', '=', self.patient_id.id),
+                ('move_type', 'in', ['out_invoice', 'in_invoice']),
+                ('state', 'in', ['draft', 'posted'])  # Only posted moves
+            ])
+            rec.total_unpaid_amount = sum(
+                unpaid_moves.mapped('amount_residual'))
+
+    def _compute_sale_order_count(self):
+        self.sale_order_count = self.env['sale.order'].search_count(
+            [('partner_id', '=', self.patient_id.id)])
+
+    def action_view_sale_order(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'progress note',
+            'res_model': 'sale.order',
+            'view_mode': 'list,form',
+            'domain': [('partner_id', '=', self.patient_id.id)],
+            'context': {
+                'default_partner_id': self.patient_id.id,
+            },
+            'target': 'current',
+        }
+
     def _progress_note_count(self):
         for rec in self:
             rec.progress_note_count = self.env['patient.progress.note'].search_count(

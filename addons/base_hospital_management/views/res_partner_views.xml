@@ -105,10 +105,18 @@
                                 <span class="me-2"> IPD</span>
                                 <field name="ipd_count"/>
                             </button>
+                        <button class="oe_stat_button" 
+                                type="object" 
+                                name="action_view_sale_order" 
+                                groups="sales_team.group_sale_salesman"
+                                icon="fa-usd">
+                                <field string="Order" name="sale_order_count" widget="statinfo"/>
+                        </button>
                         <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
                                 invisible="id == False"
                                 icon="fa-pencil-square-o">
+                                <span class="me-2"> Invoice</span>
                                 <field name="total_unpaid_amount" widget="monetary" options="{'currency_field': 'currency_id', 'display_currency': 'ETB'}"/>                            
                             </button>
                         <button name="open_patient_history" type="object"

@@ -64,11 +64,24 @@
                                 <span class="me-2"> Progress Note</span>
                                 <field name="progress_note_count"/>                            
                         </button>
+                        <button name="action_view_sale_order" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-usd">
+                                <field string="Order" name="sale_order_count" widget="statinfo"/>
+                            </button>
                         <button name="action_view_invoice" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-pencil-square-o">
+                                <span class="me-2"> Invoice</span>
+                                <field name="total_unpaid_amount" widget="monetary" options="{'currency_field': 'currency_id', 'display_currency': 'ETB'}"/>                            
+                            </button>
+                        <!-- <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
                                 icon="fa-pencil-square-o"
                                 string="Invoice"
-                                invisible="is_invoice != True"/>
+                                invisible="is_invoice != True"/> -->
                     </div>
                     <div>
                         <h1>

@@ -91,6 +91,7 @@
                                 <span class="me-2"> Vital</span>
                                 <field name="vital_sign_count"/>
                             </button>
+
                          <button name="progress_note_history" type="object"
                                 class="oe_stat_button"
                                 invisible="id == False"
@@ -104,11 +105,24 @@
                                 icon="fa-tint">
                             <field name="test_count" widget="statinfo"/>
                         </button>
+                        <button name="action_view_sale_order" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-usd">
+                                <field string="Order" name="sale_order_count" widget="statinfo"/>
+                            </button>
                         <button name="action_view_invoice" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-pencil-square-o">
+                                <span class="me-2"> Invoice</span>
+                                <field name="total_unpaid_amount" widget="monetary" options="{'currency_field': 'currency_id', 'display_currency': 'ETB'}"/>                            
+                            </button>
+                        <!-- <button name="action_view_invoice" type="object"
                                 class="oe_stat_button"
                                 invisible="invoiced == False"
                                 icon="fa-pencil-square-o"
-                                string="Invoice"/>
+                                string="Invoice"/> -->
                     </div>
                     <h1>
                         <field name="op_reference"/>
