@@ -87,6 +87,7 @@ class HospitalPateintHistory(models.Model):
 class SelectionList(models.Model):
     _name = 'patient.history.option'
     _description = 'patient.history.option'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     history_id = fields.Many2one(
         string="History",
         comodel_name="hospital.patient.history",
@@ -99,6 +100,7 @@ class SelectionList(models.Model):
 class PhysicalFinding(models.Model):
     _name = 'patient.history'
     _description = 'patient.history'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     patient_id = fields.Many2one(
         'res.partner', string='Patient', ondelete='cascade')
