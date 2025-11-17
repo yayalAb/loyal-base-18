@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Lab test form view-->
+    <record id="patient_progress_note_view_form" model="ir.ui.view">
+        <field name="name">patient.progress.note.form</field>
+        <field name="model">patient.progress.note</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="patient_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="problem"/> 
+                            <field name="objective"/>
+                            <field name="plan"/>
+                        </group>
+                        <group >
+                       
+                            <field name="subjective"/>
+                            <field name="investigation_result"/>
+                            <field name="assessment"/>
+                            <field name="date_recorded"/>
+                        </group>
+                      
+                    </group>
+                    
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <!--    Lab test tree view-->
+    <record id="patient_progress_note_view_tree" model="ir.ui.view">
+        <field name="name">patient.progress.note.view.tree</field>
+        <field name="model">patient.progress.note</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date_recorded"/>
+                <field name="problem"/>
+                <field name="patient_type"/>
+                <field name="objective"/>
+                <field name="plan"/>
+                <field name="subjective"/>
+                <field name="investigation_result"/>
+                <field name="assessment"/>
+            </list>
+        </field>
+    </record>
+    <!--Lab test menu action-->
+    <record id="patient_progress_note_action" model="ir.actions.act_window">
+        <field name="name">patient.progress.note</field>
+        <field name="res_model">patient.progress.note</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create progress note
+            </p>
+        </field>
+    </record>
+</odoo>

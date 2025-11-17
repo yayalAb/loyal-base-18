@@ -173,6 +173,30 @@ class HospitalInpatient(models.Model):
         digits=(10, 2),  # (tuple(int,int)) – a pair (total, decimal)
     )
 
+    progress_note_count = fields.Integer(
+        string="Progress Note Count",
+        compute="_progress_note_count")
+
+    def _progress_note_count(self):
+        for rec in self:
+            rec.progress_note_count = self.env['patient.progress.note'].search_count(
+                [('patient_id', '=', rec.patient_id.id)])
+
+    def progress_note_history(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'progress note',
+            'res_model': 'patient.progress.note',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.patient_id.id)],
+            'context': {
+                'default_patient_id': self.patient_id.id,
+                'default_patient_type': "ipd",
+            },
+            'target': 'current',
+        }
+
     @api.model
     def create(self, vals):
         """Sequence number generation"""

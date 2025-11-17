@@ -91,6 +91,13 @@
                                 <span class="me-2"> Vital</span>
                                 <field name="vital_sign_count"/>
                             </button>
+                         <button name="progress_note_history" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-pencil-square-o">
+                                <span class="me-2"> Progress Note</span>
+                                <field name="progress_note_count"/>                            
+                        </button>
                         <button invisible="test_count == 0"
                                 name="action_view_test" type="object"
                                 class="oe_stat_button"

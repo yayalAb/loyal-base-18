@@ -236,4 +236,7 @@ access_patient_department_change, access.patient.department.change,model_patient
 access_hospital_patient_history, access.hospital.patient.history,model_hospital_patient_history,,1,1,1,1
 access_patient_history, access.patient.history,model_patient_history,,1,1,1,1
 access_patient_history_option, access.patient.history.option,model_patient_history_option,,1,1,1,1
-access_patient_history_option_manager,patient_history_option_manager,model_patient_history_option,,1,1,1,1
+access_patient_history_option_manager,access.patient_history_option_manager,model_patient_history_option,,1,1,1,1
+
+access_patient_progress_note,access.patient.progress.note,model_patient_progress_note,,1,1,1,1
+

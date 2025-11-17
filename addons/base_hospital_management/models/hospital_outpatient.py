@@ -70,12 +70,12 @@ class HospitalOutpatient(models.Model):
                                help='Tests for the patient')
     state = fields.Selection(
         [('draft', 'Draft'),
-         ('op', 'OP'), 
-        ('inpatient', 'In Patient'),
-        ('invoice', 'Invoiced'),
-        ('hold', 'hold'),
-        ('done', 'Done'),
-        ('cancel', 'Canceled')],
+         ('op', 'OP'),
+         ('inpatient', 'In Patient'),
+         ('invoice', 'Invoiced'),
+         ('hold', 'hold'),
+         ('done', 'Done'),
+         ('cancel', 'Canceled')],
         default='draft', string='State', help='State of the outpatient')
     prescription_ids = fields.One2many('prescription.line',
                                        'outpatient_id',
@@ -108,6 +108,29 @@ class HospitalOutpatient(models.Model):
     vital_sign_count = fields.Integer(
         related="patient_id.vital_sign_count"
     )
+    progress_note_count = fields.Integer(
+        string="Progress Note Count",
+        compute="_progress_note_count")
+
+    def _progress_note_count(self):
+        for rec in self:
+            rec.progress_note_count = self.env['patient.progress.note'].search_count(
+                [('patient_id', '=', rec.patient_id.id)])
+
+    def progress_note_history(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'progress note',
+            'res_model': 'patient.progress.note',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.patient_id.id)],
+            'context': {
+                'default_patient_id': self.patient_id.id,
+                'default_patient_type': "opd",
+            },
+            'target': 'current',
+        }
 
     def action_open_vital_signs_list(self):
         self.ensure_one()
@@ -125,10 +148,11 @@ class HospitalOutpatient(models.Model):
 
     def action_done(self):
         for rec in self:
-            rec.state="done"
+            rec.state = "done"
+
     def action_hold(self):
         for rec in self:
-            rec.state="hold"
+            rec.state = "hold"
 
     def _compute_daytype(self):
         for rec in self:

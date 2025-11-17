@@ -462,6 +462,32 @@ class ResPartner(models.Model):
         compute="_compute_his_count"
     )
 
+    progress_note_ids = fields.One2many('patient.progress.note',
+                                        'patient_id',
+                                        string='Progress Note',)
+    progress_note_count = fields.Integer(
+        string="Progress Note Count",
+        compute="_progress_note_count")
+
+    def _progress_note_count(self):
+        for rec in self:
+            rec.progress_note_count = self.env['patient.progress.note'].search_count(
+                [('patient_id', '=', rec.id)])
+
+    def progress_note_history(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'progress note',
+            'res_model': 'patient.progress.note',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.id)],
+            'context': {
+                'default_patient_id': self.id,
+            },
+            'target': 'current',
+        }
+
     def _compute_his_count(self):
         for rec in self:
             rec.patient_his_count = self.env['patient.history'].search_count(

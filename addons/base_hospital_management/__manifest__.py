@@ -85,6 +85,7 @@
         "views/vital_sign_view.xml",
         "views/visit_case.xml",
         "views/insurace_price_coverage.xml",
+        "views/patient_progress_note.xml",
 
         "wizard/change_pattient_dep_wizard.xml",
         "report/res_partner_reports.xml",

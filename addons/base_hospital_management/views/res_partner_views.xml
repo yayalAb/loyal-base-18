@@ -117,7 +117,14 @@
                                 icon="fa-pencil-square-o">
                                 <span class="me-2"> Patient History</span>
                                 <field name="patient_his_count"/>                            
-                            </button>
+                        </button>
+                        <button name="progress_note_history" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-pencil-square-o">
+                                <span class="me-2"> Progress Note</span>
+                                <field name="progress_note_count"/>                            
+                        </button>
                         <button name="action_generate_patient_card"
                                 type="object"
                                 class="oe_stat_button"
@@ -299,6 +306,20 @@
                                 </page>
                             </notebook>
                           
+                        </page>
+                        <page name="Progress Note" string="Progress Note">
+                            <field name="progress_note_ids">
+                                <list>
+                                    <field name="problem" optional="show"/>
+                                    <field name="patient_type" optional="show"/>
+                                    <field name="objective" optional="show"/>
+                                    <field name="plan" optional="show"/>
+                                    <field name="subjective" optional="show"/>
+                                    <field name="investigation_result" optional="show"/>
+                                    <field name="assessment" optional="show"/>
+                                </list>
+                            </field>
+
                         </page>
                          <page name="medicine" string="Medical"
                               groups="base_hospital_management.base_hospital_management_group_lab_assistant, base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager">
