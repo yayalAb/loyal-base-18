@@ -19,4 +19,42 @@
     <!--    Room facilities menu-->
     <menuitem id="room_facility_menu" name="Facilities" sequence="20"
               parent="hospital_menu_configuration" action="room_facility_action"/>
+
+
+      <!--payment_category tree view-->
+    <record id="payment_category_view_tree" model="ir.ui.view">
+        <field name="name">payment.category.view.tree</field>
+        <field name="model">payment.category</field>
+        <field name="arch" type="xml">
+            <list create="1" editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <!--    payment_category menu action-->
+    <record id="payment_category_action" model='ir.actions.act_window'>
+        <field name="name">payment category</field>
+        <field name="res_model">payment.category</field>
+        <field name="view_mode">list</field>
+    </record>
+    <!--    Room facilities menu-->
+    <menuitem id="payment_category_menu" name="Payment Type" sequence="25"
+              parent="hospital_menu_configuration" action="payment_category_action"/>
+
+
+
+    <record id="inherit_pricelist_item_tree_view_from_product" model="ir.ui.view">
+        <field name="name">inherit.product.pricelist.item.tree.view</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_tree_view_from_product"/>
+        <field name="arch" type="xml">
+
+            <!-- Example: add a new field after fixed_price -->
+            <xpath expr="//field[@name='pricelist_id']" position="after">
+                <field name="payment_category_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
 </odoo>

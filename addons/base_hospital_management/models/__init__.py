@@ -63,3 +63,4 @@ from . import room_facility
 from . import adress_detail
 from . import hospital_patient_history
 from . import patient_progress_note
+from . import payment_category
