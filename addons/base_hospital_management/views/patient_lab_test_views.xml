@@ -8,10 +8,16 @@
             <form>
                 <header>
                     <field name="state" widget="statusbar"/>
+                    <button name="action_create_invoice"
+                            string="Create Invoice"
+                            class="oe_highlight"
+                            groups="base_hospital_management.base_hospital_management_group_lab_assistant"
+                            invisible="state != 'draft' or invoiced == True"
+                            type="object"/>
                     <button name="action_start_test"
                             string="Start Test"
                             class="oe_highlight"
-                            invisible="state !='draft'"
+                            invisible="invoiced == True"
                             groups="base_hospital_management.base_hospital_management_group_lab_assistant"
                             type="object"/>
                     <button name="action_test_end"
@@ -20,12 +26,7 @@
                             invisible="state != 'test'"
                             groups="base_hospital_management.base_hospital_management_group_lab_assistant"
                             type="object"/>
-                    <button name="action_create_invoice"
-                            string="Create Invoice"
-                            class="oe_highlight"
-                            groups="base_hospital_management.base_hospital_management_group_lab_assistant"
-                            invisible="state != 'completed' or invoiced == True"
-                            type="object"/>
+
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
