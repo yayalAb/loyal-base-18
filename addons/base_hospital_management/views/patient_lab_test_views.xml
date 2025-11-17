@@ -72,7 +72,7 @@
                         <page name="Result"
                               invisible="state == 'draft'">
                             <field name="result_ids">
-                                <list editable="bottom">
+                                <list>
                                     <field name="test_id"/>
                                     <field name="normal"/>
                                     <field name="result"/>

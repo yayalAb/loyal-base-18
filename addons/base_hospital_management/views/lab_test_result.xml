@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!--Lab test form view-->
-    <record id="lab_test_view_form" model="ir.ui.view">
-        <field name="name">lab.test.view.form</field>
-        <field name="model">lab.test</field>
+    <record id="lab_test_result_view_form" model="ir.ui.view">
+        <field name="name">lab.test.result.view.form</field>
+        <field name="model">lab.test.result</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
+                    <!-- <group>
                         <group>
                             <field name="lab_code" readonly="True"/>
                             <field name="name"/>
                             <field name="patient_lead" widget="float_time"/>
-                            <!-- <field name="test_type"/> -->
                             <field name="sample_type_id"/>
                             <field name="price" widget="monetary"/>
                         </group>
@@ -22,10 +21,10 @@
                             <field name="currency_id" invisible="1"/>
                             <field name="category_id"/>
                             <field name="uom_id"/>
-                            
+                            <field name="attachment"/>
                         </group>
                        
-                    </group>
+                    </group> -->
                      <group string="Result" invisible="result_type != 'range'">
                             <group>
                                 <field name="upper_panic_value"/>
@@ -57,21 +56,24 @@
                                 <field name="result_number"/>
                             </group>
                         </group>
-
+                        <group invisible="result_type != 'selection'">
+                            <group>
+                                <field name="result_selection"/>
+                            </group>
+                        </group>
                     <notebook>
-                        <page name="Options" string="Options" invisible="result_type != 'selection'">
+                        <!-- <page name="Options" string="Options" invisible="result_type != 'selection'">
                             <field name="option_ids" string="Options">
                                 <list editable="bottom">
                                     <field name="name"/>
                                 </list>
                             </field>
-                        </page>
+                        </page> -->
                         <page name="result" string="Result" invisible="result_type != 'text'">
                             <field name="result_htm"></field>
                         </page>
                         <page name="consult" string="Consult">
                             <field name="consult"></field>
-                            
                         </page>
                     </notebook>
                     <!-- <field name="medicine_ids">
@@ -88,22 +90,23 @@
         </field>
     </record>
     <!--    Lab test tree view-->
-    <record id="lab_test_view_tree" model="ir.ui.view">
-        <field name="name">lab.test.view.tree</field>
-        <field name="model">lab.test</field>
+    <record id="lab_test_result_view_tree" model="ir.ui.view">
+        <field name="name">lab.test.result.view.tree</field>
+        <field name="model">lab.test.result</field>
         <field name="arch" type="xml">
             <list>
-                <field name="name"/>
-                <field name="patient_lead" widget="float_time"/>
-                <field name="tax_ids" widget="many2many_tags"/>
-                <field name="price" widget="monetary"/>
+                <field name="test_id"/>
+                <field name="normal"/>
+                <field name="result"/>
+                <field name="uom_id"/>
+                <field name="attachment"/>
             </list>
         </field>
     </record>
     <!--Lab test menu action-->
-    <record id="lab_test_action" model="ir.actions.act_window">
-        <field name="name">Laboratory Test</field>
-        <field name="res_model">lab.test</field>
+    <record id="lab_test_result_action" model="ir.actions.act_window">
+        <field name="name">Laboratory Test Result</field>
+        <field name="res_model">lab.test.result</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -112,7 +115,7 @@
         </field>
     </record>
     <!--Lab test menu-->
-    <menuitem id="lab_test_menu" name="Lab Test"
+    <!-- <menuitem id="lab_test_menu" name="Lab Test"
               parent="hospital_menu_laboratory" sequence="4"
-              action="lab_test_action"/>
+              action="lab_test_action"/> -->
 </odoo>

@@ -34,13 +34,15 @@ class LabTestResult(models.Model):
                                  help='Patient for whom the test has been done')
     result = fields.Char(string='Result', help='Result of the test')
     normal = fields.Char(string='Normal', help="The normal rate of the test")
-    uom_id = fields.Many2one('uom.uom', string='Unit',
-                             help='Unit of the normal and result value')
+
     parent_id = fields.Many2one('patient.lab.test', string='Tests',
                                 help='The tests for which the result'
                                      ' corresponds to')
     test_id = fields.Many2one('lab.test', string="Test Name",
                               help='Name of the test')
+    uom_id = fields.Many2one('uom.uom', string='Unit',
+                             related='test_id.uom_id',
+                             help='Unit of the normal and result value')
     attachment = fields.Binary(string='Result', help='Result document')
     currency_id = fields.Many2one('res.currency',
                                   related='test_id.currency_id',
@@ -54,6 +56,71 @@ class LabTestResult(models.Model):
                                         ('published', 'Published')],
                              string='State', help='State of the result',
                              default='processing', compute='_compute_state')
+    result_type = fields.Selection(
+        selection=[
+            ("yes", "Yes/No"),
+            ("number", "Number"),
+            ("range", "Range"),
+            ("text", "Text"),
+            ("selection", "Selection"),
+        ],
+        related='test_id.result_type',
+        default="range",
+        string="Result Type",
+        required=True,
+    )
+    upper_panic_value = fields.Float(string='Upper Panic',
+                                     help='Upper panic value for the test')
+    lower_panic_value = fields.Float(string='Lower Panic',
+                                     help='Lower panic value for the test')
+    upper_limit = fields.Float(string='Upper Limit',
+                               help='Upper limit for the test')
+    lower_limit = fields.Float(string='Lower Limit',
+                               help='Lower limit for the test')
+    man_upper_limit = fields.Float(string="Man Upper Limit")
+    man_upper_lower = fields.Float(string="Man Lower Limit")
+
+    women_upper_limit = fields.Float(string="Women Upper Limit")
+    women_upper_lower = fields.Float(string="Women Upper Limit")
+
+    qc_uppern__limit = fields.Float(string="QC-Upper(N)")
+    qc_lower_n_limit = fields.Float(string="QC-Lower(N)")
+
+    qc_upper_ab_limit = fields.Float(string="QC-Upper(AB)")
+    qc_lower_ab_limit = fields.Float(string="QC-Lower(AB)")
+
+    mu_normal = fields.Float(string="MU-Normal")
+    mu_abnormal = fields.Float(string="MU-Abnormal")
+
+    uom_id = fields.Many2one('uom.uom', string='Unit of Measure',
+                             help='Unit of Measure for the test')
+    consult = fields.Html(string='Consult', help='Consult')
+    result_htm = fields.Html(
+        string="Default Result",
+        sanitize=True,
+        sanitize_tags=True,
+        sanitize_attributes=True,
+        sanitize_style=False,
+        strip_style=False,
+        strip_classes=False,
+    )
+
+    yes_or_no = fields.Selection(
+        selection=[
+            ("yes", "Yes"),
+            ("no", "No"),
+        ],
+        default="yes",
+        string="Defualt Result",
+    )
+
+    result_number = fields.Integer(
+        string="Result Number",
+    )
+    result_selection = fields.Many2one(
+        string="Result",
+        comodel_name="lab.test.option",
+    )
 
     @api.depends('attachment')
     def _compute_state(self):
