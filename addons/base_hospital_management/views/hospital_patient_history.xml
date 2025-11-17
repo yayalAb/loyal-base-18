@@ -21,13 +21,13 @@
                         </group>
                     </group>
                      <notebook invisible="result_type != 'selection'">
-                    <page name="option_list" string="Options">
-                        <field name="option_ids" string="Options">
-                            <list editable="bottom">
-                                <field name="name"/>
-                            </list>
-                        </field>
-                    </page>
+                        <page name="option_list" string="Options">
+                            <field name="option_ids" string="Options">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
                     </notebook>
                 
                 </sheet>
