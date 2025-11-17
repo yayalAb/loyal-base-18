@@ -46,6 +46,9 @@ class LabTest(models.Model):
     test_type = fields.Selection(
         [('range', 'Range'), ('objective', 'Objective')],
         string='Type', required=True, help='Type of test')
+    category_id = fields.Many2one('lab.test.category',
+                                  string='Category',
+                                  help='Category of the test')
 
     @api.model
     def create(self, vals):

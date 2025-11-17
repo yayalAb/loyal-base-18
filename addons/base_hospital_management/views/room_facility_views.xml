@@ -41,6 +41,49 @@
     <menuitem id="payment_category_menu" name="Payment Type" sequence="25"
               parent="hospital_menu_configuration" action="payment_category_action"/>
 
+      <!--lab_test_category tree view-->
+    <record id="lab_test_category_view_tree" model="ir.ui.view">
+        <field name="name">lab.test.category.view.tree</field>
+        <field name="model">lab.test.category</field>
+        <field name="arch" type="xml">
+            <list create="1" editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <!--    lab_test_category menu action-->
+    <record id="lab_test_category_action" model='ir.actions.act_window'>
+        <field name="name">payment category</field>
+        <field name="res_model">lab.test.category</field>
+        <field name="view_mode">list</field>
+    </record>
+    <!--    Room facilities menu-->
+    <menuitem id="lab_test_category_menu" name="Test Category" sequence="25"
+              parent="hospital_menu_configuration" action="lab_test_category_action"/>
+
+
+
+
+                  <!--lab_test_category tree view-->
+    <record id="lab_sample_type_view_tree" model="ir.ui.view">
+        <field name="name">lab.sample.Type.view.tree</field>
+        <field name="model">lab.sample.type</field>
+        <field name="arch" type="xml">
+            <list create="1" editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <!--    lab_sample_type menu action-->
+    <record id="lab_sample_type_action" model='ir.actions.act_window'>
+        <field name="name">payment category</field>
+        <field name="res_model">lab.sample.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <!--    Room facilities menu-->
+    <menuitem id="lab_sample_type_menu" name="Test Sample Type" sequence="25"
+              parent="hospital_menu_configuration" action="lab_sample_type_action"/>
+
 
 
     <record id="inherit_pricelist_item_tree_view_from_product" model="ir.ui.view">

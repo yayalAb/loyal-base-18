@@ -241,3 +241,6 @@ access_patient_history_option_manager,access.patient_history_option_manager,mode
 access_patient_progress_note,access.patient.progress.note,model_patient_progress_note,,1,1,1,1
 access_payment_category,access.payment.category,model_payment_category,,1,1,1,1
 
+access_lab_test_category,access.lab.test.category,model_lab_test_category,,1,1,1,1
+access_lab_sample_type,access.lab.sample.type,model_lab_sample_type,,1,1,1,1
+
