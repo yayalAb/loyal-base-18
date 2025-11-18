@@ -44,7 +44,7 @@
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
         "data/ir_cron_data.xml",
-        "data/website_data.xml",
+        # "data/website_data.xml",
         "views/menu_views.xml",
         "views/inpatient_surgery_views.xml",
         "views/hospital_bed_views.xml",
