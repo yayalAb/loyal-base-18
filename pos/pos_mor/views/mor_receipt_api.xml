@@ -1,0 +1,61 @@
+<odoo>
+    <!-- list View -->
+    <record id="view_mor_api_receipt_list" model="ir.ui.view">
+        <field name="name">mor.api.receipt.list</field>
+        <field name="model">mor.api.receipt</field>
+        <field name="arch" type="xml">
+            <list string="MoR API receipt" create="false" edit="false" delete="false">
+                <field name="payment_id"/>
+                <field name="status"/>
+                <field name="rrn"/>
+                <field name="qr_code"/>
+                <field name="status"/>
+                <field name="collected_amount"/>
+                <field name="error_message"/>
+                <!-- <field name="response_message"/> -->
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_mor_api_receipt_form" model="ir.ui.view">
+        <field name="name">mor.api.receipt.form</field>
+        <field name="model">mor.api.receipt</field>
+        <field name="arch" type="xml">
+            <form string="MoR API receipt" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                       <field name="payment_id"/>
+                        <field name="status"/>
+                        <field name="rrn"/>
+                        <field name="qr_code"/>
+                        <field name="status"/>
+                        <field name="collected_amount"/>
+                        <field name="error_message"/>
+                        <field name="response_message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_mor_api_receipt" model="ir.actions.act_window">
+        <field name="name">MoR API receipt</field>
+        <field name="res_model">mor.api.receipt</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_mor_api_receipt_list"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Records are created automatically via the MoR integration.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_mor_api_receipt"
+              name="MoR API receipt"
+              parent="point_of_sale.menu_point_config_product"
+              sequence="52"
+              action="action_mor_api_receipt"/>
+</odoo>

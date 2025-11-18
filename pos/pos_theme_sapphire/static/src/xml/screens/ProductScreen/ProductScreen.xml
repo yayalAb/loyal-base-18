@@ -4,172 +4,95 @@
     <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
         <xpath expr='//div[hasclass("product-screen")]' position="replace">
 			<div class="product-screen d-flex h-100 bg-100" t-att-class="{'flex-grow-1 w-100 mw-100': ui.isSmall, 'd-none': ui.isSmall and pos.mobile_pane !== 'left'}" >
-				<div class="main-app">
-					<div class="sidebar">
-						<nav class="main-nav" style="height: 100%">
-							<div class="main_logo">
-								<img
-										src="/pos_theme_sapphire/static/description/N_ERP.png" 
-										alt="logo" 
-										
-									/>							
-								</div>
-							<ul class="main-menu" style="height: 80%">
-								<li class="menu-item" t-if="showBackButton()">
-									<a href="#" class="menu-a" target="_blank">
-										<div class="menu-txt-hld" t-on-click="">
-											<span class="menu-txt">Back</span>
-                                            <BackButton t-if="showBackButton()"/>
-										</div>
-									</a>
-								</li>
-                                <li class="menu-item">
-									<a href="#" class="menu-a" target="_blank">
-										 <!-- class="ticket-button menu-txt-hld with-badge" -->
-										<div class="cash-move-button menu-txt-hld"
-                                             t-on-click="onTicketButtonClick"
-                                             t-att-badge="orderCount">
-											 <img class="logo" src="/pos_theme_sapphire/static/description/order1.png" 
-													alt="logo" 
-												/>
-											<!-- <i class="fa fa-ticket menu-icon"/> -->
-                                            <span class="menu-txt">Orders</span>
-										</div>
-									</a>
-								</li>
-                                <li class="menu-item">
-									<a href="#" class="menu-a" target="_blank">
-										<div class="cash-move-button menu-txt-hld" 
-                                             t-on-click="onCashMoveButtonClick">
-											 <img class="logo" src="/pos_theme_sapphire/static/description/cash_in_out.png" 
-													alt="logo" 
-													
-												/>
-                                            <span class="menu-txt">Cash In/Out</span>
-										</div>
-									</a>
-								</li>
-								  <li class="menu-item">
-									<a href="#" class="menu-a" target="_blank">
-										<div class="cash-move-button menu-txt-hld"
-                                             t-on-click="onCashMoveButtonClick">
-											 <img class="logo" src="/pos_theme_sapphire/static/description/products.png" 
-													alt="logo" 
-													
-												/>
-											<!-- <i class="fa fa-money menu-icon"/> -->
-                                            <span class="menu-txt">Create Products</span>
-										</div>
-									</a>
-								</li>
-								  <li class="menu-item">
-									<a href="#" class="menu-a" target="_blank">
-										<div class="cash-move-button menu-txt-hld"
-                                              t-on-click="() => pos.closePos()">
-											 <img class="logo" src="/pos_theme_sapphire/static/description/backend.png" 
-													alt="logo" 
-													
-												/>
-											<!-- <i class="fa fa-money menu-icon"/> -->
-                                            <span class="menu-txt">Backend</span>
-										</div>
-									</a>
-								</li>
-                                <li class="menu-item">
-								</li>
-                                <li class="menu-item">
-									<ProxyStatus t-if="pos.config.use_proxy"/>
-								</li>
-                                <!-- <li class="menu-item" style="position: absolute; bottom: 25px;">
-									<a href="#" class="menu-a" target="_blank">
-										<div class="header-button menu-txt-hld"
-                                             t-on-click="() => pos.closePos()">
-											<i class="fa fa-pause menu-icon"/>
-                                            <span class="menu-txt">Backend</span>
-										</div>
-									</a>
-								</li> -->
-                                <li class="menu-item" style="position: absolute; bottom: 5px;">
-									<a href="#" class="menu-a" target="_blank">
-										<div class="header-button menu-txt-hld" t-on-click="closeSession">
-											<CashierName/>
-											<!-- <i class="fa fa-sign-out menu-icon"/> -->
-                                            <span class="menu-txt">Logout</span>
-										</div>
-									</a>
-								</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-				
+				<t t-call="pos_theme_sapphire.Sidebar"/>
+
                 <div class="rightpane overflow-auto d-flex flex-grow-1 flex-column w-60"
                      t-if="!ui.isSmall || pos.mobile_pane === 'right'">
-                    <div class="position-relative d-flex flex-column flex-grow-1 overflow-hidden"
-                         t-ref="products-widget">
-							<div class="row main_header">
-								<div class="col-10"> 
-									<div class="header_1 " style="flex-grow: 1; ">
-									  <img class="hi_icon"
-										src="/pos_theme_sapphire/static/description/hi.png" 
-										alt="HI"
-										/>
-										<div>
-											<h3 class="current_date">Sunday. Aug, 2025</h3>
-											<h3 class="good_morning">Good Morning Birhane</h3>
-										</div>
+					<div class="d-flex ms-2 me-2 mt-5 justify-content-between">
+						<div class="d-flex gap-2">
+								<div class="justify-content-center me-3 ms-3">
+									<img src="/pos_theme_sapphire/static/description/hi.png" 
+											alt="Hi"/>
+
+								</div>
+								<div class="good_morning">
+									<div class="d-flex gap-2">
+										<span class="timer-day" t-esc="time.day"/> 
+										<span class="timer-date" t-esc="time.date"/>
+								    </div>
+									<div class="d-flex gap-2 "> 
+										<h3 ><t t-esc="getGreeting()"/> <span t-esc="pos.user.name"/></h3>
+										
 									</div>
 								</div>
-								<div class="col-2 d-flex">
-									<div class="current_day_time">08:30:04 AM</div>
-									
-								</div>
-							</div>
+						</div>
+						 
+                    <div class="timer-date-container d-flex flex-column smaller">
+                        
+                    </div>
+						<div class="d-flex me-3 text-end ">
+							<div class="timer-hours fs-2" t-esc="time.hours"> </div>
+						</div>
 
-                        <!-- <div class="products-widget-control products-widget-control-header mt-4 d-flex shadow-sm justify-content-between"> -->
-	
-							<!-- <CashierName/> -->
-                            <div class="search_box_1" id="search-products_id">
-									 <div class="search_box">
-											<Input tModel="[pos, 'searchProductWord']"
-										        class="inputefield"
-												isSmall="ui.isSmall"
-												placeholder="'Search products ...'"
-												icon="{type: 'fa', value: 'fa-search'}"
-												debounceMillis="100"/>
-												
-									 </div>
-								</div>
-										
-                        <div class="products-widget-control products-widget-control-header mt-4 d-flex shadow-sm justify-content-between">
+					</div>
+                    <div class="position-relative d-flex flex-column flex-grow-1 overflow-hidden mt-3 me-2 ms-2"
+                         t-ref="products-widget">
+						 <div class="d-flex justify-content-between w-100 mt-3 background_custom_white pt-1 pb-1 rounded-3 pe-1">
+							<Input tModel="[pos, 'searchProductWord']"
+                                       isSmall="ui.isSmall"
+                                       placeholder="'Search products...'"
+                                       icon="{type: 'fa', value: 'fa-search'}"
+									   class="'none_right_border w-100 me-0'"
+                                       debounceMillis="100"/>
+							<button class="button confirm btn  lh-lg  cash_open_button" style="min-width: 145px; min-height: 40px !important;">
+									<img  class="me-2"
+								src="/pos_theme_sapphire/static/description/qr-code.svg" 
+								alt=""/>Scan Barcode
+							</button>
+									  
+						 </div>
+                        <!-- <div class="mt-4 d-flex justify-content-between"> -->
+                            <!--  -->
+								<!-- <div class="d-flex justify-content-between w-100 mt-3">  -->
+									
+									   
+								<!-- </div> -->
+                                <!-- <div class="home-category-button lg-screen-cat">
+									<span class="breadcrumb-button breadcrumb-home"
+                                          t-on-click="(id) => this.pos.setSelectedCategory(id)">
+										<i class="fa fa-home" role="img"
+                                           aria-label="Home" title="Home"
+                                           style="font-size: 30px;"/>
+									</span>
+								</div> -->
+							<!-- </div> -->
+						<!-- </div> -->
+                        <!-- <div class="products-widget-control products-widget-control-header mt-4 d-flex shadow-sm justify-content-between">
 							<Input tModel="[pos, 'searchProductWord']"
                                    class="'p-2 sm-screen'"
                                    isSmall="ui.isSmall"
-                                   placeholder="'Search products ...'"
+                                   placeholder="'Search products...'"
                                    icon="{type: 'fa', value: 'fa-search'}"
                                    debounceMillis="100"/>
-							
                             <div class="home-category-button sm-screen-cat">
 								<span class="breadcrumb-button breadcrumb-home"
                                       t-on-click="(id) => this.pos.setSelectedCategory(id)">
-									  Search
-									<!-- <i class="fa fa-home" role="img"
+									<i class="fa fa-home" role="img"
                                        aria-label="Home" title="Home"
-                                       style="font-size: 30px;"/> -->
+                                       style="font-size: 30px;"/>
 								</span>
 							</div>
-						</div>
+						</div> -->
                         <t t-set="categories" t-value="getCategoriesAndSub()"/>
-                        <div t-if="categories.length > 2"
-                             class="products-widget-control bg-white products-widget-control-category d-flex shadow-sm">
+                        <div class="products-widget-control  products-widget-control-category gap-3 d-flex mb-1 me-2 mt-3">
 							<div class="rightpane-header">
 								<div class="categories-header">
-									<div class="category-list simple"
-                                         style="border-radius: 5px; padding: 10px;">
+									<div class="category-list simple">
 										<t t-foreach="getCategoriesAndSub()"
                                            t-as="category" t-key="category.id">
 											<span t-if="category.id != 0"
-                                                  class="category-simple-button"
+                                                  class="category-simple-button pt-7 pb-7 gap-3"
+												  
 												  t-attf-class="{{ selectedCategoryId === category.id ? 'highlight' : '' }}"
                                                   t-on-click="() => this.setSelectedCategory(category.id)">
 												<t t-esc="category.name"/>
@@ -194,7 +117,8 @@
                                             productInfo="true"
                                             productCartQty="this.state.quantityByProductTmplId[product.raw.product_tmpl_id]"
 											onProductInfoClick.bind="() => this.onProductInfoClick(product)"/>
-							        </div>
+											<!-- price="this.getProductPrice(product)" -->
+							</div>
                                 <div t-else=""
                                      class="product-list-empty no-results-message text-center mt-5">
 								<t t-if="searchWord">
@@ -278,26 +202,26 @@
 					</t>
 				</div>
 				<div t-att-class="{'flex-grow-1 w-100 mw-100': ui.isSmall, 'd-none': ui.isSmall and pos.mobile_pane !== 'left'}" style="color:'blue'"
-                class="leftpane d-flex flex-column p-2">
-				<!-- <Navbar/> -->
-				 <div class="order_list">
-						<OrderTabs orders="getOrderTabs()"/>
-				 </div>
-				 
+                     class="leftpane d-flex flex-column p-2">
+					<div class="d-flex justify-content-between mt-2 me-2">
+							<OrderTabs orders="getOrderTabs()"/>
+						
+							<img t-on-click="onClickMore" class="d-flex justify-content-center align-items-center" src="/pos_theme_sapphire/static/description/actions_icon.png"
+								alt="Action"/>
+					</div>
                 <OrderSummary />
                 <div class="pads">
                     <div t-attf-class="control-buttons d-flex justify-content-between gap-2 w-100 py-2">
-                        <ControlButtons t-if="!ui.isSmall" onClickMore.bind="displayAllControlPopup"/>
+						<SelectPartnerButton partner="partner" t-if="!props.showRemainingButtons"/>
+                        <!-- <ControlButtons t-if="!ui.isSmall" onClickMore.bind="displayAllControlPopup"/> -->
                     </div>
                     <div class="subpads d-flex flex-column gap-2">
                         <Numpad t-if="!currentOrder?.is_empty() and pos.get_order()?.uiState.selected_orderline_uuid" class="'d-grid m-n1'" buttons="getNumpadButtons()" onClick.bind="onNumpadClick"/>
-                        <ActionpadWidget
-                            partner="currentOrder?.get_partner()"
+                        <ActionpadWidget partner="currentOrder?.get_partner()"
                             onClickMore.bind="displayAllControlPopup"
-                            actionName.translate="Payment"
+                            actionName.translate="Go to Payment"
                             actionToTrigger="() => pos.pay()"
-                            showActionButton="!currentOrder?.is_empty()"
-                        />
+                            showActionButton="!currentOrder?.is_empty()"/>
                     </div>
                 </div>
             </div>

@@ -6,9 +6,13 @@
         <xpath expr="//div[@t-if='props.showTaxGroupLabels']" position="after">
             
             <t>
-                <i style="margin-left: 3%; color: " id="clear_icon"
+                <!-- <i style="margin-left: 3%; color: " id="clear_icon"
                    class="fa fa-trash"
-                   t-on-click="(el) => this.clear_button_fun(el)"/>
+                   t-on-click="(el) => this.clear_button_fun(el)"/> -->
+                   <img id="clear_icon" class="d-flex justify-content-center align-items-center me-2 ms-2"
+                            src="/pos_theme_sapphire/static/description/delete_order.svg"
+                            t-on-click="(el) => this.clear_button_fun(el)" alt="logo"
+                            style="max-width:30px;"/>
             </t>
         </xpath>
     </t>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="point_of_sale.PartnerLine" t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension">
+        <xpath expr="//t[@t-else='']/tr[contains(@class, 'partner-info')]" position="replace">
+            <div class="partner-line partner-info mb-2 bg-white rounded-2 mb-2 p-2" t-att-class="{'selected': props.isSelected}" t-att-data-id="props.partner.id"
+                t-on-click="() => this.props.onClickPartner(props.partner)">
+                <div class="d-flex justify-content-between align-items-center border-bottom fs-5">
+                    <div><t t-esc="props.partner.name"/></div>
+                    <span><t t-if="props.partner.is_company">Company</t>
+                        <t t-else="">Individual</t></span>
+                </div>
+                <!-- <td>
+                    <b t-esc="props.partner.name or ''" />
+                    <div class="company-field text-bg-muted" t-esc="props.partner.parent_name or ''" />
+                </td> -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="partner-line-adress" t-if="props.partner.contact_address" t-esc="props.partner.contact_address" />
+                                </div>
+                            <!-- <td>
+                                <div class="partner-line-adress" t-if="props.partner.contact_address" t-esc="props.partner.contact_address" />
+                            </td> -->
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <div t-if="props.partner.email" class="email-field">
+                                    <t t-esc="props.partner.email" />
+                                </div>
+                                <div t-if="props.partner.phone">
+                                    <t t-esc="props.partner.phone"/>
+                                </div>
+                                <div t-if="props.partner.mobile">
+                                    <t t-esc="props.partner.mobile"/>
+                                </div>
+                               
+                            </div>
+                       </div>
+                    <div>
+                <div class="partner-line-balance" t-if="props.isBalanceDisplayed"></div>
+                <div class="edit-partner-button-cell align-middle pe-0">
+                    <button t-if="props.isSelected" t-on-click.stop="props.onClickUnselect" class="unselect-tag d-lg-inline-block d-none btn btn-link btn-lg mt-1 float-end">
+                        <i class="fa fa-check"/>
+                    </button>
+                </div>
+                <div class="edit-partner-button-cell align-middle">
+                    <Dropdown>
+                        <button class="btn btn-lg lh-lg border float-end mt-1" style="max-height: 35px; padding: 0px; min-width: 35px;">
+                            <i class="fa fa-fw fa-bars"/>
+                        </button>
+                        <t t-set-slot="content">
+                            <DropdownItem onSelected="() => props.onClickEdit(props.partner)">
+                                Edit Details
+                            </DropdownItem>
+                            <DropdownItem onSelected="() => props.onClickOrders(props.partner)">
+                                All Orders
+                            </DropdownItem>
+                        </t>
+                    </Dropdown>
+                </div>
+                    </div>
+                
+                </div>
+              
+                <!-- FIXME: this should be in pos_settle_due, not here -->
+               
+            </div>
+
+        </xpath>
+    </t>
+    </templates>
