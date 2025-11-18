@@ -1,3 +1,46 @@
+@media (min-width: 992px) {
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container,
+    .o_container_small {
+        max-width: 100% !important;
+        max-height: 999px !important;
+    }
+}
+
+.heading_wellcome {
+    font-weight: 700;
+    font-size: 24px;
+    color: $new_heading_color;
+}
+.heading_wellcome1 {
+    font-size: 16px;
+    color: $new_heading_color;
+}
+#wrapwrap {
+    overflow: hidden !important;
+    font-family: Sora !important;
+}
+.img-fluid {
+    max-width: 100%;
+    max-height: 99% !important;
+    min-height: 97% !important;
+}
+
+.login_color {
+    color: $new_heading_color !important;
+    min-height: 24px !important;
+}
+.form_padding {
+    padding: 10px 12px !important;
+}
+.login_color_button {
+    background-color: $new_login_button_backgroud !important;
+    border-color: $new_login_button_backgroud !important;
+    padding: 10px 12px !important;
+}
+
 body:has(.oe_website_login_container) {
     #top {
         background-color: $main_backgroud_color !important;
@@ -21,8 +64,7 @@ body:has(.oe_website_login_container) {
     }
     #wrapwrap {
         background-color: $main_backgroud_color !important;
-        // position: fixed; /* Required for absolute positioning of pseudo-element */
-        // overflow: hidden; /* Ensures the border-radius clips the image */
+        overflow: hidden; /* Ensures the border-radius clips the image */
 
         .login_label {
             font-weight: 700;
@@ -34,31 +76,28 @@ body:has(.oe_website_login_container) {
         }
 
         .login_side_image {
-            gap: 39px;
-            width: 78%;
-            height: 85% !important;
-            margin-top: 5%;
-            margin-left: 20%;
+            // margin-top: -50px !important;
+            width: 100% !important;
+            height: auto !important;
+            margin: 0px !important;
+            object-fit: cover; /* ✅ fills parent while keeping image ratio */
+            display: block;
+            border-radius: 10px !important;
         }
 
         .parent-container {
             display: flex;
             justify-content: center; /* Horizontal centering */
+            align-items: center; /* Vertical centering */
+            // height: 100vh; /* Full viewport height */
+            background-color: $new_login_background_color !important;
         }
 
         .login_side_container {
-            background-color: $main_backgroud_color !important;
-            border-radius: 40px 6px 40px 6px;
-            box-shadow: 0px 4px 30px 0px #b1c0d980;
-            border: 2px;
+            background-color: $new_login_card_color !important;
             padding: 10px;
-            gap: 39px;
-            width: 400px;
-            height: 430px;
-            margin-top: 10%;
-            margin-left: 2%;
-            margin-bottom: 2%;
-            margin-right: 2%;
+            width: 487px;
+            // margin: 2%;
         }
         .login-view-bits {
             .oe_login_form,

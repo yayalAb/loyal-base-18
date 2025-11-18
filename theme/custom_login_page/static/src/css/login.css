@@ -67,10 +67,11 @@ body.o_login_page {
 /* --- Login Form Box --- */
 .login-box {
     background: #ffffff;
-    padding: 48px;
+    padding: 40px 20px;
+
     border-radius: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.01);
-    width: 100%;
+    width: 70%;
     max-width: 500px;
     text-align: center;
     box-sizing: border-box;
@@ -90,13 +91,13 @@ body.o_login_page {
 /* --- Form Typography & Elements --- */
 .login-box h2:first-of-type {
     /* Target the waving hand emoji */
-    font-size: 32px;
+    font-size: 24px;
     margin-bottom: 16px;
 }
 
 .login-box h2 {
     font-weight: 400; /* Bolder */
-    font-size: 28px;
+    font-size: 22px;
     margin-bottom: 8px;
     color: #5576ad; /* Darker text for better contrast */
     font-family: Sora;
@@ -104,7 +105,7 @@ body.o_login_page {
 
 .login-box .login-subtitle {
     color: #5576ad; /* Softer grey */
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     font-size: 14px;
 }
 

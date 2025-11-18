@@ -5,8 +5,6 @@ def update_menu_icons(env):
     """Update menu icons only if the module is installed."""
     menu_items = [
         {"xml_id": "account.menu_finance", "module": "account"},
-        {"xml_id": "	hr_dashboard.main_dashboard_menu", "module": "hr_dashboard"},
-
         {"xml_id": "stock.menu_stock_root", "module": "stock"},
         {"xml_id": "mrp.menu_mrp_root", "module": "mrp"},
         {"xml_id": "purchase.menu_purchase_root", "module": "purchase"},
@@ -16,12 +14,11 @@ def update_menu_icons(env):
         {"xml_id": "crm.crm_menu_root", "module": "crm"},
         {"xml_id": "hr.menu_hr_root", "module": "hr"},
         {"xml_id": "survey.menu_surveys", "module": "survey"},
-        {"xml_id": "om_hr_payroll.menu_hr_payroll_root", "module": "hr_payroll"},
+        {"xml_id": "om_hr_payroll.menu_hr_payroll_root", "module": "om_hr_payroll"},
         {"xml_id": "hr_attendance.menu_hr_attendance_root", "module": "hr_attendance"},
         {"xml_id": "hr_reward_warning.hr_announcement",
             "module": "hr_reward_warning"},
-        {"xml_id": "hr_resignation.hr_resignation_menu_root",
-            "module": "hr_resignation"},
+        {"xml_id": "hr_resignation.employee_resignation", "module": "hr_resignation"},
         {"xml_id": "hr_holidays.menu_hr_holidays_root", "module": "hr_holidays"},
         {"xml_id": "spreadsheet_dashboard.spreadsheet_dashboard_menu_root",
             "module": "spreadsheet_dashboard"},
@@ -49,27 +46,29 @@ def update_menu_icons(env):
             "module": "recruitment_requests"},
         {"xml_id": "performance_evaluation.menu_employee_appraisal",
             "module": "performance_evaluation"},
-        {"xml_id": "lunch_management.menu_lunch_log_action",
-            "module": "lunch_management"},
-        {"xml_id": "muk_product.menu_main",
-            "module": "muk_product"},
+
+
+        {"xml_id": "project_todo.menu_todo_todos",
+            "module": "project_todo"},
 
         {"xml_id": "ohrms_overtime.hr_overtime_menu_root",
             "module": "ohrms_overtime"},
-        {"xml_id": "planning.planning_menu_root",
-            "module": "planning"},
-
+        {"xml_id": " hr_resignation.hr_resignation_menu_root",
+         "module": "hr_resignation"},
+        {"xml_id": "hr_payroll_community.menu_hr_payroll_community_root",
+         "module": "hr_payroll_community"},
         {"xml_id": "accountant.menu_accounting",
          "module": "accountant"},
         {"xml_id": "mass_mailing.mass_mailing_menu_root",
          "module": "mass_mailing"},
-
+        {"xml_id": "utm.menu_link_tracker_root",
+            "module": "utm"},
         {"xml_id": "website_slides.website_slides_menu_root",
             "module": "website_slides"},
-
-        {"xml_id": "hr_appraisal.menu_hr_appraisal_root",
-            "module": "hr_appraisal"},
-
+        {"xml_id": "fleet.menu_root",
+            "module": "fleet"},
+        {"xml_id": "point_of_sale.menu_point_root",
+            "module": "point_of_sale"},
 
 
     ]

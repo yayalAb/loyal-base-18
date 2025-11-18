@@ -42,7 +42,6 @@ patch(NavBar.prototype, {
     },
 
     toggleSidebar(ev) {
-        console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         this.state.isSidebarOpen = !this.state.isSidebarOpen
 
         const toggleEl = ev.currentTarget

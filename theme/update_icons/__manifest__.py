@@ -1,13 +1,13 @@
 {
-    'name': 'Loyal base Base',
+    'name': 'Niyat base Base',
     'version': '18.0',
     'sequence': 1,
-    'summary': 'Loyal ERP  Base',
+    'summary': 'Niyat ERP  Base',
     'description': """
         This is a base module for  Modules.
             ========================================
     """,
-    'category': 'Loyal ERP /Base',
+    'category': 'Niyat ERP /Base',
     'website': 'https://www..et/',
     'license': 'LGPL-3',
     'depends': ['base', 'web', 'web_editor'],
