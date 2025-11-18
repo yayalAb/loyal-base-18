@@ -25,7 +25,7 @@
                         </group>
                        
                     </group>
-                     <group string="Result" invisible="result_type != 'range'">
+                     <!-- <group string="Result" invisible="result_type != 'range'">
                             <group>
                                 <field name="upper_panic_value"/>
                                 <field name="upper_limit"/>
@@ -45,13 +45,13 @@
                                 <field name="qc_lower_ab_limit"/>
                                 <field name="mu_abnormal"/>
                             </group>
-                        </group>
+                        </group> -->
                         <group invisible="result_type != 'yes'">
                             <group>
                                 <field name="yes_or_no" widget="radio" options="{'horizontal': true}"/>
                             </group>
                         </group>
-                        <group invisible="result_type != 'number'">
+                        <group invisible="result_type not in ('range','number')">
                             <group>
                                 <field name="result_number"/>
                             </group>
