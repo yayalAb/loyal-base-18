@@ -11,8 +11,8 @@
     'website': 'https://www..et/',
     'license': 'LGPL-3',
     'depends': ['base', 'purchase', 'stock', 'sale', 'hr_payroll', 'hr_appraisal',
-                'hr_employee_self_service', 'hr_resignation', 'hr_expense',
-                'hr_holidays', 'planning', 'hr_attendance', 'hr', 'hr_dashboard'],
+                'hr_resignation', 'hr_expense',
+                'hr_holidays', 'hr_attendance', 'hr', 'hr_dashboard'],
     'data': [
         'view/icons_view.xml'
     ],
