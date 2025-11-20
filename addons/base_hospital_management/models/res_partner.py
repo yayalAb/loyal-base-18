@@ -469,6 +469,32 @@ class ResPartner(models.Model):
         string="Progress Note Count",
         compute="_progress_note_count")
 
+    order_sheet_ids = fields.One2many('order.sheet',
+                                      'patient_id',
+                                      string='Order Sheet',)
+    order_sheet_count = fields.Integer(compute="_compute_order_sheet_count",)
+
+    def _compute_order_sheet_count(self):
+        for rec in self:
+            rec.order_sheet_count = self.env['order.sheet'].search_count(
+                [('patient_id', '=', rec.id) or ('out_patient_id', '=', rec.id) or ('in_patient_id', '=', rec.id)])
+
+    def order_sheet_his_history(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Order Sheet',
+            'res_model': 'order.sheet',
+            'view_mode': 'list,form',
+            'domain': [('patient_id', '=', self.id) or ('out_patient_id', '=', self.id) or ('in_patient_id', '=', self.id)],
+            'context': {
+                'default_patient_id': self.id,
+                'default_out_patient_id': self.id,
+                'default_in_patient_id': self.id,
+            },
+            'target': 'current',
+        }
+
     def _progress_note_count(self):
         for rec in self:
             rec.progress_note_count = self.env['patient.progress.note'].search_count(

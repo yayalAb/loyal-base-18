@@ -133,6 +133,13 @@
                                 <span class="me-2"> Progress Note</span>
                                 <field name="progress_note_count"/>                            
                         </button>
+                        <button name="order_sheet_his_history" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-pencil-square-o">
+                                <span class="me-2"> Order Sheet</span>
+                                <field name="order_sheet_count"/>                            
+                        </button>
                         <button name="action_generate_patient_card"
                                 type="object"
                                 class="oe_stat_button"
@@ -329,6 +336,16 @@
                             </field>
 
                         </page>
+                        <page name="order_sheet" string="Order Sheet">
+                            <field name="order_sheet_ids">
+                                <list>
+                                    <field name="order"/>
+                                    <field name="date"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+
+                        </page>
                          <page name="medicine" string="Medical"
                               groups="base_hospital_management.base_hospital_management_group_lab_assistant, base_hospital_management.base_hospital_management_group_pharmacist,base_hospital_management.base_hospital_management_group_nurse,base_hospital_management.base_hospital_management_group_receptionist,base_hospital_management.base_hospital_management_group_manager">
                             <notebook>
@@ -352,6 +369,7 @@
                                         </list>
                                     </field>
                                 </page>
+
                                 <page string="Vaccine">
                                     <field name="hospital_vaccination_ids">
                                         <list editable="bottom" create="0">

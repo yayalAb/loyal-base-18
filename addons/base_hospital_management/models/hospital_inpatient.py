@@ -186,6 +186,29 @@ class HospitalInpatient(models.Model):
         digits=(10, 2),
         compute="compute_total_unpaid_amount"
     )
+    order_sheet_ids = fields.One2many('order.sheet',
+                                      'in_patient_id',
+                                      string='Order Sheet',)
+    order_sheet_count = fields.Integer(compute="_compute_order_sheet_count",)
+
+    def _compute_order_sheet_count(self):
+        for rec in self:
+            rec.order_sheet_count = self.env['order.sheet'].search_count(
+                [('in_patient_id', '=', rec.id)])
+
+    def order_sheet_his_history(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Order Sheet',
+            'res_model': 'order.sheet',
+            'view_mode': 'list,form',
+            'domain': [('in_patient_id', '=', self.id)],
+            'context': {
+                'default_in_patient_id': self.id,
+            },
+            'target': 'current',
+        }
 
     @api.depends("patient_id")
     def compute_total_unpaid_amount(self):

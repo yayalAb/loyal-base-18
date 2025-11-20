@@ -99,6 +99,13 @@
                                 <span class="me-2"> Progress Note</span>
                                 <field name="progress_note_count"/>                            
                         </button>
+                        <button name="order_sheet_his_history" type="object"
+                                class="oe_stat_button"
+                                invisible="id == False"
+                                icon="fa-pencil-square-o">
+                                <span class="me-2"> Order Sheet</span>
+                                <field name="order_sheet_count"/>                            
+                        </button>
                         <button invisible="test_count == 0"
                                 name="action_view_test" type="object"
                                 class="oe_stat_button"
@@ -164,6 +171,16 @@
                                     <field name="quantity"/>
                                 </list>
                             </field>
+                        </page>
+                          <page name="order_sheet" string="Order Sheet">
+                            <field name="order_sheet_ids">
+                                <list>
+                                    <field name="order"/>
+                                    <field name="date"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+
                         </page>
                     </notebook>
                 </sheet>

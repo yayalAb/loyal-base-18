@@ -245,3 +245,4 @@ access_lab_test_category,access.lab.test.category,model_lab_test_category,,1,1,1
 access_lab_sample_type,access.lab.sample.type,model_lab_sample_type,,1,1,1,1
 access_lab_test_option,access.lab.test.option,model_lab_test_option,,1,1,1,1
 
+access_order_sheet_manager,order_sheet_manager,model_order_sheet,,1,1,1,1
