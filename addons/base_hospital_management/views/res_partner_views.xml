@@ -623,20 +623,20 @@
         </field>
     </record>
     <record id="base_hospital_management_res_partner_search_inherit" model="ir.ui.view">
-    <field name="name">res.partner.search.inherit</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.view_res_partner_filter"/>
-    <field name="arch" type="xml">
-        <!-- Add the filter after the "Archived" filter -->
-        <xpath expr="//filter[@name='type_person']" position="before">
-            
-            <filter string="Today's Patients" name="created_today" domain="[('create_date', '>=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
-            <filter string="Last 7 Days" name="last_7_days" domain="[('create_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
-            <filter string="This Month" name="this_month" domain="[('create_date', '>=', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
-            <separator/>
-        </xpath>
-    </field>
-</record>
+        <field name="name">res.partner.search.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <!-- Add the filter after the "Archived" filter -->
+            <xpath expr="//filter[@name='type_person']" position="before">
+                
+                <filter string="Today's Patients" name="created_today" domain="[('create_date', '>=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="Last 7 Days" name="last_7_days" domain="[('create_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="This Month" name="this_month" domain="[('create_date', '>=', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
     <!--    Patient menu action-->
     <record id="res_partner_action" model="ir.actions.act_window">
         <field name="name">Patients</field>

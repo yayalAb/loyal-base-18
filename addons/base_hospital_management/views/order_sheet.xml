@@ -17,13 +17,14 @@
                 <sheet>
                     <group>
                         <field name="order"/>
+                        <field name="date"/>
                     </group>
                 </sheet>
                 <chatter/>
             </form>
         </field>
     </record>
-    
+
     <!--    Lab test tree view-->
     <record id="order_sheet_view_tree" model="ir.ui.view">
         <field name="name">order.sheet.view.tree</field>
@@ -31,6 +32,9 @@
         <field name="arch" type="xml">
             <list>
                 <field name="order"/>
+                 <field name="date"/>
+                 <field name="status"/>
+                                       
             </list>
         </field>
     </record>

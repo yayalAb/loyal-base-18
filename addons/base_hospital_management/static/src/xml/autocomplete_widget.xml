@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="AutoCompleteWidget">
+        <div class="o_autocomplete_widget">
+            <input type="text" class="auto_complete_input form-control" 
+                   t-att-placeholder="placeholder" 
+                   t-att-value="value"/>
+            <ul class="suggestion_list dropdown-menu"></ul>
+        </div>
+    </t>
+</templates>

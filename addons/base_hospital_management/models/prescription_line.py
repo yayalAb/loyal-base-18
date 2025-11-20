@@ -19,7 +19,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 ################################################################################
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class PrescriptionLine(models.Model):
@@ -31,10 +31,16 @@ class PrescriptionLine(models.Model):
     prescription_id = fields.Many2one('hospital.prescription',
                                       string='Prescription',
                                       help='Name of the prescription')
+
     medicine_id = fields.Many2one('product.template', domain=[
         '|', ('medicine_ok', '=', True), ('vaccine_ok', '=', True)],
-                                  string='Medicine', required=True,
-                                  help='Medicines or vaccines')
+        string='Medicine',
+        help='Medicines or vaccines')
+    medication_name = fields.Char(
+        string='Medication Name',
+        required=True,
+        help="Start typing medication name for suggestions"
+    )
     quantity = fields.Integer(string='Quantity', required=True,
                               help="The number of medicines for the time "
                                    "period")
@@ -63,3 +69,23 @@ class PrescriptionLine(models.Model):
                                      help='The outpatient corresponds to the '
                                           'prescription line',
                                      related='outpatient_id.patient_id')
+
+    @api.model
+    def get_medication_suggestions(self, search_term):
+        """Return medication suggestions for auto-complete"""
+        print(f"Searching for: {search_term}")
+        if not search_term or len(search_term) < 2:
+            return []
+
+        # Search in existing prescription lines for common medications
+        existing_medications = self.search_read(
+            [('medication_name', 'ilike', search_term)],
+            ['medication_name'],
+            limit=10,
+            order='medication_name'
+        )
+
+        # Remove duplicates and format suggestions
+        suggestions = list(set([med['medication_name']
+                           for med in existing_medications]))
+        return suggestions[:10]

@@ -48,6 +48,11 @@ class HospitalOutpatient(models.Model):
                                 domain=[('slot_remaining', '>', 0),
                                         ('date', '=', fields.date.today()),
                                         ('state', '=', 'confirm')])
+    dep_doctor_id = fields.Many2one('hr.employee',
+                                    string='Doctor',
+                                    help='Select the doctor',
+                                    # required=True,
+                                    domain="[('department_id', '=', 'department_id')]")
     department_id = fields.Many2one(
         string="Department",
         comodel_name="hr.department",
