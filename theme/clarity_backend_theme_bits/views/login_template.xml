@@ -62,7 +62,7 @@
                         <input type="hidden" name="type" value="password"/>
                         <input type="hidden" name="redirect" t-att-value="redirect"/>
                          <div class="text-center small mt-4 pt-3">
-                                <a href="https://niyatconsultancy.com/" target="_blank">Powered by <span style="font-weight: bold !important;">Niyat Consultancy</span></a>
+                                <a href="#" target="_blank">Powered by <span style="font-weight: bold !important;">Loyal</span></a>
                             </div>
                     </form>
                            
