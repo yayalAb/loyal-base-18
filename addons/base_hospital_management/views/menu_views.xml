@@ -34,38 +34,38 @@
         <field name="tag">reception_dashboard_tags</field>
     </record>
     <!--Reception dashboard menu-->
-    <menuitem name="Dashboard" id="reception_dashboard_menu"
+    <!-- <menuitem name="Dashboard" id="reception_dashboard_menu"
               parent="hospital_menu_root" sequence="0"
               groups="base_hospital_management.base_hospital_management_group_receptionist"
-              action="reception_dashboard_action"/>
+              action="reception_dashboard_action"/> -->
     <!--Lab dashboard action-->
     <record id="lab_dashboard_action" model="ir.actions.client">
         <field name="name">Laboratory Dashboard</field>
         <field name="tag">lab_dashboard_tags</field>
     </record>
     <!--Lab dashboard menu-->
-    <menuitem id="lab_dashboard_menu" name="Dashboard"
+    <!-- <menuitem id="lab_dashboard_menu" name="Dashboard"
               parent="hospital_menu_root" sequence="0"
               groups="base_hospital_management.base_hospital_management_group_lab_assistant"
-              action="lab_dashboard_action"/>
+              action="lab_dashboard_action"/> -->
     <!--    Pharmacist dashboard action-->
     <record id="pharmacist_dashboard_action" model="ir.actions.client">
         <field name="name">Pharmacy Dashboard</field>
         <field name="tag">pharmacy_dashboard_tags</field>
     </record>
     <!--    Pharmacist dashboard menu-->
-    <menuitem id="pharma_dashboard_menu" name="Dashboard"
+    <!-- <menuitem id="pharma_dashboard_menu" name="Dashboard"
               parent="hospital_menu_root" sequence="0"
               groups="base_hospital_management.base_hospital_management_group_pharmacist"
-              action="pharmacist_dashboard_action"/>
+              action="pharmacist_dashboard_action"/> -->
     <!--    Doctor dashboard action-->
     <record id="doctor_dashboard_action" model="ir.actions.client">
         <field name="name">Doctor Dashboard</field>
         <field name="tag">doctor_dashboard_tags</field>
     </record>
     <!--    Doctor dashboard menu-->
-    <menuitem id="doctor_dashboard_menu" name="Dashboard"
+    <!-- <menuitem id="doctor_dashboard_menu" name="Dashboard"
               parent="hospital_menu_root" sequence="0"
               groups="base_hospital_management.base_hospital_management_group_doctor"
-              action="doctor_dashboard_action"/>
+              action="doctor_dashboard_action"/> -->
 </odoo>
