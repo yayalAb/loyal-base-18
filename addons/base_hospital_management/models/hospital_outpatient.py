@@ -153,13 +153,24 @@ class HospitalOutpatient(models.Model):
     def compute_total_unpaid_amount(self):
         for rec in self:
             unpaid_moves = self.env['account.move'].search([
-                ('payment_state', '!=', 'paid'),
+                ('payment_state', 'not in', ('in_payment', 'paid')),
                 ('partner_id', '=', self.patient_id.id),
-                ('move_type', 'in', ['out_invoice', 'in_invoice']),
                 ('state', 'in', ['draft', 'posted'])  # Only posted moves
             ])
             rec.total_unpaid_amount = sum(
                 unpaid_moves.mapped('amount_residual'))
+
+    def action_view_invoice(self):
+        """Method for viewing Invoice"""
+        self.ensure_one()
+        return {
+            'name': 'inpatient Invoice',
+            'view_mode': 'list,form',
+            'res_model': 'account.move',
+            'type': 'ir.actions.act_window',
+            'domain': [('partner_id', '=', self.patient_id.id), ('state', 'in', ['draft', ' posted']), ('payment_state', 'not in', ('in_payment', 'paid'))],
+            'context': "{'create':False}"
+        }
 
     def _compute_sale_order_count(self):
         self.sale_order_count = self.env['sale.order'].search_count(
@@ -494,17 +505,6 @@ class HospitalOutpatient(models.Model):
             )]
         })
         self.invoiced = True
-
-    def action_view_invoice(self):
-        """Method for viewing invoice"""
-        return {
-            'name': 'Invoice',
-            'domain': [('id', '=', self.invoice_id.id)],
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.move',
-            'view_mode': 'list,form',
-            'context': {'create': False},
-        }
 
     def action_print_prescription(self):
         """Method for printing prescription"""

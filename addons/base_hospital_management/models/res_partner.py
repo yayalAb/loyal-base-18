@@ -616,13 +616,25 @@ class ResPartner(models.Model):
     def compute_total_unpaid_amount(self):
         for rec in self:
             unpaid_moves = self.env['account.move'].search([
-                ('payment_state', '!=', 'paid'),
+                ('payment_state', 'not in', ('in_payment', 'paid')),
                 ('partner_id', '=', self.id),
-                ('move_type', 'in', ['out_invoice', 'in_invoice']),
-                ('state', 'in', ['draft', 'posted'])  # Only posted moves
+                ('state', 'in', ['draft', ' posted']),
+                ('payment_state', "!=", 'in_payment')  # Only posted moves
             ])
             rec.total_unpaid_amount = sum(
                 unpaid_moves.mapped('amount_residual'))
+
+    def action_view_invoice(self):
+        """Returns patient invoice"""
+        self.ensure_one()
+        return {
+            'name': 'Patient Invoice',
+            'view_mode': 'list,form',
+            'res_model': 'account.move',
+            'type': 'ir.actions.act_window',
+            'domain': [('partner_id', '=', self.id), ('state', 'in', ['draft', ' posted']), ('payment_state', 'not in', ('in_payment', 'paid'))],
+            'context': "{'create':False}"
+        }
 
     def _compute_daytype(self):
         for rec in self:
@@ -707,18 +719,6 @@ class ResPartner(models.Model):
             if record.card_fee > 0:
                 self.action_create_invoice(record)
         return record
-
-    def action_view_invoice(self):
-        """Returns patient invoice"""
-        self.ensure_one()
-        return {
-            'name': 'Patient Invoice',
-            'view_mode': 'list,form',
-            'res_model': 'account.move',
-            'type': 'ir.actions.act_window',
-            'domain': [('partner_id', '=', self.id)],
-            'context': "{'create':False}"
-        }
 
     def name_get(self):
         """Returns the patient name"""
