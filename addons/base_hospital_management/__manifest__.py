@@ -89,6 +89,8 @@
         "views/patient_progress_note.xml",
         "views/order_sheet.xml",
         "views/price_list_maping.xml",
+        "views/prescription_view.xml",
+        "views/sales_order_view.xml",
 
         "wizard/change_pattient_dep_wizard.xml",
         "report/res_partner_reports.xml",

@@ -82,7 +82,7 @@ class HospitalOutpatient(models.Model):
          ('done', 'Done'),
          ('cancel', 'Canceled')],
         default='draft', string='State', help='State of the outpatient')
-    prescription_ids = fields.One2many('prescription.line',
+    prescription_ids = fields.One2many('hospital.prescription',
                                        'outpatient_id',
                                        string='Prescription',
                                        help='Prescription for the patient')
@@ -129,6 +129,19 @@ class HospitalOutpatient(models.Model):
                                       'out_patient_id',
                                       string='Order Sheet',)
     order_sheet_count = fields.Integer(compute="_compute_order_sheet_count",)
+
+    has_new_priscription = fields.Boolean(
+        string="Has New Prescription Lines",
+        compute="has_new_priscription_lines",
+    )
+
+    @api.depends("prescription_ids")
+    def has_new_priscription_lines(self):
+        """Check if there are any new prescription lines"""
+        for rec in self.prescription_ids:
+            if rec.state == 'new':
+                return True
+        return False
 
     def _compute_order_sheet_count(self):
         for rec in self:

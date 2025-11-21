@@ -162,14 +162,11 @@
                                    
                                    readonly="state in ('invoice','cancel')"
                                    string="Prescription">
-                                <list editable="bottom"  decoration-warning="state == 'new'">
-                                    <!-- <field name="medicine_id"/> -->
-                                   <field name="medication_name"/>
-                                    <field name="no_intakes"/>
-                                    <field name="time"/>
-                                    <field name="note"/>
-                                    <field name="quantity"/>
-                                    <field name="state"/>
+                                <list decoration-warning="state == 'new'">
+                                    <field name="name"/>
+                                    <field name="patient_type"/>
+                                    <field name="number_of_lines"/>
+                                    <field name="state"/>  
                                 </list>
                             </field>
                         </page>

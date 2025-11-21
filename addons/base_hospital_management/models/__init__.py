@@ -66,3 +66,4 @@ from . import patient_progress_note
 from . import payment_category
 from . import lab_test_category
 from . import order_sheet
+from . import sales_order

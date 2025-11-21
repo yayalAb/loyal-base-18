@@ -35,9 +35,9 @@ class PriceListMaping(models.Model):
     )
     apply_on = fields.Selection(
         selection=[
-            ("pharmacist ", "Pharmacist "),
-            ("opd ", "Out Patient Dept"),
-            ("ipd ", "In Patient Dept"),
+            ("pharmacist", "Pharmacist "),
+            ("opd", "Out Patient Dept"),
+            ("ipd", "In Patient Dept"),
         ],
         string="Apply On",
         required=True,

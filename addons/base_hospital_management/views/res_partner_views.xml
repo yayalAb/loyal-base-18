@@ -352,11 +352,10 @@
                                 <page string="Medicine">
                                     <field name="prescription_ids">
                                         <list editable="bottom" create="0">
-                                            <field name="medicine_id"/>
-                                            <field name="quantity"/>
-                                            <field name="no_intakes"/>
-                                            <field name="time"/>
-                                            <field name="note"/>
+                                            <field name="name"/>
+                                            <field name="patient_type"/>
+                                            <field name="number_of_lines"/>
+                                            <field name="state"/> 
                                         </list>
                                     </field>
                                 </page>

@@ -140,7 +140,7 @@ class HospitalInpatient(models.Model):
     is_invoice = fields.Boolean(string='Is Invoice',
                                 help='View invoice button will be visible if '
                                      'this field is true')
-    prescription_ids = fields.One2many('prescription.line',
+    prescription_ids = fields.One2many('hospital.prescription',
                                        'inpatient_id',
                                        string='Prescription',
                                        help='Medical prescriptions of patient')

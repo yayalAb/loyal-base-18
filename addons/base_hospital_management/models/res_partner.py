@@ -121,7 +121,7 @@ class ResPartner(models.Model):
                                    'patient_id',
                                    string='Lab Test',
                                    help='Lab tests for the patient')
-    prescription_ids = fields.One2many('prescription.line',
+    prescription_ids = fields.One2many('hospital.prescription',
                                        'res_partner_id',
                                        string='Prescription',
                                        help='Prescription for patient')
