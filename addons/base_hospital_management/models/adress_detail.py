@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import fields, models, api
+from odoo.exceptions import ValidationError
 
 
 class VisitCase(models.Model):
@@ -20,6 +21,44 @@ class VisitCase(models.Model):
         strip_style=False,
         strip_classes=False,
     )
+
+
+class PriceListMaping(models.Model):
+
+    _name = 'price.patient.mapping'
+    _description = 'price.patient.mapping'
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _rec_name = 'apply_on'
+
+    description = fields.Html(
+        string="Description",
+    )
+    apply_on = fields.Selection(
+        selection=[
+            ("pharmacist ", "Pharmacist "),
+            ("opd ", "Out Patient Dept"),
+            ("ipd ", "In Patient Dept"),
+        ],
+        string="Apply On",
+        required=True,
+    )
+
+    price_list_id = fields.Many2one(
+        string="Price List",
+        comodel_name="product.pricelist",
+        required=True,
+    )
+
+    @api.constrains("name", "description")
+    def _check_apply_on_unique(self):
+        for record in self:
+            existing_records = self.env['price.patient.mapping'].search([
+                ('apply_on', '=', record.apply_on),
+                ('id', '!=', record.id)
+            ])
+            if existing_records:
+                raise ValidationError(
+                    f"The apply_on value '{record.apply_on}' must be unique.")
 
 
 class AddressCountry(models.Model):

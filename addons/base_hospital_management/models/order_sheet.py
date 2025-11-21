@@ -34,7 +34,7 @@ class OrderSheet(models.Model):
         'hospital.outpatient', string='Outpatient')
     in_patient_id = fields.Many2one(
         'hospital.inpatient', string=' Inpatient')
-    order = fields.Html(string='Order Details')
+    order = fields.Html(string='Order Details',  required=True,)
     date = fields.Datetime(string='Date', default=fields.Datetime.now)
     status = fields.Selection(
         [('draft', 'Draft'), ('seen', 'Seen')], string='Status', default='draft')
