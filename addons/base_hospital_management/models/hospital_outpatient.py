@@ -512,11 +512,11 @@ class HospitalOutpatient(models.Model):
         p_list = []
         for rec in self.prescription_ids:
             datas = {
-                'medicine': rec.medicine_id.name,
+                'medicine': rec.medication_name,
                 'intake': rec.no_intakes,
-                'time': rec.time.capitalize(),
+                'time': rec.time,
                 'quantity': rec.quantity,
-                'note': rec.note.capitalize(),
+                'note': rec.note,
             }
             p_list.append(datas)
             data = {

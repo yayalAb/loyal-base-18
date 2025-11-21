@@ -33,7 +33,7 @@
                             base_hospital_management.base_hospital_management_group_doctor,
                             base_hospital_management.base_hospital_management_group_receptionist,
                             base_hospital_management.base_hospital_management_group_nurse"/>
-                    <button name="action_print_prescription" string="Print"
+                    <button name="action_print_prescription" string="Print Prescription"
                             type="object" class="oe_highlight"
                             invisible="state not in ('op','inpatient','invoice')"
                             groups="base_hospital_management.base_hospital_management_group_manager,
@@ -159,15 +159,17 @@
                     <notebook invisible="state not in ('op','inpatient','invoice')">
                         <page name="Prescription" string="Prescription">
                             <field name="prescription_ids"
+                                   
                                    readonly="state in ('invoice','cancel')"
                                    string="Prescription">
-                                <list editable="bottom">
-                                    <field name="medicine_id"/>
-                                    <field name="medication_name" widget="medication_autocomplete"/>
+                                <list editable="bottom"  decoration-warning="state == 'new'">
+                                    <!-- <field name="medicine_id"/> -->
+                                   <field name="medication_name"/>
                                     <field name="no_intakes"/>
                                     <field name="time"/>
                                     <field name="note"/>
                                     <field name="quantity"/>
+                                    <field name="state"/>
                                 </list>
                             </field>
                         </page>

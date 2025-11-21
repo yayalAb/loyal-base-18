@@ -27,6 +27,7 @@ class PrescriptionLine(models.Model):
     _name = 'prescription.line'
     _description = 'Prescription Lines'
     _rec_name = 'prescription_id'
+    _order = 'create_date desc'
 
     prescription_id = fields.Many2one('hospital.prescription',
                                       string='Prescription',
@@ -41,16 +42,15 @@ class PrescriptionLine(models.Model):
         required=True,
         help="Start typing medication name for suggestions"
     )
-    quantity = fields.Integer(string='Quantity', required=True,
+    quantity = fields.Integer(string='Quantity',
                               help="The number of medicines for the time "
                                    "period")
-    no_intakes = fields.Float(string='Intakes', required=True,
+    no_intakes = fields.Float(string='Intakes',
                               help="How much medicine want to take")
     time = fields.Selection(
         [('once', 'Once in a day'), ('twice', 'Twice in a Day'),
          ('thrice', 'Thrice in a day'), ('morning', 'In Morning'),
          ('noon', 'In Noon'), ('evening', 'In Evening')], string='Time',
-        required=True,
         help='The interval for medicine intake')
     note = fields.Selection(
         [('before', 'Before Food'), ('after', 'After Food')],
@@ -69,6 +69,15 @@ class PrescriptionLine(models.Model):
                                      help='The outpatient corresponds to the '
                                           'prescription line',
                                      related='outpatient_id.patient_id')
+    state = fields.Selection(
+        selection=[
+            ("new", "New"),
+            ("done", "Done"),
+        ],
+        string="State",
+        default="new",
+        help="State of the prescription line",
+    )
 
     @api.model
     def get_medication_suggestions(self, search_term):
