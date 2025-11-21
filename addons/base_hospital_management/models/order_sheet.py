@@ -38,11 +38,14 @@ class OrderSheet(models.Model):
     date = fields.Datetime(string='Date', default=fields.Datetime.now)
     status = fields.Selection(
         [('draft', 'Draft'), ('seen', 'Seen')], string='Status', default='draft')
+    seen_by_id = fields.Many2one(
+        'res.users', string='Seen By', readonly=True)
 
     def action_seen(self):
         """Method to archive the order sheet"""
         for record in self:
             record.status = 'seen'
+            record.seen_by_id = self.env.user.id
 
     def action_done(self):
         """Method to mark the order sheet as done"""
