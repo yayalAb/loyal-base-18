@@ -19,11 +19,12 @@
                         </group>
                         <group>
                             <field name="result_type" widget="radio" options="{'horizontal': true}"/>
-                            <field name="tax_ids" widget="many2many_tags"/>
+                            <!-- <field name="tax_ids" widget="many2many_tags"/> -->
                             <field name="currency_id" invisible="1"/>
                             <field name="category_id"/>
                             <field name="uom_id"/>
                             <field name="lab_id"/>
+                            <field name="has_sub_investgation"/>
                             
                         </group>
                        
@@ -59,12 +60,6 @@
                                 <field name="result_number"/>
                             </group>
                         </group>
-                        <group>
-                            <group>
-                                <field name="has_sub_investgation"/>
-                            </group>
-                        </group>
-
                     <notebook>
                         <page name="consult" string="Consult">
                             <field name="consult"></field>
