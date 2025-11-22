@@ -250,3 +250,5 @@ access_oprice_patient_mapping,oprice_patient_mapping,model_price_patient_mapping
 access_price_patient_mapping_manager,price_patient_mapping_manager,model_price_patient_mapping,,1,1,1,1
 access_hospital_prescription,hospital_prescription,model_hospital_prescription,,1,1,1,1
 access_hospital_prescription_manager,hospital_prescription_manager,model_hospital_prescription,,1,1,1,1
+
+access_lab_test_sub,access.lab.test.sub,model_lab_test_sub,,1,1,1,1

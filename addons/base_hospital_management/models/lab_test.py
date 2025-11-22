@@ -26,17 +26,21 @@ class LabTest(models.Model):
     """Class holding lab test details"""
     _name = 'lab.test'
     _description = 'Laboratory Test'
+    _rec_name = 'product_id'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     lab_code = fields.Char(string='Code')
-    name = fields.Char(string='Test', help='Name of the test')
+    product_id = fields.Many2one(
+        'product.template', string='Investigation', required=True,  help='Product related to the test')
+    name = fields.Char(string='Test', help='Name of the test',)
     patient_lead = fields.Float(string='Time taken',
                                 help='Time taken to get the result')
     price = fields.Monetary(string='Price', help="The cost for the test")
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self:
                                   self.env.user.company_id.currency_id.id,
-                                  required=True, help='Currency in which '
-                                                      'payments will be done')
+                                  help='Currency in which '
+                                  'payments will be done')
     tax_ids = fields.Many2many('account.tax', string='Tax',
                                help='Tax for the test')
     medicine_ids = fields.One2many('lab.medicine.line',
@@ -45,12 +49,14 @@ class LabTest(models.Model):
                                    help='Medicines used for the test')
     test_type = fields.Selection(
         [('range', 'Range'), ('objective', 'Objective')],
-        string='Type', required=True, help='Type of test')
+        string='Type', help='Type of test')
     category_id = fields.Many2one('lab.test.category',
                                   string='Category',
+                                  required=True,
                                   help='Category of the test')
     sample_type_id = fields.Many2one('lab.sample.type',
                                      string='Sample Type',
+                                     required=True,
                                      help='Sample type for the test')
     result_type = fields.Selection(
         selection=[
@@ -119,6 +125,13 @@ class LabTest(models.Model):
                                  'lab_test_id',
                                  string='Options',
                                  help='Option List')
+    has_sub_investgation = fields.Boolean(
+        string="Has Sub Investigations",
+    )
+    sub_test_ids = fields.One2many('lab.test.sub',
+                                   'lab_test_id',
+                                   string='Sub Investigations',
+                                   help='Sub Investigations List')
 
     @api.model
     def create(self, vals):
@@ -127,6 +140,12 @@ class LabTest(models.Model):
             vals['lab_code'] = self.env['ir.sequence'].next_by_code(
                 'lab.test') or 'New'
         return super().create(vals)
+
+    @api.onchange('product_id')
+    def set_price(self):
+        """Method to set price from product"""
+        for record in self:
+            record.price = record.product_id.list_price
 
 
 class SelectionList(models.Model):
@@ -139,4 +158,18 @@ class SelectionList(models.Model):
     )
     name = fields.Char(
         string="Options",
+    )
+
+
+class subInvestgation(models.Model):
+    _name = 'lab.test.sub'
+    _description = 'lab.test.sub'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    lab_test_id = fields.Many2one(
+        string="Lab Test",
+        comodel_name="lab.test",
+    )
+    sub_test_id = fields.Many2one(
+        string="Sub Test",
+        comodel_name="lab.test",
     )

@@ -50,7 +50,7 @@
         <record id="lab_sequence" model="ir.sequence">
             <field name="name">Laboratory Sequence</field>
             <field name="code">laboratory.sequence</field>
-            <field name="prefix">LAB</field>
+            <field name="prefix">INV</field>
             <field name="padding">3</field>
         </record>
         <!--        Patient sequence generator-->
