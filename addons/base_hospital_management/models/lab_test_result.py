@@ -27,12 +27,14 @@ class LabTestResult(models.Model):
     _name = 'lab.test.result'
     _description = 'Lab Test Result'
     _rec_name = 'test_id'
+    _order = 'create_date desc'
 
     patient_id = fields.Many2one('res.partner', string='Patient',
                                  domain=[('patient_seq', 'not in',
                                           ['New', 'Employee', 'User'])],
                                  help='Patient for whom the test has been done')
-    result = fields.Char(string='Result', help='Result of the test')
+    result = fields.Html(
+        string='Result', compute="_compute_display_result", help='Result of the test')
     normal = fields.Char(string='Normal', help="The normal rate of the test")
 
     parent_id = fields.Many2one('patient.lab.test', string='Tests',
@@ -43,7 +45,7 @@ class LabTestResult(models.Model):
     uom_id = fields.Many2one('uom.uom', string='Unit',
                              related='test_id.uom_id',
                              help='Unit of the normal and result value')
-    attachment = fields.Binary(string='Result', help='Result document')
+    attachment = fields.Binary(string='Attachment', help='Result document')
     currency_id = fields.Many2one('res.currency',
                                   related='test_id.currency_id',
                                   string='Currency',
@@ -121,6 +123,20 @@ class LabTestResult(models.Model):
         string="Result",
         comodel_name="lab.test.option",
     )
+
+    @api.depends('result_number', 'result_htm', 'yes_or_no', 'result_selection')
+    def _compute_display_result(self):
+        for rec in self:
+            if rec.result_type == 'yes':
+                rec.result = rec.yes_or_no
+            elif rec.result_type == 'text':
+                rec.result = rec.result_htm
+            elif rec.result_type == 'number' or rec.result_type == 'range':
+                rec.result = str(rec.result_number)
+            elif rec.result_type == 'selection':
+                rec.result = rec.result_selection.name
+            else:
+                rec.result = ""
 
     @api.depends('attachment')
     def _compute_state(self):

@@ -445,15 +445,15 @@ class HospitalOutpatient(models.Model):
     def action_create_lab_test(self):
         """Button action for creating a lab test"""
         return {
-            'name': 'Create Lab Test',
-            'res_model': 'lab.test.line',
+            'name': 'Create Investigation',
+            'res_model': 'patient.lab.test',
             'view_mode': 'form',
             'views': [[False, 'form']],
             'target': 'current',
             'type': 'ir.actions.act_window',
             'context': {
                 'default_patient_id': self.patient_id.id,
-                'default_doctor_id': self.doctor_id.id,
+                'default_doctor_id': self.dep_doctor_id.id,
                 'default_patient_type': 'outpatient',
                 'default_op_id': self.id
             }

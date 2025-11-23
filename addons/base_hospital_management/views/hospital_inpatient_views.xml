@@ -21,7 +21,7 @@
                             base_hospital_management.base_hospital_management_group_nurse"
                     />
                     <button name="action_create_lab_test"
-                            string="Create Test"
+                            string="Order"
                             class="oe_highlight"
                             type="object"
                             invisible="state != 'admit'"

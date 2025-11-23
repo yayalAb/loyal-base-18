@@ -41,7 +41,7 @@
         <record id="seq_hospital_draft_lab_test" model="ir.sequence">
             <field name="name">Lab Test Draft Sequence</field>
             <field name="code">lab_tests.draft.sequence</field>
-            <field name="prefix">LB/DR/</field>
+            <field name="prefix">LAB/INV/</field>
             <field name="padding">3</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>

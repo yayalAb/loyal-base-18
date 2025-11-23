@@ -48,7 +48,7 @@
                             base_hospital_management.base_hospital_management_group_receptionist,
                             base_hospital_management.base_hospital_management_group_nurse"/>
                     <button name="action_create_lab_test"
-                            string="Request Lab Test" class="oe_highlight"
+                            string="Order" class="oe_highlight"
                             invisible="state not in ('op','hold')" type="object"
                             groups="base_hospital_management.base_hospital_management_group_manager,
                             base_hospital_management.base_hospital_management_group_receptionist,

@@ -96,10 +96,23 @@
         <field name="arch" type="xml">
             <list>
                 <field name="test_id"/>
-                <field name="result_type"/>
+                <field name="lower_limit"/>
+                <field name="result"/>
+                <field name="upper_limit"/>
                 <field name="uom_id"/>
-                <field name="attachment"/>
             </list>
+        </field>
+    </record>
+            <record id="lab_test_result_view_search" model="ir.ui.view">
+        <field name="name">lab.test.result.view.search</field>
+        <field name="model">lab.test.result</field>
+        <field name="arch" type="xml">
+            <search>
+                 <!-- <filter string="Today's Draft Result" name="created_today_draft" domain="[('state','=','draft'),('create_date', '>=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/> -->
+                 <filter string="Today's Result" name="created_today" domain="[('create_date', '>=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="Last 7 Days" name="last_7_days" domain="[('create_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="This Month" name="this_month" domain="[('create_date', '>=', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
+            </search>
         </field>
     </record>
     <!--Lab test menu action-->
@@ -107,6 +120,7 @@
         <field name="name">Laboratory Test Result</field>
         <field name="res_model">lab.test.result</field>
         <field name="view_mode">list,form</field>
+         <field name="context">{'search_default_created_today': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create Laboratory
@@ -114,7 +128,7 @@
         </field>
     </record>
     <!--Lab test menu-->
-    <!-- <menuitem id="lab_test_menu" name="Lab Test"
-              parent="hospital_menu_laboratory" sequence="4"
-              action="lab_test_action"/> -->
+    <menuitem id="patient_lab_test_result_menu" name="Results"
+              parent="hospital_menu_laboratory" sequence="2"
+              action="lab_test_result_action"/>
 </odoo>

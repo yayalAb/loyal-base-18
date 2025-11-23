@@ -15,7 +15,7 @@
               parent="hospital_menu_appointment"
               sequence="1"/>
     <!--    Laboratory menu-->
-    <menuitem id="hospital_menu_laboratory" name="Laboratory"
+    <menuitem id="hospital_menu_laboratory" name="Investigations"
               parent="hospital_menu_root"
               sequence="3"/>
     <!--    Infrastructure menu-->

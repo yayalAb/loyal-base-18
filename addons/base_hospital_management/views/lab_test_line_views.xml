@@ -74,7 +74,7 @@
         </field>
     </record>
     <!--    Test type menu-->
-    <menuitem id="lab_test_line_menu" name="Patient Test"
+    <!-- <menuitem id="lab_test_line_menu" name="Patient Test"
               parent="hospital_menu_laboratory" sequence="1"
-              action="lab_test_line_action"/>
+              action="lab_test_line_action"/> -->
 </odoo>

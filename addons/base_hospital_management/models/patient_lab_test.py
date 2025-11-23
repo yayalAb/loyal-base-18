@@ -26,7 +26,12 @@ class PatientLabTest(models.Model):
     """Class holding Patient lab test details"""
     _name = 'patient.lab.test'
     _description = 'Patient Lab Test'
-    _rec_name = 'test_id'
+    _rec_name = 'name'
+    _order = 'create_date desc'
+
+    name = fields.Char(string='Sequence', required=True,
+                       copy=False, readonly=True, index=True,
+                       default=lambda self: 'New', help='Name of patient lab test')
 
     test_id = fields.Many2one('lab.test.line', string='Test',
                               help='Name of the test')
@@ -36,10 +41,9 @@ class PatientLabTest(models.Model):
                                  required=True, help='Choose the patient')
     patient_type = fields.Selection(selection=[
         ('inpatient', 'Inpatient'), ('outpatient', 'Outpatient')
-    ], related='test_id.patient_type', string='Type',
+    ], string='Type',
         help='Choose the type of patient')
-    test_ids = fields.Many2many('lab.test',
-                                related='test_id.test_ids', string='Tests',
+    test_ids = fields.Many2many('lab.test', string='Tests',
                                 help='All the tests added for the patient')
     date = fields.Date(string='Date', help='Date of test',
                        default=fields.Date.today())
@@ -51,6 +55,7 @@ class PatientLabTest(models.Model):
                                   .currency_id.id,
                                   required=True)
     state = fields.Selection([('draft', 'Draft'),
+                              ('invoiced', 'invoice Created'),
                               ('test', 'Test In Progress'),
                               ('completed', 'Completed')],
                              string='State', readonly=True,
@@ -98,6 +103,18 @@ class PatientLabTest(models.Model):
     inpatient_id = fields.Many2one('hospital.inpatient',
                                    string='Inpatient',
                                    help='Choose the inpatient')
+    outpatient_id = fields.Many2one('hospital.outpatient',
+                                    string='Outpatient',
+                                    help='Choose the outpatient')
+    doctor_id = fields.Many2one(
+        'hr.employee',
+        string='Doctor',
+        help='Choose the doctor',
+        domain=[('job_id.name', '=', 'Doctor')],
+        default=lambda self: self.env['hr.employee'].search([
+            ('user_id', '=', self.env.uid)
+        ], limit=1)
+    )
 
     @api.depends('test_id')
     def _compute_medicine_ids(self):
@@ -110,14 +127,14 @@ class PatientLabTest(models.Model):
         for record in self:
             record.invoice_count = self.env['account.move'].sudo().search_count(
                 ['|', (
-                    'ref', '=', record.test_id.name), ('payment_reference', '=',
-                                                       record.test_id.name)])
+                    'ref', '=', record.name), ('payment_reference', '=',
+                                               record.name)])
 
     def _compute_sale_count(self):
         """Method for computing sale_count"""
         for record in self:
             record.sale_count = self.env['sale.order'].sudo().search_count([(
-                'reference', '=', record.test_id.name)])
+                'reference', '=', record.name)])
 
     @api.model
     def action_get_patient_data(self, rec_id):
@@ -126,7 +143,7 @@ class PatientLabTest(models.Model):
         if data:
             patient_data = {
                 'id': rec_id,
-                'sequence': data.test_id.name,
+                'sequence': data.name,
                 'name': data.patient_id.name,
                 'unique': data.patient_id.patient_seq,
                 'email': data.patient_id.email,
@@ -135,13 +152,13 @@ class PatientLabTest(models.Model):
                 'image_1920': data.patient_id.image_1920,
                 'gender': data.patient_id.gender,
                 'status': data.patient_id.marital_status,
-                'doctor': data.test_id.doctor_id.name,
+                'doctor': data.name,
                 'patient_type': data.patient_type.capitalize(),
                 'state': data.state,
                 'invoiced': data.invoiced,
-                'ticket': data.test_id.op_id.op_reference
+                'ticket': data.outpatient_id.op_reference
                 if data.patient_type == 'outpatient'
-                else data.test_id.patient_id.patient_seq,
+                else data.patient_id.patient_seq,
                 'test_data': [],
                 'medicine': [],
                 'result_ids': [],
@@ -166,7 +183,7 @@ class PatientLabTest(models.Model):
             for result in data.result_ids:
                 patient_data['result_ids'].append({
                     'id': result.id,
-                    'name': result.test_id.name,
+                    'name': result.name,
                     'result': result.result,
                     'normal': result.normal,
                     'uom_id': result.uom_id.name,
@@ -205,50 +222,33 @@ class PatientLabTest(models.Model):
     def create_invoice(self, rec_id):
         """Method for creating invoice"""
         data = self.sudo().browse(rec_id)
-        order_lines = []
+        invoice_lines = []
         partner_id = data.patient_id.id
-        if data.medicine_ids:
-            for rec in data.medicine_ids:
-                order_lines.append((0, 0, {
-                    'product_id': self.env['product.product'].sudo().search([
-                        ('product_tmpl_id', '=', rec.medicine_id.id)]).id,
-                    'name': rec.medicine_id.name,
+
+        if data.test_ids:
+            for rec in data.test_ids:
+                product = rec.product_id
+                invoice_lines.append((0, 0, {
+                    'product_id': product.id,
+                    'name': product.name,
+                    'quantity': 1,
                     'price_unit': rec.price,
-                    'product_uom_qty': rec.quantity,
-                }))
-            sale_order = self.env['sale.order'].sudo().create({
-                'partner_id': partner_id,
-                'date_order': fields.Date.today(),
-                'reference': data.test_id.name,
-                'order_line': order_lines
-            })
-            data.sold = True
-            data.order = sale_order.id
-        invoice_id = self.env['account.move'].sudo().search(
-            [('ref', '=', data.test_id.name)
-             ], limit=1)
-        if not invoice_id:
-            invoice_id = self.env['account.move'].sudo().create({
-                'move_type': 'out_invoice',
-                'partner_id': partner_id,
-                'invoice_date': fields.Date.today(),
-                'date': fields.Date.today(),
-                'ref': data.test_id.name
-            })
-        for rec in data.result_ids:
-            invoice_id.sudo().write({
-                'invoice_line_ids': [(
-                    0, 0, {
-                        'quantity': 1,
-                        'name': rec.test_id.name,
-                        'price_unit': rec.price,
-                        'tax_ids': rec.tax_ids.ids,
-                        'price_subtotal': rec.price,
-                    }
-                )]
-            })
-        data.invoiced = True
-        data.invoice_id = invoice_id.id
+                    'tax_ids': [(6, 0, product.taxes_id.ids)], }))
+
+                invoice = self.env['account.move'].sudo().create({
+                    'move_type': 'out_invoice',  # Customer Invoice
+                    'partner_id': partner_id,
+                    'invoice_date': fields.Date.today(),
+                    'invoice_origin': data.name,
+                    'payment_reference': data.name,
+                    'invoice_line_ids': invoice_lines,
+                })
+
+        self.sudo().write({
+            'state': 'invoiced',
+            'invoiced': True,
+            'invoice_id': invoice.id,
+        })
 
     def action_test_end(self):
         """Button action for test end"""
@@ -273,6 +273,14 @@ class PatientLabTest(models.Model):
             'domain': [('id', '=', self.invoice_id.id)]
         }
 
+    @api.model
+    def create(self, vals):
+        """Sequence generation"""
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'lab_tests.draft.sequence') or 'New'
+        return super().create(vals)
+
     def action_view_sale_order(self):
         """Method for viewing sale order from the smart button"""
         sale_order = self.env['sale.order'].sudo().search(
@@ -290,7 +298,7 @@ class PatientLabTest(models.Model):
         test_list = []
         for rec in self.result_ids:
             datas = {
-                'test': rec.test_id.test,
+                # 'test': rec.test_id.test,
                 'normal': rec.normal,
                 'uom_id': rec.uom_id.name,
                 'result': rec.result,
@@ -302,7 +310,7 @@ class PatientLabTest(models.Model):
             'datas': test_list,
             'date': self.date,
             'patient_name': self.patient_id.name,
-            'doctor_name': self.test_id.doctor_id.name
+            'doctor_name': self.doctor_id.name
         }
         return self.env.ref(
             'base_hospital_management.action_report_patient_lab_tests').report_action(self, data=data)
